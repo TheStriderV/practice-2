@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemStack" format=3 uid="uid://bt5ar5s4ceuhc"]
+
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="1_5qjty"]
+[ext_resource type="Resource" uid="uid://bjhnhaxbbb4i5" path="res://Items/Resources/ItemData/sword.tres" id="1_tk2hg"]
+
+[resource]
+script = ExtResource("1_5qjty")
+data = ExtResource("1_tk2hg")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"

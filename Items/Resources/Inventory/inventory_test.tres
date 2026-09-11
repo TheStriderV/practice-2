@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InventoryResource" format=3 uid="uid://d2jvr2eetik15"]
+
+[ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="1_3jgxo"]
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/item_stack.gd" id="2_rsjdp"]
+[ext_resource type="Resource" uid="uid://bt5ar5s4ceuhc" path="res://Items/Resources/ItemStack/sword_stack.tres" id="3_rsjdp"]
+[ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="4_xlhkl"]
+
+[resource]
+script = ExtResource("1_3jgxo")
+slots = Array[ExtResource("2_rsjdp")]([ExtResource("3_rsjdp"), ExtResource("4_xlhkl")])
+metadata/_custom_type_script = "uid://du1aioahuboc8"

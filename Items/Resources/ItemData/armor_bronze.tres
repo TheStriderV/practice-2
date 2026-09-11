@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://ca274c3fhku2q"]
+
+[ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_p0utw"]
+[ext_resource type="Texture2D" uid="uid://mrp2sqcjd4wa" path="res://Art/items/armor_bronze.png" id="2_yrqri"]
+
+[resource]
+script = ExtResource("1_p0utw")
+id = "armor_bronze"
+texture = ExtResource("2_yrqri")
+metadata/_custom_type_script = "uid://dyxbj5ixoopik"

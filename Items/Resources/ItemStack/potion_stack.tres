@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemStack" format=3 uid="uid://7s2m3jvf11ws"]
+
+[ext_resource type="Resource" uid="uid://qbh1wjsv1m8h" path="res://Items/Resources/ItemData/potion.tres" id="1_aplko"]
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="1_cwedn"]
+
+[resource]
+script = ExtResource("1_cwedn")
+data = ExtResource("1_aplko")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"

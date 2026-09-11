@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://qbh1wjsv1m8h"]
+
+[ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_leu0b"]
+[ext_resource type="Texture2D" uid="uid://bsvpi2ewbjq53" path="res://Art/items/potion_red.png" id="2_05mx1"]
+
+[resource]
+script = ExtResource("1_leu0b")
+id = "potion"
+texture = ExtResource("2_05mx1")
+max_stack = 3
+metadata/_custom_type_script = "uid://dyxbj5ixoopik"

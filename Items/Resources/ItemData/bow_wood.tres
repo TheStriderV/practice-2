@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://biqfapqxi4ogc"]
+
+[ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_i4nvc"]
+[ext_resource type="Texture2D" uid="uid://vvvr55ys4bed" path="res://Art/items/bow_1.png" id="2_nflby"]
+
+[resource]
+script = ExtResource("1_i4nvc")
+id = "bow_wood"
+texture = ExtResource("2_nflby")
+metadata/_custom_type_script = "uid://dyxbj5ixoopik"
