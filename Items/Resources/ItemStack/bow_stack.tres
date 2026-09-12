@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemStack" format=3 uid="uid://dmexskii0hoe1"]
+
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="1_6mbn4"]
+[ext_resource type="Resource" uid="uid://biqfapqxi4ogc" path="res://Items/Resources/ItemData/bow_wood.tres" id="1_uqqdk"]
+
+[resource]
+script = ExtResource("1_6mbn4")
+data = ExtResource("1_uqqdk")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"

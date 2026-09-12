@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bjifxaf8afk5d"]
+
+[ext_resource type="Script" uid="uid://beqwj401v5t74" path="res://grid_container.gd" id="1_ydus4"]
+
+[node name="GridContainer" type="GridContainer" unique_id=1605792234]
+columns = 3
+script = ExtResource("1_ydus4")

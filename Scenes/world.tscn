@@ -5,9 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://cbe6cutyf3sh6" path="res://Scenes/ui_item_stack.tscn" id="2_k7acu"]
 [ext_resource type="Script" uid="uid://bqlf3gips2vs1" path="res://Components/Movement/movement_component.gd" id="3_5a7ea"]
 [ext_resource type="Resource" uid="uid://bt5ar5s4ceuhc" path="res://Items/Resources/ItemStack/sword_stack.tres" id="3_5v1tr"]
+[ext_resource type="PackedScene" uid="uid://bjifxaf8afk5d" path="res://Scenes/grid_container_test.tscn" id="4_5v1tr"]
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
+[ext_resource type="Script" uid="uid://fuqs653mf4hh" path="res://UI/inventory_container.gd" id="5_0fj1v"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
+[ext_resource type="Texture2D" uid="uid://de2laymixujh1" path="res://Art/items/sword.png" id="7_7yui6"]
 [ext_resource type="Resource" uid="uid://d2jvr2eetik15" path="res://Items/Resources/Inventory/inventory_test.tres" id="7_o06y3"]
+[ext_resource type="Texture2D" uid="uid://bsvpi2ewbjq53" path="res://Art/items/potion_red.png" id="8_c5t2i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_go701"]
 atlas = ExtResource("1_a02cp")
@@ -301,7 +305,7 @@ anchor_bottom = 1.0
 offset_left = 280.0
 offset_top = 166.0
 offset_right = 555.0
-offset_bottom = 441.0
+offset_bottom = 566.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_k7acu")
@@ -315,29 +319,13 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.4392157, 0.59607846, 1, 0.3137255)
 
-[node name="CenterContainer" type="CenterContainer" parent="Main/ColorRect" unique_id=1761264377]
-layout_mode = 0
-offset_right = 275.0
-offset_bottom = 275.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Main/ColorRect/CenterContainer" unique_id=1406285397]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="Main/ColorRect/CenterContainer/HBoxContainer" unique_id=959998494]
-layout_mode = 2
-text = "BUTTON 1"
-
-[node name="Button2" type="Button" parent="Main/ColorRect/CenterContainer/HBoxContainer" unique_id=1914226479]
-layout_mode = 2
-text = "BUTTON 2"
-
 [node name="InventoryScreen" type="Control" parent="Main" unique_id=874877732]
 layout_mode = 1
 anchors_preset = 0
-offset_left = 73.0
-offset_top = 45.0
-offset_right = 113.0
-offset_bottom = 85.0
+offset_left = 336.0
+offset_top = 35.0
+offset_right = 376.0
+offset_bottom = 75.0
 mouse_filter = 1
 
 [node name="ColorRect" type="ColorRect" parent="Main/InventoryScreen" unique_id=276518306]
@@ -349,11 +337,72 @@ color = Color(0.22749543, 0.39144254, 0.46739638, 1)
 
 [node name="ItemStack" parent="Main" unique_id=1747523968 instance=ExtResource("2_k7acu")]
 layout_mode = 0
-offset_left = 157.0
-offset_top = 57.0
-offset_right = 197.0
-offset_bottom = 97.0
+offset_left = 285.0
+offset_top = 35.0
+offset_right = 325.0
+offset_bottom = 75.0
 item_stack = ExtResource("3_5v1tr")
+
+[node name="CenterContainer" type="CenterContainer" parent="Main" unique_id=406709375]
+custom_minimum_size = Vector2(275, 150)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -137.5
+offset_right = 137.5
+offset_bottom = 150.0
+grow_horizontal = 2
+
+[node name="GridContainer" parent="Main/CenterContainer" unique_id=1605792234 instance=ExtResource("4_5v1tr")]
+clip_contents = true
+layout_mode = 2
+columns = 5
+panel_amount = 10
+
+[node name="InventoryContainer" type="Control" parent="Main" unique_id=891070994]
+custom_minimum_size = Vector2(275, 200)
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 153.0
+offset_right = 277.0
+offset_bottom = 253.0
+script = ExtResource("5_0fj1v")
+
+[node name="CenterContainer" type="CenterContainer" parent="Main/InventoryContainer" unique_id=601472296]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/InventoryContainer/CenterContainer" unique_id=427260500]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="Main/InventoryContainer/CenterContainer/VBoxContainer" unique_id=293492058]
+custom_minimum_size = Vector2(245, 150)
+layout_mode = 2
+select_mode = 1
+auto_width = true
+auto_height = true
+item_count = 2
+item_0/text = "Sword"
+item_0/icon = ExtResource("7_7yui6")
+item_1/text = "Potion"
+item_1/icon = ExtResource("8_c5t2i")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main/InventoryContainer/CenterContainer/VBoxContainer" unique_id=1406285397]
+layout_mode = 2
+alignment = 1
+
+[node name="PrintButton" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=959998494]
+layout_mode = 2
+text = "Item List"
+
+[node name="Button2" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=1914226479]
+layout_mode = 2
+text = "BUTTON 2"
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=625509512]
 position = Vector2(617, 336)

@@ -19,6 +19,10 @@ extends Resource
 		
 @export var instance_data: Dictionary = {}  # durability, sockets, etc.
 
+func _init(p_data: ItemData = null, p_quantity: int = 1):
+	data = p_data
+	quantity = p_quantity
+	
 
 func increase_quantity(p_amount: int):
 	if quantity + p_amount > data.max_stack:
@@ -32,7 +36,8 @@ func get_id():
 func get_texture():
 
 	if data:
-		print("Data available")
+		#print("Data available")
 		return data.texture
 	else:
 		return null
+	
