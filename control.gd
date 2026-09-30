@@ -9,8 +9,16 @@ func _ready() -> void:
 	inventory_screen.mouse_exited.connect(_exited)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
+
+func _input(event: InputEvent) -> void:
+	if InputHandler.open_menu():
+		if visible:
+			visible = false
+		else:
+			visible = true
+	
 
 func _entered():
 	color_rect.color = Color(0.754, 0.754, 0.754)

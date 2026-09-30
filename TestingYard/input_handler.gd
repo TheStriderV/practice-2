@@ -1,4 +1,6 @@
 extends Node
+### Autoload - No classname
+
 
 const INPUT_LEFT := "left"
 const INPUT_RIGHT := "right"

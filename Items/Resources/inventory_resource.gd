@@ -3,7 +3,7 @@ class_name InventoryResource
 extends Resource
 
 signal item_added(stack: ItemStack, slot: int)
-signal item_removed(stack: ItemStack, slot: int)
+signal item_removed(slot: int)
 signal slot_changed(slot: int)
 
 @export var slots: Array[ItemStack] = []
@@ -12,7 +12,7 @@ signal slot_changed(slot: int)
 
 func _init(items: Array[ItemData] = []):
 	if items.size() <= 0:
-		print("InventoryResource: Items array is empty")
+		#print("InventoryResource: Items array is empty")
 		return
 	
 	for i in items:
@@ -37,11 +37,11 @@ func create_item_stack(item_data, item_amount: int = 1):
 	var item_stack = ItemStack.new(item_data, item_amount)
 
 	slots.append(item_stack)
-	pass
 
 func add_item(item_stack:ItemStack):
 	slots.append(item_stack)
 	
 func remove_item(item_stack:ItemStack):
-	pass
-	#slots.remove(item_stack)
+	
+	slots.erase(item_stack)
+	item_removed.emit(slots.size())

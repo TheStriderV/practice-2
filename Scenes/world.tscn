@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://0nyjfmbgysxv"]
 
+[ext_resource type="Script" uid="uid://cvwurl10oi73p" path="res://Scenes/world.gd" id="1_1cojt"]
 [ext_resource type="Texture2D" uid="uid://brciubdamg3rh" path="res://Art/character_base/char_a_p1/char_a_p1_0bas_humn_v00.png" id="1_a02cp"]
 [ext_resource type="Script" uid="uid://dcw7emak21vpq" path="res://control.gd" id="1_k7acu"]
 [ext_resource type="PackedScene" uid="uid://cbe6cutyf3sh6" path="res://Scenes/ui_item_stack.tscn" id="2_k7acu"]
@@ -9,9 +10,32 @@
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
 [ext_resource type="Script" uid="uid://fuqs653mf4hh" path="res://UI/inventory_container.gd" id="5_0fj1v"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
-[ext_resource type="Texture2D" uid="uid://de2laymixujh1" path="res://Art/items/sword.png" id="7_7yui6"]
+[ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="6_hgpy0"]
 [ext_resource type="Resource" uid="uid://d2jvr2eetik15" path="res://Items/Resources/Inventory/inventory_test.tres" id="7_o06y3"]
-[ext_resource type="Texture2D" uid="uid://bsvpi2ewbjq53" path="res://Art/items/potion_red.png" id="8_c5t2i"]
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="7_t2t4p"]
+[ext_resource type="Resource" uid="uid://ca274c3fhku2q" path="res://Items/Resources/ItemData/armor_bronze.tres" id="8_0pcbe"]
+[ext_resource type="Resource" uid="uid://qbh1wjsv1m8h" path="res://Items/Resources/ItemData/potion.tres" id="9_axeuq"]
+[ext_resource type="Script" uid="uid://hgtewbmn8j52" path="res://Scenes/sell.gd" id="11_axeuq"]
+[ext_resource type="Script" uid="uid://c5n0j3tca4rry" path="res://npc.gd" id="17_axeuq"]
+[ext_resource type="Resource" uid="uid://biqfapqxi4ogc" path="res://Items/Resources/ItemData/bow_wood.tres" id="17_t2t4p"]
+[ext_resource type="Texture2D" uid="uid://pc0jluh26dhw" path="res://Art/House3.png" id="18_0pcbe"]
+[ext_resource type="Texture2D" uid="uid://n37831kyuh64" path="res://Art/Tower.png" id="18_1cojt"]
+
+[sub_resource type="Resource" id="Resource_yq1aw"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("8_0pcbe")
+
+[sub_resource type="Resource" id="Resource_pyn1s"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("9_axeuq")
+
+[sub_resource type="Resource" id="Resource_no8kt"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("9_axeuq")
+
+[sub_resource type="Resource" id="Resource_xbk3s"]
+script = ExtResource("6_hgpy0")
+slots = Array[ExtResource("7_t2t4p")]([SubResource("Resource_yq1aw"), SubResource("Resource_pyn1s"), SubResource("Resource_no8kt")])
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_go701"]
 atlas = ExtResource("1_a02cp")
@@ -295,9 +319,36 @@ _data = {
 radius = 7.0
 height = 24.0
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_cy33a"]
+vertices = PackedVector2Array(1060, 125.97656, 1060, 588.0078, 227.96875, 588.97656, 227.02344, 125.00781)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(217, 115, 1070, 116, 1070, 598, 218, 599)])
+source_geometry_mode = 2
+source_geometry_group_name = &"npc_navigation_group"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ydex1"]
+size = Vector2(60.999992, 88)
+
+[sub_resource type="Resource" id="Resource_axeuq"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("17_t2t4p")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
+[sub_resource type="Resource" id="Resource_1cojt"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("8_0pcbe")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
+[sub_resource type="Resource" id="Resource_hgpy0"]
+script = ExtResource("6_hgpy0")
+slots = Array[ExtResource("7_t2t4p")]([SubResource("Resource_axeuq"), SubResource("Resource_1cojt")])
+metadata/_custom_type_script = "uid://du1aioahuboc8"
+
 [node name="World" type="Node2D" unique_id=2056261816]
+script = ExtResource("1_1cojt")
 
 [node name="Main" type="Control" parent="." unique_id=1527763162]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -368,6 +419,7 @@ offset_top = 153.0
 offset_right = 277.0
 offset_bottom = 253.0
 script = ExtResource("5_0fj1v")
+inventory = SubResource("Resource_xbk3s")
 
 [node name="CenterContainer" type="CenterContainer" parent="Main/InventoryContainer" unique_id=601472296]
 layout_mode = 1
@@ -386,17 +438,12 @@ layout_mode = 2
 select_mode = 1
 auto_width = true
 auto_height = true
-item_count = 2
-item_0/text = "Sword"
-item_0/icon = ExtResource("7_7yui6")
-item_1/text = "Potion"
-item_1/icon = ExtResource("8_c5t2i")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Main/InventoryContainer/CenterContainer/VBoxContainer" unique_id=1406285397]
 layout_mode = 2
 alignment = 1
 
-[node name="PrintButton" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=959998494]
+[node name="Button1" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=959998494]
 layout_mode = 2
 text = "Item List"
 
@@ -404,8 +451,116 @@ text = "Item List"
 layout_mode = 2
 text = "BUTTON 2"
 
+[node name="Button3" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=851961960]
+layout_mode = 2
+text = "Buy
+"
+
+[node name="Sell" type="Control" parent="." unique_id=1436157374]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 714.0
+offset_top = 117.0
+offset_right = 989.0
+offset_bottom = 517.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_axeuq")
+
+[node name="ColorRect" type="ColorRect" parent="Sell" unique_id=1361672904]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.4392157, 0.59607846, 1, 0.3137255)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Sell" unique_id=106683845]
+layout_mode = 0
+offset_right = 275.0
+offset_bottom = 493.0
+
+[node name="Label" type="Label" parent="Sell/VBoxContainer" unique_id=2020116013]
+layout_mode = 2
+text = "I Want To Sell:"
+
+[node name="InventoryContainer" type="Control" parent="Sell/VBoxContainer" unique_id=614386160]
+custom_minimum_size = Vector2(275, 150)
+layout_mode = 2
+script = ExtResource("5_0fj1v")
+
+[node name="CenterContainer" type="CenterContainer" parent="Sell/VBoxContainer/InventoryContainer" unique_id=1168674303]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 150.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Sell/VBoxContainer/InventoryContainer/CenterContainer" unique_id=1586209540]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="Sell/VBoxContainer/InventoryContainer/CenterContainer/VBoxContainer" unique_id=823082611]
+custom_minimum_size = Vector2(245, 150)
+layout_mode = 2
+allow_reselect = true
+auto_width = true
+auto_height = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Sell/VBoxContainer" unique_id=651231759]
+layout_mode = 2
+alignment = 1
+
+[node name="Button1" type="Button" parent="Sell/VBoxContainer/HBoxContainer" unique_id=291784730]
+layout_mode = 2
+text = "List
+"
+
+[node name="Button2" type="Button" parent="Sell/VBoxContainer/HBoxContainer" unique_id=1179498860]
+layout_mode = 2
+text = "DEBUG"
+
+[node name="Button3" type="Button" parent="Sell/VBoxContainer/HBoxContainer" unique_id=1099891340]
+layout_mode = 2
+action_mode = 0
+text = "Buy
+"
+
+[node name="PlayerGold" type="Label" parent="Sell/VBoxContainer" unique_id=1494773792]
+layout_mode = 2
+text = "Player Gold = "
+
+[node name="PlayerInventoryContainer" type="Control" parent="Sell/VBoxContainer" unique_id=2104901940]
+custom_minimum_size = Vector2(275, 200)
+layout_mode = 2
+script = ExtResource("5_0fj1v")
+
+[node name="CenterContainer" type="CenterContainer" parent="Sell/VBoxContainer/PlayerInventoryContainer" unique_id=162179870]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 154.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Sell/VBoxContainer/PlayerInventoryContainer/CenterContainer" unique_id=1370848964]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="Sell/VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=195696513]
+custom_minimum_size = Vector2(245, 150)
+layout_mode = 2
+allow_reselect = true
+auto_width = true
+auto_height = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Sell/VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=227965735]
+layout_mode = 2
+alignment = 1
+
 [node name="Player" type="CharacterBody2D" parent="." unique_id=625509512]
-position = Vector2(617, 336)
+position = Vector2(649, 522)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=708499900]
 sprite_frames = SubResource("SpriteFrames_cy33a")
@@ -440,5 +595,70 @@ inventory = ExtResource("7_o06y3")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2033203000]
 position = Vector2(642, 357)
 zoom = Vector2(1.5, 1.5)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1555866319]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_cy33a")
+
+[node name="ShopArea2D" type="Area2D" parent="." unique_id=2028033351 groups=["npc_navigation_group"]]
+position = Vector2(650, 463)
+
+[node name="Sprite2D" type="Sprite2D" parent="ShopArea2D" unique_id=1856084891]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("18_0pcbe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShopArea2D" unique_id=416417387]
+position = Vector2(-1.5, 3)
+shape = SubResource("RectangleShape2D_ydex1")
+
+[node name="ExitArea2D" type="Area2D" parent="." unique_id=572731980 groups=["npc_navigation_group"]]
+position = Vector2(650, 120)
+
+[node name="Sprite2D" type="Sprite2D" parent="ExitArea2D" unique_id=427281739]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("18_1cojt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea2D" unique_id=1755947164]
+position = Vector2(-0.5, 2)
+shape = SubResource("RectangleShape2D_ydex1")
+
+[node name="NPC" type="CharacterBody2D" parent="." unique_id=328597495]
+position = Vector2(599, 404)
+script = ExtResource("17_axeuq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPC" unique_id=1510488762]
+sprite_frames = SubResource("SpriteFrames_cy33a")
+animation = &"idle_down"
+frame_progress = 0.40045533
+
+[node name="Sprite2D" type="Sprite2D" parent="NPC" unique_id=616115643]
+visible = false
+texture = ExtResource("1_a02cp")
+hframes = 8
+vframes = 4
+region_enabled = true
+region_rect = Rect2(0, 255.5, 512, 256.5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="NPC" unique_id=749050929]
+libraries/ = SubResource("AnimationLibrary_3ua1v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC" unique_id=1944459962]
+shape = SubResource("CapsuleShape2D_cy33a")
+
+[node name="MovementComponent" type="Node" parent="NPC" unique_id=1658342114]
+script = ExtResource("3_5a7ea")
+npc = true
+
+[node name="AnimatorFSM" type="Node" parent="NPC" unique_id=1886593061 node_paths=PackedStringArray("sprite")]
+script = ExtResource("4_8j60k")
+sprite = NodePath("../AnimatedSprite2D")
+
+[node name="Inventory" type="Node" parent="NPC" unique_id=211353655]
+editor_description = "Needs Inventory Resource:Item Stacks:ItemData"
+script = ExtResource("6_5ukr8")
+inventory = SubResource("Resource_hgpy0")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="NPC" unique_id=40035863]
+debug_enabled = true
 
 [connection signal="mouse_entered" from="Main/InventoryScreen" to="Main" method="_on_inventory_screen_mouse_entered"]

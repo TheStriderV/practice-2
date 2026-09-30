@@ -6,6 +6,7 @@ extends Node
 
 
 @export var npc: bool = false
+@export var npc_resource: String = ""
 
 @export_category("Properties")
 @export var speed: float = 150.0
@@ -29,13 +30,18 @@ func _ready() -> void:
 	if npc == false:
 		input = InputHandler
 	else:
-		print("NPC Not yet configured")
+		print_debug("NPC Not yet configured")
 		#TODO: Get AI controller handler
 		#input = $..\AIController
 
 func _physics_process(delta: float) -> void:
-	var input_direction = input.get_move_direction()
-	body.velocity = input_direction * speed
-	body.move_and_slide()
+	player_move()
 
-	direction_changed.emit(input_direction)
+func player_move():
+	if npc == false:
+		var input_direction = input.get_move_direction()
+		body.velocity = input_direction * speed
+		body.move_and_slide()
+	
+		direction_changed.emit(input_direction)
+	
