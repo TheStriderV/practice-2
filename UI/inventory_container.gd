@@ -10,14 +10,16 @@ extends Control
 # UI Element to use, can become Grid style if needed or any other style. 
 # Should this track its inventory position in the UI?: 
 # No this shouldn't care where it is in the UI as long as it exists. 
-# TODO: add_item()
+# TODO: Do I need to separate UI and management logic? When is it used without the other?
+# maybe to make it into a component.
+
 @onready var item_list: ItemList = $CenterContainer/VBoxContainer/ItemList
 
 var item_index: Dictionary = {}
 
 var new_items: Array[ItemData] = [Items.ARMOR_BRONZE, Items.POTION, Items.POTION]
 
-var item_amount: int
+var item_amount: int # Error checking 
 
 func _ready() -> void:
 	
@@ -28,9 +30,9 @@ func _ready() -> void:
 	# 	
 	# 
 	
-	#print("Null")
+
 	item_list.clear()
-	# Buttons
+
 
 	#Item List
 	item_list.item_clicked.connect(_on_item_clicked)
@@ -40,7 +42,6 @@ func _ready() -> void:
 	
 	
 func get_item_amount(slot: int):
-	#print("SLOTS LEFT!!!! ", slot)
 	item_amount = slot
 	return item_amount
 
