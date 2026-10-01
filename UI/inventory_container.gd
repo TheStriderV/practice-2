@@ -21,12 +21,13 @@ var item_amount: int # Error checking
 
 func _ready() -> void:
 	item_list.clear()
+	
 	item_list.item_clicked.connect(_on_item_clicked)
 
-func _get_items_id():
+func _get_items_id() -> void:
 	print(inventory_resource.get_item_id_in_inventory())
 
-func add_all_items():
+func add_all_items() -> void:
 	### TODO: Change to system agnostic way to add to UI
 	var list := inventory_resource.slots
 	for i in list:
@@ -40,10 +41,6 @@ func add_all_items():
 			item_list.set_item_metadata(item_list.get_item_count() - 1, i)
 			item_list.deselect_all()
 
-		
-func list_items():
-	print(inventory_resource.slots)
-
 func _on_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
 	if mouse_button_index == 1:
 		print("Get item: ", item_list.get_item_metadata(index).get_id())
@@ -51,50 +48,46 @@ func _on_item_clicked(index: int, at_position: Vector2, mouse_button_index: int)
 	if mouse_button_index == 2:
 		remove_item(index)
 	
-func _return_last_item_index(index: int, at_position: Vector2, mouse_button_index: int):
+func _return_last_item_index(index: int, at_position: Vector2, mouse_button_index: int) -> Variant:
 	return item_list.get_item_metadata(index)
 	
-	
-func update_position():
-	pass
 
-func add_item(item_stack: ItemStack):
+func add_item(item_stack: ItemStack) -> void:
 	#print("Add items func:", list_items())
 	inventory_resource.add_item(item_stack)
 	item_list.clear()
 	add_all_items()
-	pass
-
-func remove_item(index):
-
-	if item_list.item_count - 1 < index:
-		index = 0
-	var item_stack = item_list.get_item_metadata(index)
 	
+func get_item_stack(index: int) -> ItemStack:
+	return item_list.get_item_metadata(index)
+
+## Remove exact selected object from Inventory Resource
+func remove_item(index) -> ItemStack:
+	if item_list.item_count - 1 < index: # If the index is out of bounds, reset it to 0; 
+		index = 0						 # Guarding for unselected items throwing error
+	
+	var item_stack = item_list.get_item_metadata(index) # Returns [ItemStack] type
 	inventory_resource.remove_item(item_stack)
 	item_list.clear()
 	add_all_items()
-
+	#gold_cost.emit(item_stack.get_base_value())
 	return item_stack
 
-
-func transfer_item(index):
-	pass
-
-# These should be combined somehow but I can't logic it :( 
-
-func connect_signals(): # When the inventory resource gets updated, it updates the item count
-	inventory_resource.item_removed.connect(get_item_amount)
-	inventory_resource.item_added.connect(get_item_amount)		
-
-func get_item_amount(slot: int):
+func get_item_amount(slot: int) -> int:
 	item_amount = slot
 	return item_amount
 
-
-func update_size():
+func update_size() -> void:
 	item_amount = inventory_resource.slots.size()
 
 ## Updates label to match inventory gold
-func update_gold(gold):
-	gold_label.text = "GOLD: " + str(gold)
+func update_gold() -> void:
+	gold_label.text = "GOLD: " + str(inventory_resource.gold)
+
+func list_items() -> void:
+	print(inventory_resource.slots)
+
+# These should be combined somehow but I can't logic it :( 
+func connect_signals() -> void: # When the inventory resource gets updated, it updates the item count
+	inventory_resource.item_removed.connect(get_item_amount)
+	inventory_resource.item_added.connect(get_item_amount)	

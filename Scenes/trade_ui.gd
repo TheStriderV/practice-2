@@ -1,4 +1,4 @@
-class_name VendorUi
+class_name TradeUI
 extends Control
 
 @export_category( "Transfer Area")
@@ -15,10 +15,13 @@ extends Control
 @export var button_2: Button
 @export var button_3: Button
 
-@onready var player: CharacterBody2D = $"../Player"
+@onready var player: CharacterBody2D = $"../Player" # Dependency : Change to export?
+
+@onready var player_inventory: Inventory = player.get_node("Inventory") # TODO: Add a player script for onready inventory node
+
+var npc_inventory: Inventory
 
 var item_index
-
 func _ready() -> void:		
 	# Button Connections
 	# Sell Button 
@@ -35,17 +38,30 @@ func _ready() -> void:
 
 
 func _item_index(index:int) -> void:
-	print("Item Index 2: ", index)
 	item_index = index
 
 ## For a Buy + Sell Feature 
-func _vendor_item(buyer, seller) -> void:
+func _vendor_item(buyer, seller, gold_transfer:bool = true): # Use false for transferring of items in chests
 	print("Vendoring Item")
+	if gold_transfer:
+		var item_stack_cost = seller.get_item_stack(item_index).get_base_value()
+		if buyer.inventory_resource.get_gold() < item_stack_cost:
+			print("Not enough gold to buy item")
+			return 
 	if item_index != null:
 		print("Item Index: ", item_index)
+		
 		if seller.item_amount > 0:
-			var item_stack = seller.remove_item(item_index)			
+			var item_stack = seller.remove_item(item_index)	# Returns the item stack			
+			print("Item Stack Cost: ", item_stack.get_base_value())			
 			buyer.add_item(item_stack)
+			if gold_transfer:
+				print("Transfering Gold")
+				seller.inventory_resource.add_gold(item_stack.get_base_value())
+				buyer.inventory_resource.remove_gold(item_stack.get_base_value())
+				
+				seller.update_gold()
+				buyer.update_gold()						
 		else:
 			print("No Items in Seller Inventory")
 			return
@@ -54,19 +70,23 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player": # Change to group?
 		return
 	if body.has_node("Inventory"):
+		npc_inventory = body.inventory # Set variable to update gold value
+		
 		# Set sell control node to same resource as NPC
 		npc_inventory_container.inventory_resource = body.inventory.inventory_resource
 		# Update gold from player inventory node to player container node
-		_update_inventory_ui(npc_inventory_container, body.inventory.gold)
+		_update_inventory_ui(npc_inventory_container)
 		
 func update_player_ui_inventory() -> void: # This is super confusing; need to simplify
 	if player: # Change to group?
-		var player_inventory : Inventory = player.get_node("Inventory")
 		player_inventory_container.inventory_resource = player_inventory.inventory_resource
-		_update_inventory_ui(player_inventory_container, player_inventory.gold)
+		_update_inventory_ui(player_inventory_container)
 
-func _update_inventory_ui(container: InventoryContainer, player_gold: int = 0) -> void:
-	container.update_gold(player_gold)
+func _update_inventory_ui(container: InventoryContainer) -> void:
+	container.update_gold()
 	container.add_all_items()
 	container.update_size()
 	container.connect_signals()
+	
+func update_gold(target):
+	pass

@@ -1,11 +1,10 @@
 extends CharacterBody2D
 
 
+@export var shop_area_2d: Area2D
+@export var exit_area: Area2D
 
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
-@onready var shop_area_2d: Area2D = $"../ShopArea2D"
-@onready var exit_area: Area2D = $"../ExitArea2D"
-
 @onready var inventory: Inventory = $Inventory
 
 const SPEED := 150
@@ -13,10 +12,8 @@ const SPEED := 150
 var direction: Vector2 
 
 @export var selling : bool = true
+
 # Data
-
-var gold :int = 0
-
 
 func _ready():
 	#inventory.get_inventory()
@@ -38,3 +35,7 @@ func move_to_area(area, delta):
 		velocity = velocity.lerp(direction * SPEED, delta)
 		move_and_slide()
 			
+# Behavior 
+	
+
+	

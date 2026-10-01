@@ -7,5 +7,6 @@
 
 [resource]
 script = ExtResource("1_3jgxo")
+gold = 5
 slots = Array[ExtResource("2_rsjdp")]([ExtResource("3_rsjdp"), ExtResource("4_xlhkl")])
 metadata/_custom_type_script = "uid://du1aioahuboc8"

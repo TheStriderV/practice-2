@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dbu83qax2t47y"]
+
+[ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_akrl8"]
+[ext_resource type="Texture2D" uid="uid://vbkkny84wln2" path="res://Art/unsorted/item42.png" id="2_7ic47"]
+
+[resource]
+script = ExtResource("1_akrl8")
+id = "axe"
+texture = ExtResource("2_7ic47")
+base_value = 25
+metadata/_custom_type_script = "uid://dyxbj5ixoopik"
