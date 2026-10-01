@@ -21,13 +21,19 @@ extends Control
 
 var npc_inventory: Inventory
 
-var item_index
+var item_index: int:
+	set(value):
+		
+		item_index = max(value, 0)
+		print("Setting Item Index: ", item_index)
+
 func _ready() -> void:		
 	# Button Connections
 	# Sell Button 
 	button_2.pressed.connect(_vendor_item.bind(npc_inventory_container, player_inventory_container))
 	# Buy Button
 	button_3.pressed.connect(_vendor_item.bind(player_inventory_container, npc_inventory_container))
+	button_1.pressed.connect(_check_item_index)
 	# Signal Connection
 	npc_inventory_container.item_list.item_selected.connect(_item_index)
 	player_inventory_container.item_list.item_selected.connect(_item_index)
@@ -36,14 +42,20 @@ func _ready() -> void:
 	# Update Player UI Inventory
 	update_player_ui_inventory()
 
-
+func _check_item_index():
+	print("Item Index: ", item_index)
 func _item_index(index:int) -> void:
 	item_index = index
 
 ## For a Buy + Sell Feature 
 func _vendor_item(buyer, seller, gold_transfer:bool = true): # Use false for transferring of items in chests
-	print("Vendoring Item")
-	if gold_transfer:
+	if seller.item_list.is_anything_selected() == false:
+		print("No Item Selected")
+		return
+	
+	print("Vendoring Item: ", item_index)
+	if gold_transfer and item_index != null:
+		print("Checking Gold")
 		var item_stack_cost = seller.get_item_stack(item_index).get_base_value()
 		if buyer.inventory_resource.get_gold() < item_stack_cost:
 			print("Not enough gold to buy item")
@@ -61,7 +73,9 @@ func _vendor_item(buyer, seller, gold_transfer:bool = true): # Use false for tra
 				buyer.inventory_resource.remove_gold(item_stack.get_base_value())
 				
 				seller.update_gold()
-				buyer.update_gold()						
+				buyer.update_gold()			
+				print("End of gold func: Index: ",item_index)
+			if item_index != 0: item_index -= 1
 		else:
 			print("No Items in Seller Inventory")
 			return

@@ -63,13 +63,20 @@ func get_item_stack(index: int) -> ItemStack:
 
 ## Remove exact selected object from Inventory Resource
 func remove_item(index) -> ItemStack:
-	if item_list.item_count - 1 < index: # If the index is out of bounds, reset it to 0; 
-		index = 0						 # Guarding for unselected items throwing error
+	print("Removing Item...at index:", index)
+	if item_list.item_count - 1 < index: # If the index is out of bounds, reset it to 0; # Guarding for unselected items throwing error
+		print("rm:", index)
+		index = 0						 
 	
 	var item_stack = item_list.get_item_metadata(index) # Returns [ItemStack] type
 	inventory_resource.remove_item(item_stack)
 	item_list.clear()
 	add_all_items()
+	
+	if index != 0 :
+		print("Selecting Previous Item")
+		item_list.select(index - 1) 
+	
 	#gold_cost.emit(item_stack.get_base_value())
 	return item_stack
 
