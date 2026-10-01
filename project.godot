@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Practice-2"
+config/name="Dungeon Shop Keeper Project"
 run/main_scene="uid://0nyjfmbgysxv"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
