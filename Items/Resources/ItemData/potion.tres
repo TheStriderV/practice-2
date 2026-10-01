@@ -8,4 +8,5 @@ script = ExtResource("1_leu0b")
 id = "potion"
 texture = ExtResource("2_05mx1")
 max_stack = 3
+base_value = 20
 metadata/_custom_type_script = "uid://dyxbj5ixoopik"

@@ -34,10 +34,11 @@ func get_id():
 	return data.id
 
 func get_texture():
-
 	if data:
 		#print("Data available")
 		return data.texture
 	else:
 		return null
 	
+func get_base_value():
+	return data.base_value

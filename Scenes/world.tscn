@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://0nyjfmbgysxv"]
 
-[ext_resource type="Script" uid="uid://cvwurl10oi73p" path="res://Scenes/world.gd" id="1_1cojt"]
 [ext_resource type="Texture2D" uid="uid://brciubdamg3rh" path="res://Art/character_base/char_a_p1/char_a_p1_0bas_humn_v00.png" id="1_a02cp"]
 [ext_resource type="Script" uid="uid://dcw7emak21vpq" path="res://control.gd" id="1_k7acu"]
 [ext_resource type="PackedScene" uid="uid://cbe6cutyf3sh6" path="res://Scenes/ui_item_stack.tscn" id="2_k7acu"]
@@ -14,28 +13,13 @@
 [ext_resource type="Resource" uid="uid://d2jvr2eetik15" path="res://Items/Resources/Inventory/inventory_test.tres" id="7_o06y3"]
 [ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="7_t2t4p"]
 [ext_resource type="Resource" uid="uid://ca274c3fhku2q" path="res://Items/Resources/ItemData/armor_bronze.tres" id="8_0pcbe"]
-[ext_resource type="Resource" uid="uid://qbh1wjsv1m8h" path="res://Items/Resources/ItemData/potion.tres" id="9_axeuq"]
-[ext_resource type="Script" uid="uid://hgtewbmn8j52" path="res://Scenes/sell.gd" id="11_axeuq"]
+[ext_resource type="Script" uid="uid://hgtewbmn8j52" path="res://Scenes/vendor_ui.gd" id="11_axeuq"]
+[ext_resource type="Texture2D" uid="uid://gfy5fna73q8a" path="res://Art/unsorted/item1.png" id="12_yq1aw"]
+[ext_resource type="Resource" uid="uid://bhcsubm33ptte" path="res://Items/Resources/ItemData/planks.tres" id="16_yq1aw"]
 [ext_resource type="Script" uid="uid://c5n0j3tca4rry" path="res://npc.gd" id="17_axeuq"]
-[ext_resource type="Resource" uid="uid://biqfapqxi4ogc" path="res://Items/Resources/ItemData/bow_wood.tres" id="17_t2t4p"]
+[ext_resource type="Resource" uid="uid://biqfapqxi4ogc" path="res://Items/Resources/ItemData/bow_wood.tres" id="17_pyn1s"]
 [ext_resource type="Texture2D" uid="uid://pc0jluh26dhw" path="res://Art/House3.png" id="18_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://n37831kyuh64" path="res://Art/Tower.png" id="18_1cojt"]
-
-[sub_resource type="Resource" id="Resource_yq1aw"]
-script = ExtResource("7_t2t4p")
-data = ExtResource("8_0pcbe")
-
-[sub_resource type="Resource" id="Resource_pyn1s"]
-script = ExtResource("7_t2t4p")
-data = ExtResource("9_axeuq")
-
-[sub_resource type="Resource" id="Resource_no8kt"]
-script = ExtResource("7_t2t4p")
-data = ExtResource("9_axeuq")
-
-[sub_resource type="Resource" id="Resource_xbk3s"]
-script = ExtResource("6_hgpy0")
-slots = Array[ExtResource("7_t2t4p")]([SubResource("Resource_yq1aw"), SubResource("Resource_pyn1s"), SubResource("Resource_no8kt")])
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_go701"]
 atlas = ExtResource("1_a02cp")
@@ -319,6 +303,26 @@ _data = {
 radius = 7.0
 height = 24.0
 
+[sub_resource type="Resource" id="Resource_axeuq"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("8_0pcbe")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
+[sub_resource type="Resource" id="Resource_yq1aw"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("16_yq1aw")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
+[sub_resource type="Resource" id="Resource_no8kt"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("17_pyn1s")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
+[sub_resource type="Resource" id="Resource_kn0ld"]
+script = ExtResource("6_hgpy0")
+slots = Array[ExtResource("7_t2t4p")]([SubResource("Resource_axeuq"), SubResource("Resource_yq1aw"), SubResource("Resource_no8kt")])
+metadata/_custom_type_script = "uid://du1aioahuboc8"
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_cy33a"]
 vertices = PackedVector2Array(1060, 125.97656, 1060, 588.0078, 227.96875, 588.97656, 227.02344, 125.00781)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
@@ -329,23 +333,7 @@ source_geometry_group_name = &"npc_navigation_group"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ydex1"]
 size = Vector2(60.999992, 88)
 
-[sub_resource type="Resource" id="Resource_axeuq"]
-script = ExtResource("7_t2t4p")
-data = ExtResource("17_t2t4p")
-metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
-
-[sub_resource type="Resource" id="Resource_1cojt"]
-script = ExtResource("7_t2t4p")
-data = ExtResource("8_0pcbe")
-metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
-
-[sub_resource type="Resource" id="Resource_hgpy0"]
-script = ExtResource("6_hgpy0")
-slots = Array[ExtResource("7_t2t4p")]([SubResource("Resource_axeuq"), SubResource("Resource_1cojt")])
-metadata/_custom_type_script = "uid://du1aioahuboc8"
-
 [node name="World" type="Node2D" unique_id=2056261816]
-script = ExtResource("1_1cojt")
 
 [node name="Main" type="Control" parent="." unique_id=1527763162]
 visible = false
@@ -411,52 +399,7 @@ layout_mode = 2
 columns = 5
 panel_amount = 10
 
-[node name="InventoryContainer" type="Control" parent="Main" unique_id=891070994]
-custom_minimum_size = Vector2(275, 200)
-anchors_preset = 0
-offset_left = 2.0
-offset_top = 153.0
-offset_right = 277.0
-offset_bottom = 253.0
-script = ExtResource("5_0fj1v")
-inventory = SubResource("Resource_xbk3s")
-
-[node name="CenterContainer" type="CenterContainer" parent="Main/InventoryContainer" unique_id=601472296]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Main/InventoryContainer/CenterContainer" unique_id=427260500]
-layout_mode = 2
-
-[node name="ItemList" type="ItemList" parent="Main/InventoryContainer/CenterContainer/VBoxContainer" unique_id=293492058]
-custom_minimum_size = Vector2(245, 150)
-layout_mode = 2
-select_mode = 1
-auto_width = true
-auto_height = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Main/InventoryContainer/CenterContainer/VBoxContainer" unique_id=1406285397]
-layout_mode = 2
-alignment = 1
-
-[node name="Button1" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=959998494]
-layout_mode = 2
-text = "Item List"
-
-[node name="Button2" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=1914226479]
-layout_mode = 2
-text = "BUTTON 2"
-
-[node name="Button3" type="Button" parent="Main/InventoryContainer/CenterContainer/VBoxContainer/HBoxContainer" unique_id=851961960]
-layout_mode = 2
-text = "Buy
-"
-
-[node name="Sell" type="Control" parent="." unique_id=1436157374]
+[node name="VendorUI" type="Control" parent="." unique_id=1436157374 node_paths=PackedStringArray("transfer_area", "npc_inventory_container", "player_inventory_container", "button_1", "button_2", "button_3")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -464,100 +407,113 @@ anchor_bottom = 1.0
 offset_left = 714.0
 offset_top = 117.0
 offset_right = 989.0
-offset_bottom = 517.0
+offset_bottom = 596.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("11_axeuq")
+transfer_area = NodePath("../ShopArea2D")
+npc_inventory_container = NodePath("VBoxContainer/NPCInventoryContainer")
+player_inventory_container = NodePath("VBoxContainer/PlayerInventoryContainer")
+button_1 = NodePath("VBoxContainer/HBoxContainer/Button1")
+button_2 = NodePath("VBoxContainer/HBoxContainer/Sell")
+button_3 = NodePath("VBoxContainer/HBoxContainer/Buy")
 
-[node name="ColorRect" type="ColorRect" parent="Sell" unique_id=1361672904]
+[node name="ColorRect" type="ColorRect" parent="VendorUI" unique_id=1361672904]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 100.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.4392157, 0.59607846, 1, 0.3137255)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sell" unique_id=106683845]
+[node name="VBoxContainer" type="VBoxContainer" parent="VendorUI" unique_id=106683845]
 layout_mode = 0
 offset_right = 275.0
-offset_bottom = 493.0
+offset_bottom = 479.0
 
-[node name="Label" type="Label" parent="Sell/VBoxContainer" unique_id=2020116013]
+[node name="Label" type="Label" parent="VendorUI/VBoxContainer" unique_id=2020116013]
 layout_mode = 2
 text = "I Want To Sell:"
 
-[node name="InventoryContainer" type="Control" parent="Sell/VBoxContainer" unique_id=614386160]
-custom_minimum_size = Vector2(275, 150)
+[node name="NPCInventoryContainer" type="Control" parent="VendorUI/VBoxContainer" unique_id=614386160 node_paths=PackedStringArray("item_list", "gold_label")]
+custom_minimum_size = Vector2(275, 175)
 layout_mode = 2
 script = ExtResource("5_0fj1v")
+item_list = NodePath("CenterContainer/VBoxContainer/ItemList")
+gold_label = NodePath("CenterContainer/VBoxContainer/GoldLabel")
 
-[node name="CenterContainer" type="CenterContainer" parent="Sell/VBoxContainer/InventoryContainer" unique_id=1168674303]
+[node name="CenterContainer" type="CenterContainer" parent="VendorUI/VBoxContainer/NPCInventoryContainer" unique_id=1168674303]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 150.0
 grow_horizontal = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sell/VBoxContainer/InventoryContainer/CenterContainer" unique_id=1586209540]
+[node name="VBoxContainer" type="VBoxContainer" parent="VendorUI/VBoxContainer/NPCInventoryContainer/CenterContainer" unique_id=1586209540]
 layout_mode = 2
 
-[node name="ItemList" type="ItemList" parent="Sell/VBoxContainer/InventoryContainer/CenterContainer/VBoxContainer" unique_id=823082611]
+[node name="ItemList" type="ItemList" parent="VendorUI/VBoxContainer/NPCInventoryContainer/CenterContainer/VBoxContainer" unique_id=823082611]
 custom_minimum_size = Vector2(245, 150)
 layout_mode = 2
 allow_reselect = true
 auto_width = true
 auto_height = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Sell/VBoxContainer" unique_id=651231759]
+[node name="GoldLabel" type="Label" parent="VendorUI/VBoxContainer/NPCInventoryContainer/CenterContainer/VBoxContainer" unique_id=1119880503]
+layout_mode = 2
+text = "NPC Gold = "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VendorUI/VBoxContainer" unique_id=651231759]
 layout_mode = 2
 alignment = 1
 
-[node name="Button1" type="Button" parent="Sell/VBoxContainer/HBoxContainer" unique_id=291784730]
+[node name="Button1" type="Button" parent="VendorUI/VBoxContainer/HBoxContainer" unique_id=291784730]
 layout_mode = 2
 text = "List
 "
 
-[node name="Button2" type="Button" parent="Sell/VBoxContainer/HBoxContainer" unique_id=1179498860]
+[node name="Sell" type="Button" parent="VendorUI/VBoxContainer/HBoxContainer" unique_id=1179498860]
 layout_mode = 2
-text = "DEBUG"
+text = "Sell"
 
-[node name="Button3" type="Button" parent="Sell/VBoxContainer/HBoxContainer" unique_id=1099891340]
+[node name="Buy" type="Button" parent="VendorUI/VBoxContainer/HBoxContainer" unique_id=1099891340]
 layout_mode = 2
 action_mode = 0
 text = "Buy
 "
 
-[node name="PlayerGold" type="Label" parent="Sell/VBoxContainer" unique_id=1494773792]
-layout_mode = 2
-text = "Player Gold = "
-
-[node name="PlayerInventoryContainer" type="Control" parent="Sell/VBoxContainer" unique_id=2104901940]
-custom_minimum_size = Vector2(275, 200)
+[node name="PlayerInventoryContainer" type="Control" parent="VendorUI/VBoxContainer" unique_id=2104901940 node_paths=PackedStringArray("item_list", "gold_label")]
+custom_minimum_size = Vector2(275, 175)
 layout_mode = 2
 script = ExtResource("5_0fj1v")
+item_list = NodePath("CenterContainer/VBoxContainer/ItemList")
+gold_label = NodePath("CenterContainer/VBoxContainer/GoldLabel")
 
-[node name="CenterContainer" type="CenterContainer" parent="Sell/VBoxContainer/PlayerInventoryContainer" unique_id=162179870]
+[node name="CenterContainer" type="CenterContainer" parent="VendorUI/VBoxContainer/PlayerInventoryContainer" unique_id=162179870]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 154.0
 grow_horizontal = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sell/VBoxContainer/PlayerInventoryContainer/CenterContainer" unique_id=1370848964]
+[node name="VBoxContainer" type="VBoxContainer" parent="VendorUI/VBoxContainer/PlayerInventoryContainer/CenterContainer" unique_id=1370848964]
 layout_mode = 2
 
-[node name="ItemList" type="ItemList" parent="Sell/VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=195696513]
+[node name="ItemList" type="ItemList" parent="VendorUI/VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=195696513]
 custom_minimum_size = Vector2(245, 150)
 layout_mode = 2
 allow_reselect = true
 auto_width = true
 auto_height = true
+item_count = 1
+item_0/text = "Epic Sword - 10gp"
+item_0/icon = ExtResource("12_yq1aw")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Sell/VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=227965735]
+[node name="GoldLabel" type="Label" parent="VendorUI/VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=1494773792]
 layout_mode = 2
-alignment = 1
+text = "Player Gold = "
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=625509512]
 position = Vector2(649, 522)
@@ -590,7 +546,8 @@ sprite = NodePath("../AnimatedSprite2D")
 
 [node name="Inventory" type="Node" parent="Player" unique_id=203164652]
 script = ExtResource("6_5ukr8")
-inventory = ExtResource("7_o06y3")
+gold = 100
+inventory_resource = SubResource("Resource_kn0ld")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2033203000]
 position = Vector2(642, 357)
@@ -623,7 +580,7 @@ position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_ydex1")
 
 [node name="NPC" type="CharacterBody2D" parent="." unique_id=328597495]
-position = Vector2(599, 404)
+position = Vector2(508, 257)
 script = ExtResource("17_axeuq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NPC" unique_id=1510488762]
@@ -656,7 +613,8 @@ sprite = NodePath("../AnimatedSprite2D")
 [node name="Inventory" type="Node" parent="NPC" unique_id=211353655]
 editor_description = "Needs Inventory Resource:Item Stacks:ItemData"
 script = ExtResource("6_5ukr8")
-inventory = SubResource("Resource_hgpy0")
+gold = 10
+inventory_resource = ExtResource("7_o06y3")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="NPC" unique_id=40035863]
 debug_enabled = true

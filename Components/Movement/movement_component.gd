@@ -32,6 +32,7 @@ func _ready() -> void:
 	else:
 		print_debug("NPC Not yet configured")
 		#TODO: Get AI controller handler
+		
 		#input = $..\AIController
 
 func _physics_process(delta: float) -> void:
@@ -44,4 +45,7 @@ func player_move():
 		body.move_and_slide()
 	
 		direction_changed.emit(input_direction)
+		
+func npc_move():
+	pass
 	

@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var shop_area_2d: Area2D = $"../ShopArea2D"
 @onready var exit_area: Area2D = $"../ExitArea2D"
 
-@onready var inventory: Node = $Inventory
+@onready var inventory: Inventory = $Inventory
 
 const SPEED := 150
 
@@ -19,8 +19,8 @@ var gold :int = 0
 
 
 func _ready():
-	inventory.get_inventory()
-
+	#inventory.get_inventory()
+	pass
 # Should move this all to a component
 
 func _physics_process(delta: float):
