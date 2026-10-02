@@ -59,6 +59,12 @@ func add_item(item_stack: ItemStack) -> void:
 	add_all_items()
 	
 func get_item_stack(index: int) -> ItemStack:
+	if item_list.item_count == 0:
+		return null
+	if index > item_list.item_count - 1:
+		index -= 1
+		
+		
 	return item_list.get_item_metadata(index)
 
 ## Remove exact selected object from Inventory Resource

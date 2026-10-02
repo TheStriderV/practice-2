@@ -25,7 +25,7 @@ var item_index: int:
 	set(value):
 		
 		item_index = max(value, 0)
-		print("Setting Item Index: ", item_index)
+		# print("Setting Item Index: ", item_index)
 
 func _ready() -> void:		
 	# Button Connections
@@ -48,36 +48,34 @@ func _item_index(index:int) -> void:
 	item_index = index
 
 ## For a Buy + Sell Feature 
+# Think about building in an automated check for index that automatically moves it + 
 func _vendor_item(buyer, seller, gold_transfer:bool = true): # Use false for transferring of items in chests
-	if seller.item_list.is_anything_selected() == false:
-		print("No Item Selected")
-		return
-	
-	print("Vendoring Item: ", item_index)
+# 	print("Vendoring Item: ", item_index)
 	if gold_transfer and item_index != null:
-		print("Checking Gold")
-		var item_stack_cost = seller.get_item_stack(item_index).get_base_value()
-		if buyer.inventory_resource.get_gold() < item_stack_cost:
-			print("Not enough gold to buy item")
-			return 
+# 		print("Checking Gold")
+		if seller.get_item_stack(item_index) != null:
+			var item_stack_cost = seller.get_item_stack(item_index).get_base_value()
+			if buyer.inventory_resource.get_gold() < item_stack_cost:
+# 				print("Not enough gold to buy item")
+				return 
 	if item_index != null:
-		print("Item Index: ", item_index)
+# 		print("Item Index: ", item_index)
 		
 		if seller.item_amount > 0:
 			var item_stack = seller.remove_item(item_index)	# Returns the item stack			
-			print("Item Stack Cost: ", item_stack.get_base_value())			
+# 			print("Item Stack Cost: ", item_stack.get_base_value())			
 			buyer.add_item(item_stack)
 			if gold_transfer:
-				print("Transfering Gold")
+# 				print("Transfering Gold")
 				seller.inventory_resource.add_gold(item_stack.get_base_value())
 				buyer.inventory_resource.remove_gold(item_stack.get_base_value())
 				
 				seller.update_gold()
 				buyer.update_gold()			
-				print("End of gold func: Index: ",item_index)
-			if item_index != 0: item_index -= 1
+# 				print("End of gold func: Index: ",item_index)
+			if item_index != 0: item_index -= 1 # Here so it auto selects the next item
 		else:
-			print("No Items in Seller Inventory")
+# 			print("No Items in Seller Inventory")
 			return
 		
 func _on_area_2d_body_entered(body: Node2D) -> void:
