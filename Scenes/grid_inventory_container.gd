@@ -15,9 +15,11 @@ signal grid_exited(grid)
 
 signal item_picked_up(item)
 
+var item_held = null
+
 var is_hovering := false
 var grid_array := []
-var item_held = null
+
 var current_slot = null
 var can_place := false
 var icon_anchor : Vector2
@@ -59,8 +61,6 @@ func _on_slot_mouse_entered(a_Slot):
 func _on_slot_mouse_exited(_a_Slot):
 	#emit_signal("grid_exited", self)
 	clear_grid()
-	pass
-#	
 
 func check_slot_availability(a_Slot):
 	for grid in item_held.item_grids:
@@ -83,9 +83,9 @@ func set_grids(a_Slot):
 		var grid_to_check = a_Slot.slot_ID + grid[0] + grid[1] * columns
 		if grid_to_check < 0 or grid_to_check >= grid_array.size():
 			continue
-		#make sure the check don't wrap around boarders
+		# Make sure the check don't wrap around boarders
 		var line_switch_check = a_Slot.slot_ID % columns + grid[0]
-		if line_switch_check <0 or line_switch_check >= columns:
+		if line_switch_check < 0 or line_switch_check >= columns:
 			continue
 		
 		if can_place:
@@ -142,7 +142,6 @@ func pick_item():
 	set_grids.call_deferred(current_slot)
 	
 func rotate_item():
-	print("Rotate...1")
 	item_held.rotate_item()
 	clear_grid()
 	if current_slot:

@@ -15,9 +15,7 @@ func _process(delta: float) -> void:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta) # Drag offset can go here
 
 func load_item(a_ItemID:int) -> void:
-	
 	var Icon_path = shape_library.get_shape(a_ItemID)
-
 	IconRect_path.texture = Icon_path.icon
 	item_grids = Icon_path.offsets
 
