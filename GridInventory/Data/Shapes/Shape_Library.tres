@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ShapeLibrary" format=3 uid="uid://c50qabygf1xn5"]
+
+[ext_resource type="Script" uid="uid://bvp7h2t5rxghn" path="res://GridInventory/Data/Shapes/Resources/shape_library.gd" id="1_sg41x"]
+[ext_resource type="Script" uid="uid://csr6or8iotxyb" path="res://GridInventory/Data/Shapes/Resources/shape_data.gd" id="2_m4sqo"]
+[ext_resource type="Resource" uid="uid://c3308vbu21i7y" path="res://GridInventory/Data/Shapes/Shape Library/1x1.tres" id="3_kmhr0"]
+[ext_resource type="Resource" uid="uid://dv30skkwa6u80" path="res://GridInventory/Data/Shapes/Shape Library/1x2.tres" id="4_2vnhd"]
+[ext_resource type="Resource" uid="uid://dketjawymp1ak" path="res://GridInventory/Data/Shapes/Shape Library/1x3.tres" id="5_t028h"]
+[ext_resource type="Resource" uid="uid://yr8v645nvsoi" path="res://GridInventory/Data/Shapes/Shape Library/1x4.tres" id="6_dcihj"]
+[ext_resource type="Resource" uid="uid://bt5nxciiq5ckd" path="res://GridInventory/Data/Shapes/Shape Library/2x2.tres" id="7_n3u1o"]
+[ext_resource type="Resource" uid="uid://bpkcx3x574itu" path="res://GridInventory/Data/Shapes/Shape Library/2x3.tres" id="8_nloim"]
+[ext_resource type="Resource" uid="uid://bipl2lssjb478" path="res://GridInventory/Data/Shapes/Shape Library/sword_test.tres" id="9_i8cxe"]
+
+[resource]
+script = ExtResource("1_sg41x")
+shapes = Array[ExtResource("2_m4sqo")]([ExtResource("3_kmhr0"), ExtResource("4_2vnhd"), ExtResource("5_t028h"), ExtResource("6_dcihj"), ExtResource("7_n3u1o"), ExtResource("8_nloim"), ExtResource("9_i8cxe")])
+metadata/_custom_type_script = "uid://bvp7h2t5rxghn"

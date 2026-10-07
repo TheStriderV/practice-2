@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ShapeData" format=3 uid="uid://dketjawymp1ak"]
+
+[ext_resource type="Texture2D" uid="uid://cjj80i8b4i205" path="res://GridInventory/Assets/Item3.png" id="1_blmxu"]
+[ext_resource type="Script" uid="uid://csr6or8iotxyb" path="res://GridInventory/Data/Shapes/Resources/shape_data.gd" id="1_smafn"]
+
+[resource]
+script = ExtResource("1_smafn")
+id = 2
+offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, 2)])
+icon = ExtResource("1_blmxu")
+metadata/_custom_type_script = "uid://csr6or8iotxyb"

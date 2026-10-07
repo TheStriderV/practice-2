@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://fcjcqcub6e1"]
+
+[ext_resource type="Script" uid="uid://b5bnf4fd0sfgq" path="res://GridInventory/Scripts/grid_inventory.gd" id="1_ge1n6"]
+[ext_resource type="PackedScene" uid="uid://dxvx2kwd2mv52" path="res://GridInventory/Scenes/slot.tscn" id="2_js2c0"]
+
+[node name="GridInventory" type="Control" unique_id=1667305210 node_paths=PackedStringArray("grid_container")]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+script = ExtResource("1_ge1n6")
+grid_container = NodePath("GridInventoryContainer")
+slot_amount = 10
+
+[node name="GridInventoryContainer" type="GridContainer" parent="." unique_id=1606921440]
+propagate_maximum_size = false
+layout_mode = 0
+offset_left = -87.0
+offset_right = 88.0
+offset_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+
+[node name="Slot" parent="GridInventoryContainer" unique_id=2098375084 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot2" parent="GridInventoryContainer" unique_id=792217102 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot3" parent="GridInventoryContainer" unique_id=1533565263 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot4" parent="GridInventoryContainer" unique_id=209379585 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot5" parent="GridInventoryContainer" unique_id=2053016114 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot6" parent="GridInventoryContainer" unique_id=1975167576 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot7" parent="GridInventoryContainer" unique_id=991289589 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot8" parent="GridInventoryContainer" unique_id=1827794728 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="Slot9" parent="GridInventoryContainer" unique_id=932611851 instance=ExtResource("2_js2c0")]
+layout_mode = 2
+
+[node name="slottest" parent="GridInventoryContainer" unique_id=782382426 instance=ExtResource("2_js2c0")]
+layout_mode = 2

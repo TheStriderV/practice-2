@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://doum2i2dlclvp"]
+
+[ext_resource type="PackedScene" uid="uid://fcjcqcub6e1" path="res://GridInventory/Scenes/grid_inventory.tscn" id="1_wdn4f"]
+
+[node name="Inventory" type="Control" unique_id=127611180]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=515078274]
+layout_mode = 1
+offset_right = 420.0
+offset_bottom = 520.0
+color = Color(0.24, 0.1752, 0.1914, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=263650104]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer" unique_id=1286190679]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=1616840297]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Button_Spawn" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/Header" unique_id=2100470148]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 20
+text = "Spawn Item"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=819518302]
+custom_minimum_size = Vector2(0, 350)
+layout_mode = 2
+size_flags_horizontal = 17
+size_flags_vertical = 19
+
+[node name="GridInventory" parent="ColorRect/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1505510200 instance=ExtResource("1_wdn4f")]
+layout_mode = 2
+
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/Header/Button_Spawn" to="." method="_on_button_spawn_pressed"]

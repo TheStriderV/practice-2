@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dxvx2kwd2mv52"]
+
+[ext_resource type="Texture2D" uid="uid://dd3ppdnkci0bj" path="res://GridInventory/Assets/inventory_texture.png" id="1_wpiwr"]
+[ext_resource type="Script" uid="uid://7y5j5nff128l" path="res://GridInventory/Scripts/grid_inventory_slot.gd" id="2_sp1gl"]
+
+[node name="Slot" type="TextureRect" unique_id=2098375084]
+custom_minimum_size = Vector2(35, 35)
+texture = ExtResource("1_wpiwr")
+expand_mode = 1
+script = ExtResource("2_sp1gl")
+
+[node name="StatusFilter" type="ColorRect" parent="." unique_id=672799571]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)

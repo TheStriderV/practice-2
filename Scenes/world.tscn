@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://0nyjfmbgysxv"]
 
+[ext_resource type="Script" uid="uid://c7n1oouax8rke" path="res://Scripts/ui_control_component.gd" id="1_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://brciubdamg3rh" path="res://Art/character_base/char_a_p1/char_a_p1_0bas_humn_v00.png" id="1_a02cp"]
-[ext_resource type="Script" uid="uid://dcw7emak21vpq" path="res://control.gd" id="1_k7acu"]
-[ext_resource type="PackedScene" uid="uid://cbe6cutyf3sh6" path="res://Scenes/ui_item_stack.tscn" id="2_k7acu"]
+[ext_resource type="PackedScene" uid="uid://dxf4lqwmwuclk" path="res://GridInventory/Scenes/grid_inventory_container.tscn" id="2_0pcbe"]
 [ext_resource type="Script" uid="uid://bqlf3gips2vs1" path="res://Components/Movement/movement_component.gd" id="3_5a7ea"]
-[ext_resource type="Resource" uid="uid://bt5ar5s4ceuhc" path="res://Items/Resources/ItemStack/sword_stack.tres" id="3_5v1tr"]
-[ext_resource type="PackedScene" uid="uid://bjifxaf8afk5d" path="res://Scenes/grid_container_test.tscn" id="4_5v1tr"]
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
 [ext_resource type="Script" uid="uid://fuqs653mf4hh" path="res://UI/inventory_container.gd" id="5_0fj1v"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
@@ -337,7 +335,6 @@ size = Vector2(60.999992, 88)
 [node name="World" type="Node2D" unique_id=2056261816]
 
 [node name="Main" type="Control" parent="." unique_id=1527763162]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -348,7 +345,13 @@ offset_right = 555.0
 offset_bottom = 566.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_k7acu")
+
+[node name="UIControlComponent" type="Node" parent="Main" unique_id=1368492218 node_paths=PackedStringArray("grid_inventory_node", "grid_inventory_node_2", "test_button")]
+script = ExtResource("1_0pcbe")
+grid_inventory_node = NodePath("../VBoxContainer/CenterContainer/GridInventoryContainer")
+grid_inventory_node_2 = NodePath("../VBoxContainer/CenterContainer2/GridInventoryContainer")
+test_button = NodePath("../VBoxContainer/Spawn")
+load_item_id = 6
 
 [node name="ColorRect" type="ColorRect" parent="Main" unique_id=869893691]
 layout_mode = 1
@@ -359,46 +362,35 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.4392157, 0.59607846, 1, 0.3137255)
 
-[node name="InventoryScreen" type="Control" parent="Main" unique_id=874877732]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main" unique_id=326311212]
+propagate_maximum_size = false
 layout_mode = 1
-anchors_preset = 0
-offset_left = 336.0
-offset_top = 35.0
-offset_right = 376.0
-offset_bottom = 75.0
-mouse_filter = 1
-
-[node name="ColorRect" type="ColorRect" parent="Main/InventoryScreen" unique_id=276518306]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-mouse_filter = 1
-color = Color(0.22749543, 0.39144254, 0.46739638, 1)
-
-[node name="ItemStack" parent="Main" unique_id=1747523968 instance=ExtResource("2_k7acu")]
-layout_mode = 0
-offset_left = 285.0
-offset_top = 35.0
-offset_right = 325.0
-offset_bottom = 75.0
-item_stack = ExtResource("3_5v1tr")
-
-[node name="CenterContainer" type="CenterContainer" parent="Main" unique_id=406709375]
-custom_minimum_size = Vector2(275, 150)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -137.5
-offset_right = 137.5
-offset_bottom = 150.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
 
-[node name="GridContainer" parent="Main/CenterContainer" unique_id=1605792234 instance=ExtResource("4_5v1tr")]
-clip_contents = true
+[node name="Spawn" type="Button" parent="Main/VBoxContainer" unique_id=1213234113]
 layout_mode = 2
-columns = 5
-panel_amount = 10
+text = "Spawn"
+
+[node name="CenterContainer" type="CenterContainer" parent="Main/VBoxContainer" unique_id=264162469]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=1164638678 instance=ExtResource("2_0pcbe")]
+propagate_maximum_size = true
+layout_mode = 2
+slot_amount = 10
+
+[node name="CenterContainer2" type="CenterContainer" parent="Main/VBoxContainer" unique_id=1951678239]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer2" unique_id=337432243 instance=ExtResource("2_0pcbe")]
+layout_mode = 2
+slot_amount = 10
 
 [node name="TradeUI" type="Control" parent="." unique_id=1436157374 node_paths=PackedStringArray("transfer_area", "npc_inventory_container", "player_inventory_container", "button_1", "button_2", "button_3")]
 layout_mode = 3
@@ -620,5 +612,3 @@ inventory_resource = ExtResource("7_o06y3")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="NPC" unique_id=40035863]
 debug_enabled = true
-
-[connection signal="mouse_entered" from="Main/InventoryScreen" to="Main" method="_on_inventory_screen_mouse_entered"]
