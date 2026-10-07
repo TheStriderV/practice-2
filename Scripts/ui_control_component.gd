@@ -19,26 +19,30 @@ var current_grid : GridInventory = grid_inventory_node
 
 
 func _ready() -> void:
-	grid_inventory_node.grid_entered.connect(_mouse_entered)
-	grid_inventory_node_2.grid_entered.connect(_mouse_entered)
-	
-	grid_inventory_node.grid_exited.connect(_mouse_exited)
-	grid_inventory_node_2.grid_exited.connect(_mouse_exited)
-	
-	grid_inventory_node.item_picked_up.connect(_item_picked_up)
-	grid_inventory_node_2.item_picked_up.connect(_item_picked_up)
-	
+	if grid_inventory_node:
+		grid_inventory_node.grid_entered.connect(_mouse_entered)
+		grid_inventory_node.grid_exited.connect(_mouse_exited)
+		grid_inventory_node.item_picked_up.connect(_item_picked_up)
+		
+	if grid_inventory_node_2:
+		grid_inventory_node_2.grid_entered.connect(_mouse_entered)
+		grid_inventory_node_2.grid_exited.connect(_mouse_exited)
+		grid_inventory_node_2.item_picked_up.connect(_item_picked_up)
+
 	test_button.pressed.connect(_on_button_spawn_pressed)
 	current_grid = grid_inventory_node
+	
 func _process(_delta: float) -> void:
 	
 	if item_held:
 		if Input.is_action_just_pressed("mouse_rightclick"):
-			current_grid.rotate_item()
+			current_grid.rotate_item(item_held)
 		if Input.is_action_just_pressed("mouse_leftclick"):
+			print("Click current grid: ", current_grid)
 			if current_grid.get_global_rect().has_point(current_grid.get_global_mouse_position()):
 				print("Current Slot: ", current_grid.current_slot.slot_ID)
-				current_grid.place_item()
+				if current_grid.place_item(item_held):
+					item_held = null
 	else:
 		if Input.is_action_just_pressed("mouse_leftclick"):
 			if current_grid.get_global_rect().has_point(current_grid.get_global_mouse_position()):
@@ -66,7 +70,8 @@ func _on_button_spawn_pressed() -> void:
 	#new_item.load_item(1)
 	new_item.load_item(load_item_id)
 	new_item.selected = true
-	current_grid.item_held = new_item
+	grid_inventory_node.item_held = new_item
+	grid_inventory_node_2.item_held = new_item
 	item_held = new_item
 	
 func place_item(item_held):

@@ -14,6 +14,7 @@ signal grid_entered(grid)
 signal grid_exited(grid)
 
 signal item_picked_up(item)
+signal item_placed()
 
 var item_held = null
 
@@ -52,7 +53,7 @@ func create_slot():
 	
 func _on_slot_mouse_entered(a_Slot):
 	#emit_signal("grid_entered", self)
-	icon_anchor = Vector2(10000,100000)
+	icon_anchor = Vector2(1,1)
 	current_slot = a_Slot
 	if item_held:
 		check_slot_availability(current_slot)
@@ -62,21 +63,9 @@ func _on_slot_mouse_exited(_a_Slot):
 	#emit_signal("grid_exited", self)
 	clear_grid()
 
-func check_slot_availability(a_Slot):
-	for grid in item_held.item_grids:
-		var grid_to_check = a_Slot.slot_ID + grid[0] + grid[1] * columns
-		var line_switch_check = a_Slot.slot_ID % columns + grid[0]
-		
-		if line_switch_check < 0 or line_switch_check >= columns:
-			can_place = false
-			return
-		if grid_to_check < 0 or grid_to_check >= grid_array.size():
-			can_place = false
-			return
-		if grid_array[grid_to_check].state == grid_array[grid_to_check].States.TAKEN:
-			can_place = false
-			return
-	can_place = true
+func clear_grid():
+	for grid in grid_array:
+		grid.set_color(grid.States.DEFAULT)
 
 func set_grids(a_Slot):
 	for grid in item_held.item_grids:
@@ -97,28 +86,46 @@ func set_grids(a_Slot):
 		else:
 			grid_array[grid_to_check].set_color(grid_array[grid_to_check].States.TAKEN)
 
-func clear_grid():
-	for grid in grid_array:
-		grid.set_color(grid.States.DEFAULT)
+func check_slot_availability(a_Slot, _item_held = null):
+	
+	for grid in item_held.item_grids: # Checks the item grid against inv grid
+		var grid_to_check = a_Slot.slot_ID + grid[0] + grid[1] * columns
+		var line_switch_check = a_Slot.slot_ID % columns + grid[0]
 		
-func place_item():
+		if line_switch_check < 0 or line_switch_check >= columns:
+			can_place = false
+			return
+		if grid_to_check < 0 or grid_to_check >= grid_array.size():
+			can_place = false
+			return
+		if grid_array[grid_to_check].state == grid_array[grid_to_check].States.TAKEN:
+			can_place = false
+			return
+	can_place = true
+			
+func place_item(_item_held):
 	if not can_place or not current_slot:
 		return
 		
 	var calculated_grid_id = current_slot.slot_ID + icon_anchor.x * columns + icon_anchor.y
-	item_held._snap_to(grid_array[calculated_grid_id].global_position)
+	if calculated_grid_id > grid_array.size()-1:
+		push_error("Out of bounds")
+		return
+	_item_held._snap_to(grid_array[calculated_grid_id].global_position)
 	
-	item_held.get_parent().remove_child(item_held)
-	add_child(item_held)
-	item_held.global_position = get_global_mouse_position()# + item_held.drag_offset
+	_item_held.get_parent().remove_child(_item_held)
+	add_child(_item_held)
+	_item_held.global_position = get_global_mouse_position()# + item_held.drag_offset
 	
-	item_held.grid_anchor = current_slot
-	for grid in item_held.item_grids:
+	_item_held.grid_anchor = current_slot
+	for grid in _item_held.item_grids:
 		var grid_to_check = current_slot.slot_ID + grid[0] + grid[1] * columns
 		grid_array[grid_to_check].state = grid_array[grid_to_check].States.TAKEN
-		grid_array[grid_to_check].item_stored = item_held
+		grid_array[grid_to_check].item_stored = _item_held
 	item_held = null
 	clear_grid()
+	item_placed.emit()
+	return true
 
 func pick_item():
 	if not current_slot or not current_slot.item_stored:
@@ -141,8 +148,8 @@ func pick_item():
 	check_slot_availability(current_slot)
 	set_grids.call_deferred(current_slot)
 	
-func rotate_item():
-	item_held.rotate_item()
+func rotate_item(_item_held):
+	_item_held.rotate_item()
 	clear_grid()
 	if current_slot:
 		_on_slot_mouse_entered(current_slot)

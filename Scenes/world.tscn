@@ -350,7 +350,7 @@ grow_vertical = 2
 [node name="UIControlComponent" type="Node" parent="Main" unique_id=1368492218 node_paths=PackedStringArray("grid_inventory_node", "grid_inventory_node_2", "test_button")]
 script = ExtResource("1_0pcbe")
 grid_inventory_node = NodePath("../VBoxContainer/CenterContainer/GridInventoryContainer")
-grid_inventory_node_2 = NodePath("")
+grid_inventory_node_2 = NodePath("../VBoxContainer/CenterContainer2/GridInventoryContainer")
 test_button = NodePath("../VBoxContainer/Spawn")
 load_item_id = 6
 
@@ -418,6 +418,50 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="slottest" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=621838705 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="CenterContainer2" type="CenterContainer" parent="Main/VBoxContainer" unique_id=1646255678]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="GridInventoryContainer" type="GridContainer" parent="Main/VBoxContainer/CenterContainer2" unique_id=207040580]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+script = ExtResource("2_1cojt")
+slot_amount = 10
+
+[node name="Slot" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1076956845 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot2" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=2114127793 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot3" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=115207860 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot4" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1130270146 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot5" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1144835311 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot6" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=602969519 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot7" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=2098115551 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot8" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1754589832 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot9" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=6075016 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="slottest" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=919818540 instance=ExtResource("3_axeuq")]
 layout_mode = 2
 
 [node name="TradeUI" type="Control" parent="." unique_id=1436157374 node_paths=PackedStringArray("transfer_area", "npc_inventory_container", "player_inventory_container", "button_1", "button_2", "button_3")]
