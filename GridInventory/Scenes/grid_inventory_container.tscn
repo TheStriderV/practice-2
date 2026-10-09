@@ -1,44 +1,12 @@
 [gd_scene format=3 uid="uid://dxf4lqwmwuclk"]
 
-[ext_resource type="Script" uid="uid://c4omy5g4a5yfs" path="res://Scenes/grid_inventory_container.gd" id="1_r4kb4"]
-[ext_resource type="PackedScene" uid="uid://dxvx2kwd2mv52" path="res://GridInventory/Scenes/slot.tscn" id="2_t3p4h"]
+[ext_resource type="Script" uid="uid://c4omy5g4a5yfs" path="res://GridInventory/Scripts/grid_inventory_container.gd" id="1_r4kb4"]
 
-[node name="GridInventoryContainer" type="GridContainer" unique_id=1164638678]
-propagate_maximum_size = false
+[node name="GridInventoryContainer" type="GridContainer" unique_id=951933996 groups=["GridInventoryContainer"]]
 size_flags_horizontal = 3
-size_flags_vertical = 3
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
 script = ExtResource("1_r4kb4")
 slot_amount = 20
-
-[node name="Slot" parent="." unique_id=2098375084 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot2" parent="." unique_id=2051952127 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot3" parent="." unique_id=2124610439 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot4" parent="." unique_id=101747447 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot5" parent="." unique_id=1912598828 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot6" parent="." unique_id=692284417 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot7" parent="." unique_id=1027853516 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot8" parent="." unique_id=435827254 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="Slot9" parent="." unique_id=1076422649 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
-
-[node name="slottest" parent="." unique_id=621838705 instance=ExtResource("2_t3p4h")]
-layout_mode = 2
+slot_size = 49

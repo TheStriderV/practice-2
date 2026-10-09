@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bn7ymp2u3pm0c"]
+
+[ext_resource type="Script" uid="uid://c7n1oouax8rke" path="res://Scripts/item_handler.gd" id="1_6pjpl"]
+
+[node name="ItemHandler" type="Node" unique_id=77486502 node_paths=PackedStringArray("test_button")]
+script = ExtResource("1_6pjpl")
+test_button = NodePath("")
+load_item_id = 6

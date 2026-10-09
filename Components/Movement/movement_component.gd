@@ -30,10 +30,11 @@ func _ready() -> void:
 	if npc == false:
 		input = InputHandler
 	else:
-		print_debug("NPC Not yet configured")
+		#print_debug("NPC Not yet configured")
 		#TODO: Get AI controller handler
 		
 		#input = $..\AIController
+		pass
 
 func _physics_process(delta: float) -> void:
 	player_move()

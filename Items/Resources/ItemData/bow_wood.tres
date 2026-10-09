@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_i4nvc"]
 [ext_resource type="Texture2D" uid="uid://vvvr55ys4bed" path="res://Art/items/bow_1.png" id="2_nflby"]
+[ext_resource type="Resource" uid="uid://bt5nxciiq5ckd" path="res://GridInventory/Data/Shapes/Shape Library/2x2.tres" id="2_ojn6b"]
 
 [resource]
 script = ExtResource("1_i4nvc")
 id = "bow_wood"
 texture = ExtResource("2_nflby")
 base_value = 10
+shape_data = ExtResource("2_ojn6b")
 metadata/_custom_type_script = "uid://dyxbj5ixoopik"

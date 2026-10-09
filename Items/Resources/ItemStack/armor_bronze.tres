@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemStack" format=3 uid="uid://dwqrj0uoba3eu"]
+
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="1_bmvpy"]
+[ext_resource type="Resource" uid="uid://ca274c3fhku2q" path="res://Items/Resources/ItemData/armor_bronze.tres" id="1_jh5kc"]
+
+[resource]
+script = ExtResource("1_bmvpy")
+data = ExtResource("1_jh5kc")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"

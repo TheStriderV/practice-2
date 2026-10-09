@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemStack" format=3 uid="uid://c8ej7ytbsseus"]
+
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="1_80wig"]
+[ext_resource type="Resource" uid="uid://w4fm5k1v0euw" path="res://Items/Resources/ItemData/cutlass.tres" id="1_jwqdn"]
+
+[resource]
+script = ExtResource("1_80wig")
+data = ExtResource("1_jwqdn")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"

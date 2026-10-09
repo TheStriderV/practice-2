@@ -5,7 +5,9 @@ extends Resource
 signal created
 
 @export var id: String
+
 #@export var display_name: String
+
 @export var texture: Texture2D:
 	set(value):
 		texture = value
@@ -19,6 +21,8 @@ signal created
 		changed.emit()
 
 @export var base_value: int
+
+@export var shape_data: ShapeData
 
 func _init(p_id:String = "" ,p_texture: Texture2D = null, p_max_stack: int = 1,p_base_value: int = 0):
 	id = p_id

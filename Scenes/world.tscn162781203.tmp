@@ -1,27 +1,24 @@
 [gd_scene format=3 uid="uid://0nyjfmbgysxv"]
 
-[ext_resource type="PackedScene" uid="uid://bn7ymp2u3pm0c" path="res://GridInventory/Scenes/item_handler.tscn" id="1_0pcbe"]
+[ext_resource type="Script" uid="uid://c7n1oouax8rke" path="res://Scripts/item_handler.gd" id="1_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://brciubdamg3rh" path="res://Art/character_base/char_a_p1/char_a_p1_0bas_humn_v00.png" id="1_a02cp"]
-[ext_resource type="PackedScene" uid="uid://dxf4lqwmwuclk" path="res://GridInventory/Scenes/grid_inventory_container.tscn" id="2_0pcbe"]
+[ext_resource type="Script" uid="uid://c4omy5g4a5yfs" path="res://Scenes/grid_inventory_container.gd" id="2_1cojt"]
 [ext_resource type="Script" uid="uid://bqlf3gips2vs1" path="res://Components/Movement/movement_component.gd" id="3_5a7ea"]
+[ext_resource type="PackedScene" uid="uid://dxvx2kwd2mv52" path="res://GridInventory/Scenes/slot.tscn" id="3_axeuq"]
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
 [ext_resource type="Script" uid="uid://fuqs653mf4hh" path="res://UI/inventory_container.gd" id="5_0fj1v"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
 [ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="6_hgpy0"]
-[ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="6_t2t4p"]
 [ext_resource type="Resource" uid="uid://d2jvr2eetik15" path="res://Items/Resources/Inventory/inventory_test.tres" id="7_o06y3"]
 [ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="7_t2t4p"]
+[ext_resource type="Resource" uid="uid://ca274c3fhku2q" path="res://Items/Resources/ItemData/armor_bronze.tres" id="8_0pcbe"]
 [ext_resource type="Script" uid="uid://hgtewbmn8j52" path="res://Scenes/trade_ui.gd" id="11_axeuq"]
 [ext_resource type="Texture2D" uid="uid://gfy5fna73q8a" path="res://Art/unsorted/item1.png" id="12_yq1aw"]
-[ext_resource type="Resource" uid="uid://dwqrj0uoba3eu" path="res://Items/Resources/ItemStack/armor_bronze.tres" id="13_t2t4p"]
+[ext_resource type="Resource" uid="uid://bhcsubm33ptte" path="res://Items/Resources/ItemData/planks.tres" id="16_yq1aw"]
 [ext_resource type="Script" uid="uid://c5n0j3tca4rry" path="res://npc.gd" id="17_axeuq"]
+[ext_resource type="Resource" uid="uid://biqfapqxi4ogc" path="res://Items/Resources/ItemData/bow_wood.tres" id="17_pyn1s"]
 [ext_resource type="Texture2D" uid="uid://pc0jluh26dhw" path="res://Art/House3.png" id="18_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://n37831kyuh64" path="res://Art/Tower.png" id="18_1cojt"]
-
-[sub_resource type="Resource" id="Resource_w847u"]
-script = ExtResource("6_hgpy0")
-item_stack_list = Array[ExtResource("7_t2t4p")]([ExtResource("6_t2t4p")])
-metadata/_custom_type_script = "uid://du1aioahuboc8"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_go701"]
 atlas = ExtResource("1_a02cp")
@@ -305,10 +302,25 @@ _data = {
 radius = 7.0
 height = 24.0
 
+[sub_resource type="Resource" id="Resource_axeuq"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("8_0pcbe")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
+[sub_resource type="Resource" id="Resource_yq1aw"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("16_yq1aw")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
+[sub_resource type="Resource" id="Resource_no8kt"]
+script = ExtResource("7_t2t4p")
+data = ExtResource("17_pyn1s")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"
+
 [sub_resource type="Resource" id="Resource_kn0ld"]
 script = ExtResource("6_hgpy0")
 gold = 100
-item_stack_list = Array[ExtResource("7_t2t4p")]([ExtResource("13_t2t4p")])
+slots = Array[ExtResource("7_t2t4p")]([SubResource("Resource_axeuq"), SubResource("Resource_yq1aw"), SubResource("Resource_no8kt")])
 metadata/_custom_type_script = "uid://du1aioahuboc8"
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_cy33a"]
@@ -335,9 +347,12 @@ offset_bottom = 566.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemHandler" parent="Main" unique_id=77486502 node_paths=PackedStringArray("test_button") instance=ExtResource("1_0pcbe")]
-unique_name_in_owner = true
+[node name="ItemHandler" type="Node" parent="Main" unique_id=1368492218 node_paths=PackedStringArray("grid_inventory_node", "grid_inventory_node_2", "test_button")]
+script = ExtResource("1_0pcbe")
+grid_inventory_node = NodePath("../VBoxContainer/CenterContainer/GridInventoryContainer")
+grid_inventory_node_2 = NodePath("../VBoxContainer/CenterContainer/GridInventoryContainer")
 test_button = NodePath("../VBoxContainer/Spawn")
+load_item_id = 6
 
 [node name="ColorRect" type="ColorRect" parent="Main" unique_id=869893691]
 layout_mode = 1
@@ -365,12 +380,90 @@ text = "Spawn"
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=951933996 instance=ExtResource("2_0pcbe")]
+[node name="GridInventoryContainer" type="GridContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=1164638678 node_paths=PackedStringArray("item_handler")]
 layout_mode = 2
-slot_size = 50
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+script = ExtResource("2_1cojt")
+slot_amount = 10
+item_handler = NodePath("../../../ItemHandler")
+
+[node name="Slot" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=2098375084 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot2" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=2051952127 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot3" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=2124610439 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot4" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=101747447 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot5" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=1912598828 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot6" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=692284417 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot7" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=1027853516 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot8" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=435827254 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot9" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=1076422649 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="slottest" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=621838705 instance=ExtResource("3_axeuq")]
+layout_mode = 2
 
 [node name="CenterContainer2" type="CenterContainer" parent="Main/VBoxContainer" unique_id=1646255678]
 custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="GridInventoryContainer" type="GridContainer" parent="Main/VBoxContainer/CenterContainer2" unique_id=207040580 node_paths=PackedStringArray("item_handler")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+script = ExtResource("2_1cojt")
+slot_amount = 10
+item_handler = NodePath("../../../ItemHandler")
+
+[node name="Slot" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1076956845 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot2" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=2114127793 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot3" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=115207860 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot4" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1130270146 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot5" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1144835311 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot6" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=602969519 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot7" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=2098115551 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot8" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=1754589832 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="Slot9" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=6075016 instance=ExtResource("3_axeuq")]
+layout_mode = 2
+
+[node name="slottest" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer" unique_id=919818540 instance=ExtResource("3_axeuq")]
 layout_mode = 2
 
 [node name="TradeUI" type="Control" parent="." unique_id=1436157374 node_paths=PackedStringArray("transfer_area", "npc_inventory_container", "player_inventory_container", "button_1", "button_2", "button_3")]
@@ -462,7 +555,6 @@ text = "Buy
 custom_minimum_size = Vector2(275, 175)
 layout_mode = 2
 script = ExtResource("5_0fj1v")
-inventory_resource = SubResource("Resource_w847u")
 item_list = NodePath("CenterContainer/VBoxContainer/ItemList")
 gold_label = NodePath("CenterContainer/VBoxContainer/GoldLabel")
 

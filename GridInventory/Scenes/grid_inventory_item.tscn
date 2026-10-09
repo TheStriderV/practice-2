@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cslpw4vyuuxc" path="res://GridInventory/Scripts/grid_inventory_item.gd" id="1_maejl"]
 [ext_resource type="Resource" uid="uid://c50qabygf1xn5" path="res://GridInventory/Data/Shapes/Shape_Library.tres" id="2_maejl"]
+[ext_resource type="Resource" uid="uid://d2jvr2eetik15" path="res://Items/Resources/Inventory/inventory_test.tres" id="3_6rjl4"]
+[ext_resource type="Texture2D" uid="uid://dlpvnexytyrsd" path="res://Art/grid_item_art/Cutlass.png" id="3_qeb1h"]
 
-[node name="Item" type="Node2D" unique_id=605667969]
+[node name="grid_inventory_item" type="Node2D" unique_id=605667969]
 script = ExtResource("1_maejl")
 shape_library = ExtResource("2_maejl")
+inventory_resource = ExtResource("3_6rjl4")
 
 [node name="Icon" type="TextureRect" parent="." unique_id=878339002]
 anchors_preset = 8
@@ -19,3 +22,4 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("3_qeb1h")

@@ -12,7 +12,7 @@ signal slot_changed(slot: int)
 	set(value):
 		gold = max(0, value)
 
-@export var slots: Array[ItemStack] = []
+@export var item_stack_list: Array[ItemStack] = []
 
 @export var capacity: int = 24
 
@@ -25,27 +25,27 @@ func _init(items: Array[ItemData] = []) -> void:
 	for i in items:
 		create_item_stack(i)
 		
-	print("Slots size:", slots.size())
+	print("Slots size:", item_stack_list.size())
 
 	
 func get_item_id_in_inventory() -> Array:
 	var list := []
-	for i in slots:
-		list.append(i.get_id())
+	for item_data in item_stack_list:
+		list.append(item_data.get_id())
 	return list
 
 func create_item_stack(item_data, item_amount: int = 1) -> void:
 	#print(item_id)
 	var item_stack : ItemStack = ItemStack.new(item_data, item_amount)
-	slots.append(item_stack)
+	item_stack_list.append(item_stack)
 
 func add_item(item_stack:ItemStack) -> void:
-	slots.append(item_stack)
-	item_added.emit(slots.size())
+	item_stack_list.append(item_stack)
+	item_added.emit(item_stack_list.size())
 	
 func remove_item(item_stack:ItemStack) -> void:	
-	slots.erase(item_stack)
-	item_removed.emit(slots.size())
+	item_stack_list.erase(item_stack)
+	item_removed.emit(item_stack_list.size())
 
 func add_gold(amount: int) -> void:
 	gold += amount
@@ -55,3 +55,11 @@ func remove_gold(amount: int) -> void:
 
 ## Returns gold amount
 func get_gold() -> int: return gold
+
+func get_item(id: String) -> ItemStack:
+	for item_stack in item_stack_list:
+		
+		if item_stack.get_id() == id:
+			
+			return item_stack
+	return null

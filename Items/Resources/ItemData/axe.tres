@@ -2,10 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_akrl8"]
 [ext_resource type="Texture2D" uid="uid://vbkkny84wln2" path="res://Art/unsorted/item42.png" id="2_7ic47"]
+[ext_resource type="Script" uid="uid://csr6or8iotxyb" path="res://GridInventory/Data/Shapes/Resources/shape_data.gd" id="2_nkad4"]
+
+[sub_resource type="Resource" id="Resource_3qc3k"]
+script = ExtResource("2_nkad4")
+metadata/_custom_type_script = "uid://csr6or8iotxyb"
 
 [resource]
 script = ExtResource("1_akrl8")
 id = "axe"
 texture = ExtResource("2_7ic47")
 base_value = 25
+shape_data = SubResource("Resource_3qc3k")
 metadata/_custom_type_script = "uid://dyxbj5ixoopik"

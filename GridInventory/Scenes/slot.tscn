@@ -4,9 +4,12 @@
 [ext_resource type="Script" uid="uid://7y5j5nff128l" path="res://GridInventory/Scripts/grid_inventory_slot.gd" id="2_sp1gl"]
 
 [node name="Slot" type="TextureRect" unique_id=2098375084]
-custom_minimum_size = Vector2(35, 35)
+custom_minimum_size = Vector2(20, 20)
+custom_maximum_size = Vector2(100, 100)
+offset_right = 50.0
+offset_bottom = 50.0
 texture = ExtResource("1_wpiwr")
-expand_mode = 1
+expand_mode = 2
 script = ExtResource("2_sp1gl")
 
 [node name="StatusFilter" type="ColorRect" parent="." unique_id=672799571]

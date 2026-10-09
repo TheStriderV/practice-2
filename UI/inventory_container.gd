@@ -29,7 +29,7 @@ func _get_items_id() -> void:
 
 func add_all_items() -> void:
 	### TODO: Change to system agnostic way to add to UI
-	var list := inventory_resource.slots
+	var list := inventory_resource.item_stack_list
 	for i in list:
 		if i != null:
 			var item_name = i.get_id().capitalize()
@@ -91,14 +91,14 @@ func get_item_amount(slot: int) -> int:
 	return item_amount
 
 func update_size() -> void:
-	item_amount = inventory_resource.slots.size()
+	item_amount = inventory_resource.item_stack_list.size()
 
 ## Updates label to match inventory gold
 func update_gold() -> void:
 	gold_label.text = "GOLD: " + str(inventory_resource.gold)
 
 func list_items() -> void:
-	print(inventory_resource.slots)
+	print(inventory_resource.item_stack_list)
 
 # These should be combined somehow but I can't logic it :( 
 func connect_signals() -> void: # When the inventory resource gets updated, it updates the item count

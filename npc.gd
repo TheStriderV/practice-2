@@ -16,9 +16,9 @@ var direction: Vector2
 # Data
 
 func _ready():
-	#inventory.get_inventory()
-	pass
-# Should move this all to a component
+	inventory.inventory_empty.connect(inventory_empty)
+	exit_area.body_entered.connect(_on_area_exited)
+	
 
 func _physics_process(delta: float):
 	if selling:
@@ -26,7 +26,15 @@ func _physics_process(delta: float):
 	else:
 		move_to_area(exit_area, delta)
 
+func _on_area_exited(body: Node2D):
+	print("Exited Area")
+	queue_free()
+	
 
+func inventory_empty():
+	#print("It's empty...")
+	selling = false
+	
 func move_to_area(area, delta):
 	navigation_agent_2d.target_position = area.global_position
 	direction = global_position.direction_to(navigation_agent_2d.get_next_path_position())
@@ -34,8 +42,11 @@ func move_to_area(area, delta):
 	if navigation_agent_2d.is_target_reached() == false:
 		velocity = velocity.lerp(direction * SPEED, delta)
 		move_and_slide()
+	else:
+		pass
+
 			
-# Behavior 
+
 	
 
 	

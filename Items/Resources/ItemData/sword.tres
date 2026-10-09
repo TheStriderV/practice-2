@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_3enhc"]
 [ext_resource type="Texture2D" uid="uid://de2laymixujh1" path="res://Art/items/sword.png" id="1_ggxfk"]
+[ext_resource type="Resource" uid="uid://c3308vbu21i7y" path="res://GridInventory/Data/Shapes/Shape Library/1x1.tres" id="2_ebacu"]
 
 [resource]
 script = ExtResource("1_3enhc")
 id = "sword"
 texture = ExtResource("1_ggxfk")
 base_value = 25
+shape_data = ExtResource("2_ebacu")
 metadata/_custom_type_script = "uid://dyxbj5ixoopik"

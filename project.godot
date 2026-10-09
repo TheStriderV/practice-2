@@ -159,7 +159,7 @@ inventory={
 "script": null
 )]
 }
-mouse_rightclick={
+mouse_right={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,
 "resource_local_to_scene": false,
@@ -181,7 +181,7 @@ mouse_rightclick={
 "script": null
 )]
 }
-mouse_leftclick={
+mouse_left={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,
 "resource_local_to_scene": false,

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://w4fm5k1v0euw"]
+
+[ext_resource type="Script" uid="uid://dyxbj5ixoopik" path="res://Items/Resources/item_data.gd" id="1_d2pxx"]
+[ext_resource type="Resource" uid="uid://dv30skkwa6u80" path="res://GridInventory/Data/Shapes/Shape Library/1x2.tres" id="2_crlha"]
+[ext_resource type="Texture2D" uid="uid://dlpvnexytyrsd" path="res://Art/grid_item_art/Cutlass.png" id="3_73oou"]
+
+[resource]
+script = ExtResource("1_d2pxx")
+id = "cutlass"
+texture = ExtResource("3_73oou")
+base_value = 10
+shape_data = ExtResource("2_crlha")
+metadata/_custom_type_script = "uid://dyxbj5ixoopik"

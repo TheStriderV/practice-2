@@ -11,6 +11,11 @@ extends Resource
 		# print(value)
 		changed.emit()
 
+var shape_data: ShapeData:
+	get():
+		return data.shape_data
+
+
 @export var quantity: int = 1:
 	set(value):
 		quantity = value
@@ -42,3 +47,4 @@ func get_texture():
 	
 func get_base_value():
 	return data.base_value
+

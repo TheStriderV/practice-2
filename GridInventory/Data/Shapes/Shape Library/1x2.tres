@@ -7,5 +7,5 @@
 script = ExtResource("1_jm41i")
 id = 1
 offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1)])
-icon = ExtResource("1_aqx22")
+debug_icon = ExtResource("1_aqx22")
 metadata/_custom_type_script = "uid://csr6or8iotxyb"

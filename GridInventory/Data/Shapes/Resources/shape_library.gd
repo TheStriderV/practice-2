@@ -8,3 +8,4 @@ func get_shape(id: int) -> ShapeData:
 		if shape.id == id:
 			return shape
 	return null
+
