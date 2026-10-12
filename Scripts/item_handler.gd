@@ -6,15 +6,15 @@ extends Node
 @export var test_button: Button
 @export var load_item_id:int
 @export var randomize_item: bool = false
+@export var _inventory_example : Inventory
+enum CharacterItem {sword, armor_bronze, bow_wood, potion, cutlass}
+@export var character_items: Array[CharacterItem]
+
+#@export_enum("sword", "axe", "bow_wood", "potion","planks","cutlass") var item_to_spawn: String
 
 @onready var item_scene := preload("uid://bs6djdnvwyvox") # TODO: For debugging
 
-signal item_picked_up(item)
-
-var item_held = null:
-	set(value):
-		item_picked_up.emit(value)
-		item_held = value
+var item_held = null
 
 var current_slot = null
 var can_place := false
@@ -25,25 +25,40 @@ var current_grid : GridInventoryContainer
 var top_grid_inventory: GridInventoryContainer
 
 func _ready() -> void:		
+	#print("Item to spawn: ", random_item())
 	if test_button:
-		test_button.pressed.connect(_on_button_spawn_pressed_2)	
+		test_button.pressed.connect(_on_button_spawn_pressed_item_stacks)	
 	var grid_inventories := get_tree().get_nodes_in_group("GridInventoryContainer")
 
 	if grid_inventories.size() == 0:		
 		push_error("No GridInventoryContainer found!")
-		return
-		
-	#print("Connected inventories:", grid_inventories)
+		return		
+
 	top_grid_inventory = grid_inventories[0]
 	
 	for grid_inventory in grid_inventories:
 		#print("Grid Inventory: ", grid_inventory)
-		_connect_signals(grid_inventory)
-
-
-	
+		_connect_signals(grid_inventory)	
 	#current_grid = grid_inventory_node
 	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug_2"):
+		if _inventory_example:
+			print("This input is debug_2")
+			#print("inv example", _inventory_example)
+			#check_all_slots()
+			if current_grid:
+				current_grid.place_all_items(_inventory_example)
+			get_viewport().set_input_as_handled()
+###
+func _connect_signals(_grid_inventory_node: GridInventoryContainer) -> void:
+	_grid_inventory_node.grid_entered.connect(_mouse_entered)
+	_grid_inventory_node.grid_exited.connect(_mouse_exited)
+	_grid_inventory_node.item_picked_up.connect(_item_picked_up)	
+
+func random_item():
+	return CharacterItem.find_key(randi_range(1,CharacterItem.size()-1))
+
 func _process(_delta: float) -> void:
 	if current_grid == null:
 		return
@@ -75,27 +90,26 @@ func _on_button_spawn_pressed() -> void:
 	#new_item.grid_item_texture_path.scale = top_grid_inventory.scaled_amount
 	item_held = new_item
 	
-func _on_button_spawn_pressed_2() -> void:
+func _on_button_spawn_pressed_item_stacks() -> void:
 	var new_item = item_scene.instantiate()
 	get_parent().add_child(new_item)
-	new_item.load_item_stack("cutlass")
+	var rand = random_item()	
+	if rand:	
+		new_item.load_item_stack(rand)
+		
 	new_item.selected = true	
 	await get_tree().process_frame
 	item_held = new_item
 	
 
-func _connect_signals(_grid_inventory_node: GridInventoryContainer) -> void:
-	_grid_inventory_node.grid_entered.connect(_mouse_entered)
-	_grid_inventory_node.grid_exited.connect(_mouse_exited)
-	_grid_inventory_node.item_picked_up.connect(_item_picked_up)	
+
 
 func _mouse_entered(node):
 	current_grid = node
 	
 func _mouse_exited(_node):
-	current_grid = null
+	#current_grid = null
+	pass
 
-func _item_picked_up(item):
+func _item_picked_up(item): 
 	item_held = item
-
-		

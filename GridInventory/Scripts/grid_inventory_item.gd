@@ -36,9 +36,7 @@ func load_item_stack(_item_stack_id : String) -> void:
 	var texture_path = inventory_resource.get_item(_item_stack_id)
 	grid_item_texture_path.texture = texture_path.get_texture()
 	item_grids = texture_path.data.shape_data.offsets
-
-	
-	
+	#item_ID = inventory_resource.get_item(_item_stack_id).get_id()
 
 func rotate_item():
 	var rotated_offsets: Array[Vector2i] = []
@@ -63,7 +61,7 @@ func _snap_to(destination:Vector2):
 	tween.tween_property(self, "global_position", destination, .15).set_trans(Tween.TRANS_SINE)
 	selected = false
 
-
+## Returns the grid size to use in centering in _snap_to
 func _get_item_grid_size(scale_amount: int = 50) -> Vector2:
 	if item_grids.is_empty():
 		return Vector2.ZERO
@@ -75,3 +73,6 @@ func _get_item_grid_size(scale_amount: int = 50) -> Vector2:
 		max_pos = max_pos.max(grid)
 
 	return (max_pos - min_pos + Vector2.ONE) * scale_amount
+	
+func get_item_stack():
+	return item_stack

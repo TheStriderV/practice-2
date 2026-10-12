@@ -1,4 +1,3 @@
-@tool
 class_name GridInventorySlot
 extends TextureRect
 
@@ -49,3 +48,6 @@ func change_size(new_size):
 	var updated_size := Vector2(new_size, new_size)
 	set_size(updated_size)
 	
+
+func is_item_stored():
+	return item_stored

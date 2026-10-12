@@ -7,7 +7,7 @@ extends Node
 
 signal inventory_empty
 
-var list : Array
+var list : Array[ItemStack]
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,19 +19,19 @@ func _ready() -> void:
 
 	
 func get_inventory():
-	print("Inventory items:", inventory_resource.get_item_id_in_inventory())
+	#print("Inventory items:", inventory_resource.get_item_id_in_inventory())
 	return inventory_resource.get_item_id_in_inventory()
 
 func get_gold() -> int:
 	return inventory_resource.get_gold()
 
 func get_inventory_list(_item_data = null) -> Array:
-	print("remove2")
+	#print("remove2")
 	if list.size() != 0:
 		list.clear()
 	for item in inventory_resource.item_stack_list:
 		list.append(item)
-	print("List: ",list)
+	#print("List: ",list)
 	if list.size() == 0:
 		inventory_empty.emit()
 	return list
@@ -39,3 +39,7 @@ func get_inventory_list(_item_data = null) -> Array:
 func get_inventory_size():
 	return list.size()
 	
+func get_item_grid_offsets(index: int):
+	print("List:", list)
+	print("Getting object: ", list[index].get_id())
+	return list[index].shape_data.offsets

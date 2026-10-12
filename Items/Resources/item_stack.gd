@@ -48,3 +48,5 @@ func get_texture():
 func get_base_value():
 	return data.base_value
 
+func get_item_offsets():
+	return shape_data.offsets

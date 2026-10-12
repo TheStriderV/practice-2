@@ -34,3 +34,6 @@ func _init(p_id:String = "" ,p_texture: Texture2D = null, p_max_stack: int = 1,p
 
 func get_texture():
 	return texture
+
+func get_offsets():
+	return shape_data.offsets

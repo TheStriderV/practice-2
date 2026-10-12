@@ -1,0 +1,161 @@
+[gd_scene format=3 uid="uid://cy8cqghljbtcx"]
+
+[ext_resource type="Script" uid="uid://hgtewbmn8j52" path="res://Scenes/trade_ui.gd" id="1_0jmmi"]
+[ext_resource type="Script" uid="uid://fuqs653mf4hh" path="res://UI/inventory_container.gd" id="2_rb65w"]
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="3_oxpbn"]
+[ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="4_wm0ic"]
+[ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="5_haefr"]
+[ext_resource type="Texture2D" uid="uid://gfy5fna73q8a" path="res://Art/unsorted/item1.png" id="6_03rnw"]
+[ext_resource type="Script" uid="uid://dt0t6m1gk22l" path="res://Scenes/inventory_container_updated.gd" id="7_8lh8b"]
+
+[sub_resource type="Resource" id="Resource_w847u"]
+script = ExtResource("5_haefr")
+item_stack_list = Array[ExtResource("3_oxpbn")]([ExtResource("4_wm0ic")])
+metadata/_custom_type_script = "uid://du1aioahuboc8"
+
+[node name="TradeUI" type="Control" unique_id=352840139 node_paths=PackedStringArray("transfer_area", "npc_inventory_container", "player_inventory_container", "button_1", "button_2", "button_3")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 714.0
+offset_top = 117.0
+offset_right = 989.0
+offset_bottom = 596.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0jmmi")
+transfer_area = NodePath("")
+npc_inventory_container = NodePath("VBoxContainer/NPCInventoryContainer")
+player_inventory_container = NodePath("VBoxContainer/PlayerInventoryContainer")
+button_1 = NodePath("VBoxContainer/HBoxContainer/Button1")
+button_2 = NodePath("VBoxContainer/HBoxContainer/Sell")
+button_3 = NodePath("VBoxContainer/HBoxContainer/Buy")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1009472452]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.4392157, 0.59607846, 1, 0.3137255)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1410989894]
+layout_mode = 0
+offset_right = 275.0
+offset_bottom = 479.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=319543858]
+layout_mode = 2
+text = "I Want To Sell:"
+
+[node name="NPCInventoryContainer" type="Control" parent="VBoxContainer" unique_id=255024741 node_paths=PackedStringArray("item_list", "gold_label")]
+custom_minimum_size = Vector2(275, 175)
+layout_mode = 2
+script = ExtResource("2_rb65w")
+item_list = NodePath("CenterContainer/VBoxContainer/ItemList")
+gold_label = NodePath("CenterContainer/VBoxContainer/GoldLabel")
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/NPCInventoryContainer" unique_id=1362547715]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 150.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/NPCInventoryContainer/CenterContainer" unique_id=1459710411]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/NPCInventoryContainer/CenterContainer/VBoxContainer" unique_id=363360685]
+custom_minimum_size = Vector2(245, 150)
+layout_mode = 2
+allow_reselect = true
+auto_width = true
+auto_height = true
+
+[node name="GoldLabel" type="Label" parent="VBoxContainer/NPCInventoryContainer/CenterContainer/VBoxContainer" unique_id=1192660731]
+layout_mode = 2
+text = "NPC Gold = "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1225377779]
+layout_mode = 2
+alignment = 1
+
+[node name="Button1" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=911759810]
+layout_mode = 2
+text = "List
+"
+
+[node name="Sell" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=435708205]
+layout_mode = 2
+text = "Sell"
+
+[node name="Buy" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=429079429]
+layout_mode = 2
+action_mode = 0
+text = "Buy
+"
+
+[node name="PlayerInventoryContainer" type="Control" parent="VBoxContainer" unique_id=1553064836 node_paths=PackedStringArray("item_list", "gold_label")]
+custom_minimum_size = Vector2(275, 175)
+layout_mode = 2
+script = ExtResource("2_rb65w")
+inventory_resource = SubResource("Resource_w847u")
+item_list = NodePath("CenterContainer/VBoxContainer/ItemList")
+gold_label = NodePath("CenterContainer/VBoxContainer/GoldLabel")
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/PlayerInventoryContainer" unique_id=88979594]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 154.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PlayerInventoryContainer/CenterContainer" unique_id=2112066071]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=1379846034]
+custom_minimum_size = Vector2(245, 150)
+layout_mode = 2
+allow_reselect = true
+auto_width = true
+auto_height = true
+item_count = 1
+item_0/text = "Epic Sword - 10gp"
+item_0/icon = ExtResource("6_03rnw")
+
+[node name="GoldLabel" type="Label" parent="VBoxContainer/PlayerInventoryContainer/CenterContainer/VBoxContainer" unique_id=1098114914]
+layout_mode = 2
+text = "Player Gold = "
+
+[node name="PlayerInventoryContainer2" type="Control" parent="VBoxContainer" unique_id=919703204]
+visible = false
+custom_minimum_size = Vector2(275, 175)
+layout_mode = 2
+script = ExtResource("7_8lh8b")
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/PlayerInventoryContainer2" unique_id=402115571]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 154.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PlayerInventoryContainer2/CenterContainer" unique_id=859546266]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/PlayerInventoryContainer2/CenterContainer/VBoxContainer" unique_id=154152135]
+custom_minimum_size = Vector2(245, 150)
+layout_mode = 2
+allow_reselect = true
+auto_width = true
+auto_height = true
+item_count = 1
+item_0/text = "Epic Sword - 10gp"
+item_0/icon = ExtResource("6_03rnw")
+
+[node name="GoldLabel" type="Label" parent="VBoxContainer/PlayerInventoryContainer2/CenterContainer/VBoxContainer" unique_id=1083636847]
+layout_mode = 2
+text = "Player Gold = "
