@@ -152,22 +152,6 @@ func check_slot_availability(hovered_slot, _item_held = null):
 	can_place = true
 	return can_place
 
-# func check_slot_availability_all(inventory: Inventory)-> Dictionary:
-# 	var can_place_item : bool = true
-# 	var slot_array_check := {}
-# 	for item in inventory.list:
-# 		for slots in grid_array:
-# 			if slots.item_stored:
-# 				#print("Slot ID:", slots.slot_ID)				
-# 				#print("Item stored: ", slots.item_stored)
-# 				can_place_item = false
-# 				slot_array_check[slots.slot_ID] = can_place_item
-# 				#print("Can place: ", can_place_item)
-# 			else:
-# 				can_place_item = true
-# 				slot_array_check[slots.slot_ID] = can_place_item
-# 		return slot_array_check 
-
 func check_slot_availability_simple() -> Dictionary:
 	var slot_array_check := {}
 	for slot in grid_array:
@@ -185,26 +169,25 @@ func check_slot_availability_all(inventory: Inventory) -> Dictionary:
 	
 func place_all_items(_inventory: Inventory, _test_item = null):
 	if taken_slots >= grid_array.size():
-		print("Not enough slots!")
+
 		return
-	for item in _inventory.list:
-		print("Placing item: ", item.get_id())
+	var inv_list : Array = _inventory.list
+	inv_list.shuffle()
+	for item in inv_list:
+
 		var new_item = create_item(item.get_id()) #need to maybe do this later
-		print("GRID ARRAY SIZE:", grid_array.size())
+
 		for slot in grid_array:			
 			var can_be_placed : bool = true
-			print("START OF SLOT:", slot.slot_ID)
 			
-				
-				
 			var is_slot_taken = slot.is_item_stored()
 			if is_slot_taken: # If taken, check next slot
-				print("Slot is taken")
+
 				continue
 			else:				
 				for grid in new_item.item_grids: # Check item grid shape if other slots are take
 					
-					print("Checking grid: ", grid)
+
 					var grid_to_check = slot.slot_ID + grid[0] + (grid[1] * columns)
 					var line_switch_check = slot.slot_ID % columns + grid[0]
 					var calculated_grid_id = slot.slot_ID + (icon_anchor.x * columns) + icon_anchor.y
@@ -217,50 +200,36 @@ func place_all_items(_inventory: Inventory, _test_item = null):
 					if calculated_grid_id > grid_array.size()-1:
 						push_error("Out of bounds")
 						can_be_placed = false
-						print("Calculated grid ID: ", calculated_grid_id)
 						break
 					if line_switch_check < 0 or line_switch_check >= columns:
-						print("Line switch check: ", line_switch_check, " >= ", columns)
 						can_be_placed = false
 						break
 					if grid_to_check < 0 or grid_to_check >= grid_array.size():
 						can_be_placed = false
-						print("Grid to check: ", grid_to_check)
 						break
 					
 			#print("Grid anchor: ", new_item.grid_anchor)
-			if can_be_placed == false:
-				
-				print("Cannot be placed, deleting: " , item.get_id())
+			if can_be_placed == false:				
+
 				new_item.queue_free()
-				#print("ANCHOR:", new_item.grid_anchor)
+
 				can_be_placed = true
 				continue # Can't be placed so go to next slot
-			print("Snapping to: ", grid_array[slot.slot_ID].global_position )
+			#print("Snapping to: ", grid_array[slot.slot_ID].global_position )
 			new_item._snap_to(grid_array[slot.slot_ID].global_position)
 			
 			for grid in new_item.item_grids:
 				var grid_to_check = slot.slot_ID + grid[0] + (grid[1] * columns)
-				print("SECOND GRID TO CHECK: ", grid_to_check)
+
 				grid_array[grid_to_check].state = grid_array[grid_to_check].States.TAKEN
 				grid_array[grid_to_check].item_stored = new_item
 				new_item.grid_anchor = slot
 				taken_slots += 1
-				print("THIS IS MARKED TAKEN: ", grid_array[grid_to_check].item_stored)
-				print("turning slots to taken")
-			
-			print("Item Placed!")
-			print("END OF SLOT:", slot.slot_ID)
-			print("Grid anchor: ", new_item.grid_anchor)
 			break
-		print("Hello?")
-		print("Grid anchor: ", new_item.grid_anchor)
-		if new_item.grid_anchor == null:
-			print("Item not placed!")
-			new_item.queue_free()
-		
-		
 
+		if new_item.grid_anchor == null:
+
+			new_item.queue_free()
 
 func create_item(item):
 	var new_item = item_scene.instantiate()
@@ -328,6 +297,7 @@ func check_if_grid_in_grid():
 
 
 func clear():
+	taken_slots = 0
 	pass
 
 func set_item_metadata(_idx: int, _value: Variant):	

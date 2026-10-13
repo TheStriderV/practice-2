@@ -23,12 +23,12 @@ var drag_offset: Vector2 = Vector2.ZERO
 var current_grid : GridInventoryContainer
 
 var top_grid_inventory: GridInventoryContainer
-
+var grid_inventories
 func _ready() -> void:		
 	#print("Item to spawn: ", random_item())
 	if test_button:
 		test_button.pressed.connect(_on_button_spawn_pressed_item_stacks)	
-	var grid_inventories := get_tree().get_nodes_in_group("GridInventoryContainer")
+	grid_inventories = get_tree().get_nodes_in_group("GridInventoryContainer")
 
 	if grid_inventories.size() == 0:		
 		push_error("No GridInventoryContainer found!")
@@ -44,12 +44,20 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_2"):
 		if _inventory_example:
-			print("This input is debug_2")
+			print("Debug 2 Pressed")
 			#print("inv example", _inventory_example)
 			#check_all_slots()
 			if current_grid:
 				current_grid.place_all_items(_inventory_example)
 			get_viewport().set_input_as_handled()
+			
+	if event.is_action_pressed("debug_1"):
+		print("Debug 1 Pressed")
+		get_tree().call_group("grid_inventory_item", "clear")
+		get_tree().call_group("grid_slot", "clear_slots")
+		for i in grid_inventories:
+			i.clear()
+		
 ###
 func _connect_signals(_grid_inventory_node: GridInventoryContainer) -> void:
 	_grid_inventory_node.grid_entered.connect(_mouse_entered)

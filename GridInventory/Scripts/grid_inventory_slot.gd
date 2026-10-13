@@ -51,3 +51,8 @@ func change_size(new_size):
 
 func is_item_stored():
 	return item_stored
+	
+func clear_slots():
+	item_stored = null
+	state = States.DEFAULT
+	

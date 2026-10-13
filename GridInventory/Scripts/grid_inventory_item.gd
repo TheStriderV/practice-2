@@ -76,3 +76,6 @@ func _get_item_grid_size(scale_amount: int = 50) -> Vector2:
 	
 func get_item_stack():
 	return item_stack
+
+func clear():
+	queue_free()

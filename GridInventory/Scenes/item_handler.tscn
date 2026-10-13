@@ -5,5 +5,3 @@
 [node name="ItemHandler" type="Node" unique_id=77486502]
 script = ExtResource("1_6pjpl")
 load_item_id = 6
-randomize_item = null
-character_items = null

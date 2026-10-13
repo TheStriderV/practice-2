@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dd3ppdnkci0bj" path="res://GridInventory/Assets/inventory_texture.png" id="1_wpiwr"]
 [ext_resource type="Script" uid="uid://7y5j5nff128l" path="res://GridInventory/Scripts/grid_inventory_slot.gd" id="2_sp1gl"]
 
-[node name="Slot" type="TextureRect" unique_id=2098375084]
+[node name="Slot" type="TextureRect" unique_id=2098375084 groups=["grid_slot"]]
 custom_minimum_size = Vector2(20, 20)
 custom_maximum_size = Vector2(100, 100)
 offset_right = 50.0
