@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bf8n3md5gjslh" path="res://Items/inventory.tscn" id="3_axeuq"]
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
 [ext_resource type="Resource" uid="uid://1fvi2rdvgpn4" path="res://Items/Resources/Inventory/grid_fill_inventory_example.tres" id="4_axeuq"]
+[ext_resource type="Script" uid="uid://d2ft8guita5sc" path="res://GridInventory/Scripts/grid_inventory_container_refactor.gd" id="5_hgpy0"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
 [ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="6_hgpy0"]
 [ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="6_t2t4p"]
@@ -331,7 +332,6 @@ grow_vertical = 2
 [node name="ItemHandler" parent="Main" unique_id=77486502 node_paths=PackedStringArray("test_button", "_inventory_example") instance=ExtResource("1_0pcbe")]
 unique_name_in_owner = true
 test_button = NodePath("../VBoxContainer/Spawn")
-randomize_item = false
 _inventory_example = NodePath("../VBoxContainer/CenterContainer/GridInventoryContainer/Inventory")
 character_items = Array[int]([4])
 
@@ -374,13 +374,12 @@ inventory_resource = ExtResource("4_axeuq")
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="GridInventoryContainer2" parent="Main/VBoxContainer/CenterContainer2" unique_id=607282796 node_paths=PackedStringArray("item_handler", "_inventory_example") instance=ExtResource("2_0pcbe")]
+[node name="GridInventoryContainerRefactor" parent="Main/VBoxContainer/CenterContainer2" unique_id=607282796 instance=ExtResource("2_0pcbe")]
 layout_mode = 2
-item_handler = NodePath("../../../ItemHandler")
+script = ExtResource("5_hgpy0")
 slot_size = 50
-_inventory_example = NodePath("Inventory")
 
-[node name="Inventory" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainer2" unique_id=1936824419 instance=ExtResource("3_axeuq")]
+[node name="Inventory" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainerRefactor" unique_id=1936824419 instance=ExtResource("3_axeuq")]
 inventory_resource = ExtResource("4_axeuq")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=625509512]

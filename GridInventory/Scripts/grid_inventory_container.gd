@@ -22,7 +22,7 @@ signal grid_exited(grid)
 
 signal item_picked_up(item)
 signal item_placed()
-
+signal hovered_slot(slot)
 var is_hovering := false
 var grid_array := []
 
@@ -61,16 +61,6 @@ func _process(_delta: float) -> void:
 			is_hovering = false
 			grid_exited.emit(self)
 
-###  TODO: DEBUGGING ONLY : REMOVE
-
-
-
-func check_all_slots():
-	for slot in grid_array:
-		print("Slot ID:", slot.slot_ID)
-		print("Slot Stored:", slot.item_stored)
-
-
 func create_slot(_size:int = 50):
 	var new_slot = slot_scene.instantiate()
 	
@@ -81,12 +71,6 @@ func create_slot(_size:int = 50):
 	new_slot.custom_minimum_size = Vector2(_size, _size) 
 	new_slot.slot_entered.connect(_on_slot_mouse_entered)
 	new_slot.slot_exited.connect(_on_slot_mouse_exited)
-	#print("Slot size:", new_slot.size)
-	#scaled_amount = new_slot.scaled_amount
-	
-#func _update_slot_size(_size):
-#	for i in slots:
-#		i.custom_minimum_size = Vector2(_size, _size)
 		
 func _on_slot_mouse_entered(selected_slot):
 	if Engine.is_editor_hint():
@@ -94,11 +78,12 @@ func _on_slot_mouse_entered(selected_slot):
 	#emit_signal("grid_entered", self)
 	icon_anchor = Vector2(0,0)
 	current_slot = selected_slot
+	hovered_slot.emit(current_slot)
 	if item_handler.item_held:
 		check_slot_availability(current_slot)
 		set_grids.call_deferred(current_slot)
 	
-func _on_slot_mouse_exited(_a_Slot):
+func _on_slot_mouse_exited(selected_slot):
 	if Engine.is_editor_hint():
 		return
 	clear_grid()
@@ -135,7 +120,7 @@ func check_slot_availability(hovered_slot, _item_held = null):
 	
 	for grid in item_handler.item_held.item_grids: # Checks the item grid against inv grid - offset grid
 		var grid_to_check = hovered_slot.slot_ID + grid[0] + (grid[1] * columns)		
-		#print("slot_ID: ", hovered_slot.slot_ID, " grid(x,y): (", grid[0]," , ", grid[1], ") columns: ", columns, " result: ", grid_to_check)
+
 		var line_switch_check = hovered_slot.slot_ID % columns + grid[0] # Ex:  6 % 5 + (0,0) = 
 		
 		if line_switch_check < 0 or line_switch_check >= columns:
@@ -174,7 +159,7 @@ func place_all_items(_inventory: Inventory, _test_item = null):
 	var inv_list : Array = _inventory.list
 	inv_list.shuffle()
 	for item in inv_list:
-
+		print("Item :", item.get_id())
 		var new_item = create_item(item.get_id()) #need to maybe do this later
 
 		for slot in grid_array:			
@@ -186,11 +171,13 @@ func place_all_items(_inventory: Inventory, _test_item = null):
 				continue
 			else:				
 				for grid in new_item.item_grids: # Check item grid shape if other slots are take
-					
 
 					var grid_to_check = slot.slot_ID + grid[0] + (grid[1] * columns)
 					var line_switch_check = slot.slot_ID % columns + grid[0]
 					var calculated_grid_id = slot.slot_ID + (icon_anchor.x * columns) + icon_anchor.y
+					print("Grid to check ", grid_to_check)
+					
+					
 					if grid[1] < icon_anchor.x:
 						icon_anchor.x = grid[1]
 
@@ -207,12 +194,13 @@ func place_all_items(_inventory: Inventory, _test_item = null):
 					if grid_to_check < 0 or grid_to_check >= grid_array.size():
 						can_be_placed = false
 						break
+
 					
 			#print("Grid anchor: ", new_item.grid_anchor)
 			if can_be_placed == false:				
 
-				new_item.queue_free()
-
+				#new_item.queue_free()
+				
 				can_be_placed = true
 				continue # Can't be placed so go to next slot
 			#print("Snapping to: ", grid_array[slot.slot_ID].global_position )
@@ -228,8 +216,8 @@ func place_all_items(_inventory: Inventory, _test_item = null):
 			break
 
 		if new_item.grid_anchor == null:
-
 			new_item.queue_free()
+			print("item deleted")
 
 func create_item(item):
 	var new_item = item_scene.instantiate()
@@ -249,8 +237,8 @@ func place_item(_item_held, _current_slot = null):
 	#_item_held.global_position = get_global_mouse_position()# + item_held.drag_offset	
 	_item_held.grid_anchor = current_slot
 	
-	mark_slots_taken(_item_held)		
-
+	mark_slots_taken(_item_held)
+	
 	clear_grid()
 	item_placed.emit()
 	taken_slots += 1
@@ -279,7 +267,7 @@ func mark_slots_taken(_item_held) -> void:
 		grid_array[grid_to_check].item_stored = _item_held
 
 func mark_slots_free(_item_held) -> void:
-	print(_item_held)
+	#print(_item_held)
 	for grid in _item_held.item_grids: # Free Slots
 		var grid_to_check = _item_held.grid_anchor.slot_ID + grid[0] + grid[1] * columns
 		grid_array[grid_to_check].state = grid_array[grid_to_check].States.FREE

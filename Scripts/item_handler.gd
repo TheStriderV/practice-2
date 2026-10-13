@@ -20,9 +20,9 @@ var current_slot = null
 var can_place := false
 var icon_anchor : Vector2
 var drag_offset: Vector2 = Vector2.ZERO
-var current_grid : GridInventoryContainer
+var current_grid #: GridInventoryContainer
 
-var top_grid_inventory: GridInventoryContainer
+var top_grid_inventory #: GridInventoryContainer
 var grid_inventories
 func _ready() -> void:		
 	#print("Item to spawn: ", random_item())
@@ -59,10 +59,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			i.clear()
 		
 ###
-func _connect_signals(_grid_inventory_node: GridInventoryContainer) -> void:
+func _connect_signals(_grid_inventory_node) -> void:
 	_grid_inventory_node.grid_entered.connect(_mouse_entered)
 	_grid_inventory_node.grid_exited.connect(_mouse_exited)
 	_grid_inventory_node.item_picked_up.connect(_item_picked_up)	
+	_grid_inventory_node.hovered_slot.connect(_on_slot_mouse_entered)
 
 func random_item():
 	return CharacterItem.find_key(randi_range(1,CharacterItem.size()-1))
@@ -74,11 +75,14 @@ func _process(_delta: float) -> void:
 	if item_held:
 		
 		if Input.is_action_just_pressed("mouse_right"):
-			current_grid.rotate_item(item_held)
+			item_held.rotate_item()
+			current_grid.clear_grid()
+			
+			#current_grid.rotate_item(item_held)
 			
 		if Input.is_action_just_pressed("mouse_left"):
 			if current_grid.check_if_grid_in_grid():
-				if current_grid.place_item(item_held): # Returns true if placed success
+				if current_grid.place_item(item_held,current_slot): # Returns true if placed success
 					item_held.reparent(current_grid)
 					item_held = null
 	else:
@@ -95,7 +99,7 @@ func _on_button_spawn_pressed() -> void:
 	new_item.load_item(load_item_id)
 	new_item.selected = true	
 	await get_tree().process_frame
-	#new_item.grid_item_texture_path.scale = top_grid_inventory.scaled_amount
+
 	item_held = new_item
 	
 func _on_button_spawn_pressed_item_stacks() -> void:
@@ -121,3 +125,6 @@ func _mouse_exited(_node):
 
 func _item_picked_up(item): 
 	item_held = item
+
+func _on_slot_mouse_entered(slot):
+	current_slot = slot

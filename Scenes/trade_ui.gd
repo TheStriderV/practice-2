@@ -43,7 +43,8 @@ func _ready() -> void:
 	update_player_ui_inventory()
 
 func _check_item_index():
-	print("Item Index: ", item_index)
+	#print("Item Index: ", item_index)
+	pass
 func _item_index(index:int) -> void:
 	item_index = index
 
