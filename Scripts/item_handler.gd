@@ -20,9 +20,9 @@ var current_slot = null
 var can_place := false
 var icon_anchor : Vector2
 var drag_offset: Vector2 = Vector2.ZERO
-var current_grid #: GridInventoryContainer
+var current_grid : GridInventoryContainer
 
-var top_grid_inventory #: GridInventoryContainer
+var top_grid_inventory : GridInventoryContainer
 var grid_inventories
 func _ready() -> void:		
 	#print("Item to spawn: ", random_item())
@@ -72,13 +72,10 @@ func _process(_delta: float) -> void:
 	if current_grid == null:
 		return
 	
-	if item_held:
-		
+	if item_held:		
 		if Input.is_action_just_pressed("mouse_right"):
 			item_held.rotate_item()
-			current_grid.clear_grid()
-			
-			#current_grid.rotate_item(item_held)
+			current_grid.clear_grid()			
 			
 		if Input.is_action_just_pressed("mouse_left"):
 			if current_grid.check_if_grid_in_grid():

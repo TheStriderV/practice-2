@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://dxf4lqwmwuclk" path="res://GridInventory/Scenes/grid_inventory_container.tscn" id="2_0pcbe"]
 [ext_resource type="Script" uid="uid://bqlf3gips2vs1" path="res://Components/Movement/movement_component.gd" id="3_5a7ea"]
 [ext_resource type="PackedScene" uid="uid://bf8n3md5gjslh" path="res://Items/inventory.tscn" id="3_axeuq"]
+[ext_resource type="Script" uid="uid://d2ft8guita5sc" path="res://GridInventory/Scripts/grid_inventory_container.gd" id="3_hgpy0"]
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
 [ext_resource type="Resource" uid="uid://1fvi2rdvgpn4" path="res://Items/Resources/Inventory/grid_fill_inventory_example.tres" id="4_axeuq"]
-[ext_resource type="Script" uid="uid://d2ft8guita5sc" path="res://GridInventory/Scripts/grid_inventory_container_refactor.gd" id="5_hgpy0"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
 [ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="6_hgpy0"]
 [ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="6_t2t4p"]
@@ -361,11 +361,11 @@ text = "Spawn"
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=951933996 node_paths=PackedStringArray("item_handler", "_inventory_example") instance=ExtResource("2_0pcbe")]
+[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=951933996 instance=ExtResource("2_0pcbe")]
 layout_mode = 2
-item_handler = NodePath("../../../ItemHandler")
+script = ExtResource("3_hgpy0")
+slot_amount = 30
 slot_size = 50
-_inventory_example = NodePath("Inventory")
 
 [node name="Inventory" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=2132914840 instance=ExtResource("3_axeuq")]
 inventory_resource = ExtResource("4_axeuq")
@@ -373,14 +373,6 @@ inventory_resource = ExtResource("4_axeuq")
 [node name="CenterContainer2" type="CenterContainer" parent="Main/VBoxContainer" unique_id=1646255678]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-
-[node name="GridInventoryContainerRefactor" parent="Main/VBoxContainer/CenterContainer2" unique_id=607282796 instance=ExtResource("2_0pcbe")]
-layout_mode = 2
-script = ExtResource("5_hgpy0")
-slot_size = 50
-
-[node name="Inventory" parent="Main/VBoxContainer/CenterContainer2/GridInventoryContainerRefactor" unique_id=1936824419 instance=ExtResource("3_axeuq")]
-inventory_resource = ExtResource("4_axeuq")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=625509512]
 position = Vector2(649, 522)

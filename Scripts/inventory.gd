@@ -1,3 +1,4 @@
+## Inventory data
 class_name Inventory
 extends Node
 
@@ -26,16 +27,14 @@ func get_gold() -> int:
 	return inventory_resource.get_gold()
 
 func get_inventory_list(_item_data = null) -> Array:
-	#print("remove2")
 	if list.size() != 0:
 		list.clear()
 	for item in inventory_resource.item_stack_list:
 		list.append(item)
-	#print("List: ",list)
 	if list.size() == 0:
 		inventory_empty.emit()
 	return list
-	
+
 func get_inventory_size():
 	return list.size()
 	
