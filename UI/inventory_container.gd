@@ -12,7 +12,7 @@ class_name InventoryContainer
 @export var inventory_resource: InventoryResource
 
 @export_category( "UI Elements")
-@export var item_list: ItemList 
+@export var item_list: Control
 @export var gold_label: Label
 
 # Variables 

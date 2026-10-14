@@ -12,7 +12,7 @@ enum CharacterItem {sword, armor_bronze, bow_wood, potion, cutlass}
 
 #@export_enum("sword", "axe", "bow_wood", "potion","planks","cutlass") var item_to_spawn: String
 
-@onready var item_scene := preload("uid://bs6djdnvwyvox") # TODO: For debugging
+@onready var item_scene := preload("uid://bs6djdnvwyvox") # TODO: For debugging # GridInventoryItem
 
 var item_held = null
 
@@ -24,8 +24,8 @@ var current_grid : GridInventoryContainer
 
 var top_grid_inventory : GridInventoryContainer
 var grid_inventories
-func _ready() -> void:		
-	#print("Item to spawn: ", random_item())
+
+func _ready() -> void:
 	if test_button:
 		test_button.pressed.connect(_on_button_spawn_pressed_item_stacks)	
 	grid_inventories = get_tree().get_nodes_in_group("GridInventoryContainer")
@@ -39,7 +39,10 @@ func _ready() -> void:
 	for grid_inventory in grid_inventories:
 		#print("Grid Inventory: ", grid_inventory)
 		_connect_signals(grid_inventory)	
-	#current_grid = grid_inventory_node
+
+	# await get_tree().process_frame
+	# top_grid_inventory.place_all_items(_inventory_example)
+
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_2"):
@@ -48,7 +51,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			#print("inv example", _inventory_example)
 			#check_all_slots()
 			if current_grid:
-				current_grid.place_all_items(_inventory_example)
+				current_grid.place_all_items(_inventory_example, true)
 			get_viewport().set_input_as_handled()
 			
 	if event.is_action_pressed("debug_1"):

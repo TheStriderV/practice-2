@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://dxf4lqwmwuclk"]
 
-[ext_resource type="Script" uid="uid://c4omy5g4a5yfs" path="res://GridInventory/Scripts/grid_inventory_container_old.gd" id="1_r4kb4"]
+[ext_resource type="Script" uid="uid://d2ft8guita5sc" path="res://GridInventory/Scripts/grid_inventory_container.gd" id="1_2snu1"]
 
 [node name="GridInventoryContainer" type="GridContainer" unique_id=951933996 groups=["GridInventoryContainer"]]
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
-script = ExtResource("1_r4kb4")
-slot_amount = 20
-slot_size = 49
+script = ExtResource("1_2snu1")

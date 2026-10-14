@@ -13,7 +13,7 @@ script = ExtResource("5_haefr")
 item_stack_list = Array[ExtResource("3_oxpbn")]([ExtResource("4_wm0ic")])
 metadata/_custom_type_script = "uid://du1aioahuboc8"
 
-[node name="TradeUI" type="Control" unique_id=352840139 node_paths=PackedStringArray("transfer_area", "npc_inventory_container", "player_inventory_container", "button_1", "button_2", "button_3")]
+[node name="TradeUI" type="Control" unique_id=352840139 node_paths=PackedStringArray("npc_inventory_container", "player_inventory_container", "button_1", "button_2", "button_3")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,6 @@ offset_bottom = 596.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0jmmi")
-transfer_area = NodePath("")
 npc_inventory_container = NodePath("VBoxContainer/NPCInventoryContainer")
 player_inventory_container = NodePath("VBoxContainer/PlayerInventoryContainer")
 button_1 = NodePath("VBoxContainer/HBoxContainer/Button1")

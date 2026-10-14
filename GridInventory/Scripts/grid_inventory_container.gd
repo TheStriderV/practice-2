@@ -9,7 +9,7 @@ extends GridContainer
 
 @onready var slot_scene = preload("uid://dxvx2kwd2mv52")
 
-@export var _inventory_example : Inventory
+@export var inventory : Inventory
 
 @onready var item_scene := preload("uid://bs6djdnvwyvox")
 
@@ -25,7 +25,7 @@ var is_hovering := false
 var grid_array := []
 
 var current_slot = null
-var can_place := false
+
 var icon_anchor : Vector2 = Vector2.ZERO
 
 ## For uncentering to cursor; unused currently
@@ -41,10 +41,15 @@ func _ready() -> void:
 	# Find and attach handler
 	if item_handler == null: 
 		item_handler = %ItemHandler
-		assert(item_handler != null, "Connect a item handler!")
+		assert(item_handler != null, "Connect or add a item handler!")
 	
-	if get_child(0) is Inventory:
-		_inventory_example = get_child(0)
+	if has_node("Inventory"):
+		if get_child(0) is Inventory:
+			inventory = get_child(0)
+			P.p(inventory.list)
+	else:
+		print_rich("test")
+		pass
 	
 	# Deletes Debug slots to start new
 	if get_children().size() != 0:
@@ -55,6 +60,11 @@ func _ready() -> void:
 	# Creates slots
 	for i in range(slot_amount):
 		create_slot(slot_size)
+		
+	await get_tree().process_frame
+	# Creates items, if any
+	if inventory:
+		place_all_items(inventory, true)
 
 func _process(_delta: float) -> void:
 	if get_global_rect().has_point(get_global_mouse_position()):
@@ -101,7 +111,8 @@ func clear_grid():
 func check_if_grid_in_grid():
 	return get_global_rect().has_point(get_global_mouse_position())
 
-func create_item(item):
+## Creates a new item and returns it
+func create_item(item) -> GridInventoryItem:
 	var new_item = item_scene.instantiate()
 	add_child(new_item)
 	new_item.load_item_stack(item)
@@ -156,13 +167,13 @@ func place_item(item: Node, slot: GridInventorySlot): # TODO: Switch vars after 
 	item._snap_to(grid_array[grid_id].global_position)
 	item.grid_anchor = slot
 
-	set_slots_state(item, slot, GridInventorySlot.States.TAKEN)
+	set_slots_state(item, GridInventorySlot.States.TAKEN)
 	clear_grid()
 	
 	item_placed.emit()
 	
-	taken_slots += 1
-	print("Placed item in slot: ", slot.slot_ID)
+
+
 	return true
 
 func pick_item():
@@ -176,17 +187,22 @@ func pick_item():
 
 	item_handler.item_held.global_position = get_global_mouse_position()
 
-	set_slots_state( item_held, current_slot, GridInventorySlot.States.FREE)
-	taken_slots -= 1
+	set_slots_state( item_held, GridInventorySlot.States.FREE)
+
 	
 	check_slot_availability(current_slot, item_handler.item_held)
 	set_grids.call_deferred(current_slot, item_handler.item_held)
 	
 
 
-func set_slots_state(item: Node, anchor: GridInventorySlot, state: GridInventorySlot.States) -> void:
+func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 	for offset in item.item_grids:
-		var index = anchor.slot_ID + offset[0] + offset[1] * columns
+		var index = item.grid_anchor.slot_ID + offset[0] + offset[1] * columns
+		
+		if index > grid_array.size():
+			pass
+			
+		
 		var target = grid_array[index]
 		target.state = state
 
@@ -200,10 +216,14 @@ func set_slots_state(item: Node, anchor: GridInventorySlot, state: GridInventory
 			_:
 				pass  # other states leave item_stored untouched
 
-func place_all_items(_inventory: Inventory):
+## Creates and places items from inventory, random = true to randomize placement
+func place_all_items(_inventory: Inventory, random : bool = false):
 	var inv_list : Array = _inventory.list
+	if random:
+		inv_list.shuffle() 
 	for item in inv_list:
 		var new_item = create_item(item.get_id())
+		
 		for slot in grid_array:
 			
 			#print("Slot: ", slot.slot_ID)
@@ -212,10 +232,31 @@ func place_all_items(_inventory: Inventory):
 				continue
 			print(placed_item)
 			break
-		print("item anchor ", new_item.grid_anchor)
+		
 		if new_item.grid_anchor == null:
 			new_item.queue_free()
 
+
+
+
+
+
 func clear():
 	taken_slots = 0
+	pass
+
+
+func set_item_metadata(_idx: int, _value: Variant):
+	pass
+
+func get_item_metadata(_index):
+	pass
+
+func selected():
+	pass
+
+func deselect():
+	pass
+
+func remove_item(_itemstack):
 	pass

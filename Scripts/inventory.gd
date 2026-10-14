@@ -8,6 +8,7 @@ extends Node
 
 signal inventory_empty
 
+## List of Array of ItemStack
 var list : Array[ItemStack]
 
 
@@ -18,7 +19,7 @@ func _ready() -> void:
 	
 	inventory_resource.item_removed.connect(get_inventory_list)
 
-	
+## Returns list of inventory items by ID
 func get_inventory():
 	#print("Inventory items:", inventory_resource.get_item_id_in_inventory())
 	return inventory_resource.get_item_id_in_inventory()

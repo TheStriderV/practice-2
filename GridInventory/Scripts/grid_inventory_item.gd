@@ -3,11 +3,12 @@ extends Node2D
 
 
 
-@export var shape_library : ShapeLibrary # Change this to itemdata?
-@onready var grid_item_texture_path:= $Icon
+# @export var shape_library : ShapeLibrary # Change this to itemdata?
+@onready var item_texture:= $Icon
 
 @export_category("Inventory")
-@export var inventory_resource: InventoryResource
+## Default testing resource - TODO: Should remove 
+@export var inventory_resource: InventoryResource 
 
 
 var item_stack : ItemStack
@@ -22,21 +23,19 @@ var item_grids := [] # Projected Item Grid
 var selected := false
 var grid_anchor = null
 var drag_offset: Vector2 = Vector2.ZERO
-	
+
+
+
 func _process(delta: float) -> void:
 	if selected:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta) # Drag offset can go here
 
-func load_item(_ItemID:int) -> void:
-	var Icon_path = shape_library.get_shape(_ItemID)
-	grid_item_texture_path.texture = Icon_path.icon
-	item_grids = Icon_path.offsets
 
-func load_item_stack(_item_stack_id : String) -> void:
-	var texture_path = inventory_resource.get_item(_item_stack_id)
-	grid_item_texture_path.texture = texture_path.get_texture()
-	item_grids = texture_path.data.shape_data.offsets
-	#item_ID = inventory_resource.get_item(_item_stack_id).get_id()
+func load_item_stack(_item_stack_id : String, _inventory_resource : InventoryResource = inventory_resource) -> void:
+	var new_item_stack := _inventory_resource.get_item(_item_stack_id)
+	item_texture.texture = new_item_stack.get_texture()
+	item_grids = new_item_stack.data.shape_data.offsets
+	item_stack = new_item_stack
 
 func rotate_item():
 	var rotated_offsets: Array[Vector2i] = []
