@@ -63,9 +63,13 @@ func _ready() -> void:
 		
 	await get_tree().process_frame
 	# Creates items, if any
-	if inventory:
-		place_all_items(inventory, true)
-
+	#if inventory:
+		#place_all_items(inventory.list, true)
+	
+	# Test creating an item and placing at slot 0
+	var new_item_potion = create_item("potion")
+	place_item(new_item_potion, grid_array[0])
+	
 func _process(_delta: float) -> void:
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if not is_hovering:
@@ -217,8 +221,8 @@ func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 				pass  # other states leave item_stored untouched
 
 ## Creates and places items from inventory, random = true to randomize placement
-func place_all_items(_inventory: Inventory, random : bool = false):
-	var inv_list : Array = _inventory.list
+func place_all_items(_inventory: Array, random : bool = false):
+	var inv_list : Array = _inventory
 	if random:
 		inv_list.shuffle() 
 	for item in inv_list:

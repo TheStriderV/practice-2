@@ -101,5 +101,5 @@ func _update_inventory_ui(container: InventoryContainer) -> void:
 	container.update_size()
 	container.connect_signals()
 	
-func update_gold(target):
+func update_gold(_target):
 	pass

@@ -41,14 +41,14 @@ func add_all_items() -> void:
 			item_list.set_item_metadata(item_list.get_item_count() - 1, i)
 			item_list.deselect_all()
 
-func _on_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+func _on_item_clicked(index: int, _at_position: Vector2, mouse_button_index: int) -> void:
 	if mouse_button_index == 1:
 		print("Get item: ", item_list.get_item_metadata(index).get_id())
 		#print("Index: ", index)
 	if mouse_button_index == 2:
 		remove_item(index)
 	
-func _return_last_item_index(index: int, at_position: Vector2, mouse_button_index: int) -> Variant:
+func _return_last_item_index(index: int, _at_position: Vector2, _mouse_button_index: int) -> Variant:
 	return item_list.get_item_metadata(index)
 	
 

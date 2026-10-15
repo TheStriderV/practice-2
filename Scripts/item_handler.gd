@@ -51,7 +51,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			#print("inv example", _inventory_example)
 			#check_all_slots()
 			if current_grid:
-				current_grid.place_all_items(_inventory_example, true)
+				current_grid.place_all_items(_inventory_example.list, true)
 			get_viewport().set_input_as_handled()
 			
 	if event.is_action_pressed("debug_1"):
