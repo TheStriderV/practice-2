@@ -240,14 +240,15 @@ func place_all_items(_inventory: Array, random : bool = false):
 		if new_item.grid_anchor == null:
 			new_item.queue_free()
 
-
-
-
-
-
 func clear():
 	taken_slots = 0
 	pass
+
+func add_item_to_inventory(item):
+	
+	
+	pass
+
 
 
 func set_item_metadata(_idx: int, _value: Variant):
