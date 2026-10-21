@@ -5,6 +5,12 @@ extends Node
 
 @export_category("Inventory Resource")
 @export var inventory_resource: InventoryResource
+@export var randomize_inventory : bool = false
+@export var max_items : int = 3
+
+
+const InventoryResource = preload("uid://du1aioahuboc8")
+
 
 signal inventory_empty
 
@@ -14,6 +20,9 @@ var list : Array[ItemStack]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if randomize_inventory:
+		create_random_inventory_resource(max_items)	
+	
 	if inventory_resource:
 		get_inventory_list()
 	
@@ -43,3 +52,18 @@ func get_item_grid_offsets(index: int):
 	print("List:", list)
 	print("Getting object: ", list[index].get_id())
 	return list[index].shape_data.offsets
+
+func create_random_inventory_resource(_max_items):
+	var random_amount = randi_range(1,_max_items)
+	var random_inventory = InventoryResource.new()
+	var item_list : Array = Items.get_all_items()
+	item_list.shuffle()
+	print("Random Amount:", random_amount)
+	for i in random_amount:
+		random_inventory.create_item_stack(item_list[i])
+	inventory_resource = random_inventory
+	inventory_resource.gold = 200
+		
+	
+ 
+	

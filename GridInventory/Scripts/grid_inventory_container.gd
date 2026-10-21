@@ -16,7 +16,14 @@ extends GridContainer
 
 @onready var slot_scene = preload("uid://dxvx2kwd2mv52")
 
-@export var inventory : InventoryResource
+@export var inventory : InventoryResource:
+	set(value):
+		if value == inventory:
+			return # Do nothing if it's the exact same resource
+		
+		inventory = value
+		inventory_resource_changed.emit()
+		
 @export var load_inventory : bool = false
 
 @onready var item_scene := preload("uid://bs6djdnvwyvox")
@@ -29,6 +36,8 @@ signal item_picked_up()
 signal item_placed()
 
 signal hovered_slot(slot)
+
+signal inventory_resource_changed()
 
 var is_hovering := false
 var grid_array := []
@@ -52,21 +61,24 @@ func _ready() -> void:
 		item_handler = %ItemHandler
 		assert(item_handler != null, "Connect or add a item handler!")
 	
-	if inventory == null:
-		P.log("No inventory")
-		inventory = InventoryResource.new()
-
-	
 	# Deletes Debug slots to start new
 	if get_children().size() != 0:
 		for child in get_children():
 			if child is GridInventorySlot:
 				child.queue_free()
-				
+	
 	# Creates slots
 	for i in range(slot_amount):
 		create_slot(slot_size)
+
+	if inventory == null:
+		P.log("No inventory")
+		inventory = InventoryResource.new()
 		
+	if load_inventory == false:
+		P.log("Not loading inventory")
+		return
+
 	await get_tree().process_frame
 	# Creates items, if any
 	if inventory:
@@ -126,7 +138,7 @@ func check_if_grid_in_grid():
 func create_item(item) -> GridInventoryItem:
 	var new_item = item_scene.instantiate() as GridInventoryItem
 	add_child(new_item)
-	new_item.load_item_stack(item)	
+	new_item.load_item_stack(item, inventory)	
 	return new_item
 
 ## Index in grid_array for slot_id + offset, or -1 if out of bounds or wrapping a row edge.
@@ -143,7 +155,7 @@ func get_offset_index(slot_id: int, offset) -> int:
 	return index
 
 func check_slot_availability(slot: GridInventorySlot, item: Node) -> bool:
-	for offset in item.item_grids:
+	for offset in item.item_grids: # Get item_grid array
 		var index := get_offset_index(slot.slot_ID, offset)
 		if index == -1:
 			return false
@@ -236,7 +248,7 @@ func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 		
 		var target = grid_array[index]
 		target.state = state
-
+		print("Target Grid: ", target.slot_ID)
 		match state:
 			GridInventorySlot.States.TAKEN:
 				target.state = state
@@ -248,7 +260,7 @@ func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 				pass  # other states leave item_stored untouched
 
 ## Creates and places items from inventory, random = true to randomize placement
-func place_all_items(_inventory: Array, random : bool = false):
+func place_all_items(_inventory: Array = inventory.item_stack_list, random : bool = false):
 	
 	var inv_list : Array = _inventory
 	#P.p(inv_list)

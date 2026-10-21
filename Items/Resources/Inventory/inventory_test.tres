@@ -2,14 +2,16 @@
 
 [ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="1_3jgxo"]
 [ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="2_rsjdp"]
-[ext_resource type="Resource" uid="uid://dmexskii0hoe1" path="res://Items/Resources/ItemStack/bow_stack.tres" id="3_xlhkl"]
-[ext_resource type="Resource" uid="uid://c8ej7ytbsseus" path="res://Items/Resources/ItemStack/cutlass_stack.tres" id="4_ec8ra"]
+[ext_resource type="Resource" uid="uid://c8ej7ytbsseus" path="res://Items/Resources/ItemStack/cutlass_stack.tres" id="3_d10v7"]
+[ext_resource type="Resource" uid="uid://dwqrj0uoba3eu" path="res://Items/Resources/ItemStack/armor_bronze.tres" id="4_8o70s"]
 [ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="4_xlhkl"]
-[ext_resource type="Resource" uid="uid://dwqrj0uoba3eu" path="res://Items/Resources/ItemStack/armor_bronze.tres" id="5_g0flw"]
-[ext_resource type="Resource" uid="uid://bt5ar5s4ceuhc" path="res://Items/Resources/ItemStack/sword_stack.tres" id="6_3qc3k"]
+[ext_resource type="Resource" uid="uid://bt5ar5s4ceuhc" path="res://Items/Resources/ItemStack/sword_stack.tres" id="5_tpei2"]
+[ext_resource type="Resource" uid="uid://dmexskii0hoe1" path="res://Items/Resources/ItemStack/bow_stack.tres" id="6_qrynb"]
+[ext_resource type="Resource" uid="uid://bpfj04bxf5sdr" path="res://Items/Resources/ItemStack/planks_stack.tres" id="7_ldeao"]
+[ext_resource type="Resource" uid="uid://b3o1hfw3hdyl2" path="res://Items/Resources/ItemStack/axe_stack.tres" id="8_pnucf"]
 
 [resource]
 script = ExtResource("1_3jgxo")
 gold = 5
-item_stack_list = Array[ExtResource("2_rsjdp")]([ExtResource("4_xlhkl"), ExtResource("3_xlhkl"), ExtResource("4_ec8ra"), ExtResource("5_g0flw"), ExtResource("6_3qc3k")])
+item_stack_list = Array[ExtResource("2_rsjdp")]([ExtResource("4_xlhkl"), ExtResource("3_d10v7"), ExtResource("4_8o70s"), ExtResource("5_tpei2"), ExtResource("6_qrynb"), ExtResource("7_ldeao"), ExtResource("8_pnucf")])
 metadata/_custom_type_script = "uid://du1aioahuboc8"

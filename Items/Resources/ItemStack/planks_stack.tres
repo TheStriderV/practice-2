@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemStack" format=3 uid="uid://bpfj04bxf5sdr"]
+
+[ext_resource type="Resource" uid="uid://bhcsubm33ptte" path="res://Items/Resources/ItemData/planks.tres" id="1_euk5n"]
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="2_n16wr"]
+
+[resource]
+script = ExtResource("2_n16wr")
+data = ExtResource("1_euk5n")
+metadata/_custom_type_script = "uid://dnoi0vg2nmdfi"

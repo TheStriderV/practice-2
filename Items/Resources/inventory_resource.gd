@@ -6,11 +6,18 @@ signal item_added(slot: int) #stack: ItemStack
 signal item_removed(slot: int)
 signal slot_changed(slot: int)
 
+signal gold_changed
+
 ## Gold: Should this be a class?
 @export_category("Gold")
 @export var gold: int = 0:
 	set(value):
-		gold = max(0, value)
+		var clamped_value = max(0, value)
+		
+		# Only proceed if the actual stored value is changing
+		if clamped_value != gold:
+			gold = clamped_value
+			gold_changed.emit()
 
 @export var item_stack_list: Array[ItemStack] = []
 
@@ -47,9 +54,11 @@ func remove_item(item_stack:ItemStack) -> void:
 	item_stack_list.erase(item_stack)
 	item_removed.emit(item_stack_list.size())
 
+## Adds gold to inventory
 func add_gold(amount: int) -> void:
 	gold += amount
 
+## Removes gold to inventory
 func remove_gold(amount: int) -> void:
 	gold -= amount
 
