@@ -35,7 +35,7 @@ func load_item_stack(_item_stack_id : String, _inventory_resource : InventoryRes
 	item_texture.texture = new_item_stack.get_texture()
 	item_grids = new_item_stack.data.shape_data.offsets
 	item_stack = new_item_stack
-	P.p(new_item_stack)
+	#P.p(new_item_stack)
 
 func rotate_item():
 	var rotated_offsets: Array[Vector2i] = []

@@ -70,7 +70,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	# Creates items, if any
 	if inventory:
-		var new_item_list = inventory.item_stack_list
+		var new_item_list = inventory.item_stack_list.duplicate()
 		place_all_items(new_item_list)
 	
 	# Test creating an item and placing at slot 0

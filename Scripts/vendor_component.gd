@@ -42,7 +42,7 @@ func _ready() -> void:
 
 
 func _on_button_pressed(new_owner:String):
-	var item_list = inventory_container.items_stored
+	var item_list = inventory_container.items_stored.duplicate()
 	print("Item list size: ", item_list.size())
 	for item in item_list:
 		P.p(inventory_container.items_stored)
@@ -55,7 +55,7 @@ func _on_button_pressed(new_owner:String):
 			var available_slot = customer_grid_inventory_container.check_next_available_slot(item)
 			
 			if available_slot != null:
-				print("PLACING")
+				
 				item.set_item_owner(new_owner)
 				inventory_container.remove_item_from_inventory(item)
 				customer_grid_inventory_container.place_item(item, available_slot)
@@ -63,7 +63,7 @@ func _on_button_pressed(new_owner:String):
 		if new_owner == "Player":
 			var available_slot = player_grid_inventory_container.check_next_available_slot(item)
 			if available_slot != null:
-				print("PLACING")
+				
 				item.set_item_owner(new_owner)
 				inventory_container.remove_item_from_inventory(item)
 				player_grid_inventory_container.place_item(item, available_slot)
