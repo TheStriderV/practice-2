@@ -3,7 +3,10 @@
 class_name ItemHandler
 extends Node
 
-@export var test_button: Button
+@export var npc_button: Button
+@export var player_button: Button
+
+
 @export var load_item_id:int
 @export var randomize_item: bool = false
 @export var _inventory_example : Inventory
@@ -26,8 +29,14 @@ var top_grid_inventory : GridInventoryContainer
 var grid_inventories
 
 func _ready() -> void:
-	if test_button:
-		test_button.pressed.connect(_on_button_spawn_pressed_item_stacks)	
+	if npc_button:
+		npc_button.pressed.connect(_on_button_spawn_pressed_item_stacks.bind("Npc"))	
+	
+		
+	if player_button:
+		player_button.pressed.connect(_on_button_spawn_pressed_item_stacks.bind("Player"))	
+	
+		
 	grid_inventories = get_tree().get_nodes_in_group("GridInventoryContainer")
 
 	if grid_inventories.size() == 0:		
@@ -46,8 +55,9 @@ func _ready() -> void:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_2"):
+		print("Debug 2 Pressed")
 		if _inventory_example:
-			print("Debug 2 Pressed")
+			print("Placing all items")
 			#print("inv example", _inventory_example)
 			#check_all_slots()
 			if current_grid:
@@ -65,7 +75,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _connect_signals(_grid_inventory_node) -> void:
 	_grid_inventory_node.grid_entered.connect(_mouse_entered)
 	_grid_inventory_node.grid_exited.connect(_mouse_exited)
-	_grid_inventory_node.item_picked_up.connect(_item_picked_up)	
+	_grid_inventory_node.item_currently_held.connect(_item_picked_up)	
 	_grid_inventory_node.hovered_slot.connect(_on_slot_mouse_entered)
 
 func random_item():
@@ -83,7 +93,7 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("mouse_left"):
 			if current_grid.check_if_grid_in_grid():
 				if current_grid.place_item(item_held,current_slot): # Returns true if placed success
-					item_held.reparent(current_grid)
+					#item_held.reparent(current_grid)
 					item_held = null
 	else:
 		if Input.is_action_just_pressed("mouse_left"):			
@@ -98,24 +108,22 @@ func _on_button_spawn_pressed() -> void:
 	get_parent().add_child(new_item) 
 	new_item.load_item(load_item_id)
 	new_item.selected = true	
+	new_item.item_owner = "Npc"
 	await get_tree().process_frame
 
 	item_held = new_item
 	
-func _on_button_spawn_pressed_item_stacks() -> void:
+func _on_button_spawn_pressed_item_stacks(item_owner : String = "None") -> void:
 	var new_item = item_scene.instantiate()
 	get_parent().add_child(new_item)
 	var rand = random_item()	
 	if rand:	
 		new_item.load_item_stack(rand)
-		
+	new_item.item_owner = item_owner
 	new_item.selected = true	
 	await get_tree().process_frame
 	item_held = new_item
 	
-
-
-
 func _mouse_entered(node):
 	current_grid = node
 	

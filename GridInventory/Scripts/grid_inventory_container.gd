@@ -2,21 +2,30 @@
 class_name GridInventoryContainer
 extends GridContainer
 
+## Grid Inventory Container Class
+##
+## Takes a inventory resource and stores or creates items in the grid
+
 @export var item_handler : ItemHandler
 
 @export var slot_amount : int = 30
 @export var slot_size : int = 50
 
+## For tracking what item belongs to who
+@export_enum("Npc", "Player", "None") var item_owner: String
+
 @onready var slot_scene = preload("uid://dxvx2kwd2mv52")
 
-@export var inventory : Inventory
+@export var inventory : InventoryResource
+@export var load_inventory : bool = false
 
 @onready var item_scene := preload("uid://bs6djdnvwyvox")
 
 signal grid_entered(grid)
 signal grid_exited(grid)
 
-signal item_picked_up(item)
+signal item_currently_held(item)
+signal item_picked_up()
 signal item_placed()
 
 signal hovered_slot(slot)
@@ -34,7 +43,7 @@ var drag_offset: Vector2 = Vector2.ZERO
 ## Unused: for scaling whole inventory; right now it's a set amount
 var scaled_amount: Vector2
 
-var items_stored# : Array[]
+var items_stored : Array[GridInventoryItem]
 var taken_slots = 0
 
 func _ready() -> void:
@@ -43,13 +52,10 @@ func _ready() -> void:
 		item_handler = %ItemHandler
 		assert(item_handler != null, "Connect or add a item handler!")
 	
-	if has_node("Inventory"):
-		if get_child(0) is Inventory:
-			inventory = get_child(0)
-			P.p(inventory.list)
-	else:
-		print_rich("test")
-		pass
+	if inventory == null:
+		P.log("No inventory")
+		inventory = InventoryResource.new()
+
 	
 	# Deletes Debug slots to start new
 	if get_children().size() != 0:
@@ -63,24 +69,24 @@ func _ready() -> void:
 		
 	await get_tree().process_frame
 	# Creates items, if any
-	#if inventory:
-		#place_all_items(inventory.list, true)
+	if inventory:
+		var new_item_list = inventory.item_stack_list
+		place_all_items(new_item_list)
 	
 	# Test creating an item and placing at slot 0
-	var new_item_potion = create_item("potion")
-	place_item(new_item_potion, grid_array[0])
+	#var new_item_potion = create_item("potion")
+	#place_item(new_item_potion, grid_array[0])
 	
 func _process(_delta: float) -> void:
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if not is_hovering:
 			is_hovering = true
 			grid_entered.emit(self)
-			
+
 	else:
 		if is_hovering:
 			is_hovering = false
 			grid_exited.emit(self)
-
 
 func _on_slot_mouse_entered(selected_slot):
 	if Engine.is_editor_hint():
@@ -115,11 +121,12 @@ func clear_grid():
 func check_if_grid_in_grid():
 	return get_global_rect().has_point(get_global_mouse_position())
 
-## Creates a new item and returns it
+## Creates a new item and returns it # 
+## Currently GridInventoryItem creates the item from it's own Resource reference that stores all the items available (so far..)
 func create_item(item) -> GridInventoryItem:
-	var new_item = item_scene.instantiate()
+	var new_item = item_scene.instantiate() as GridInventoryItem
 	add_child(new_item)
-	new_item.load_item_stack(item)
+	new_item.load_item_stack(item)	
 	return new_item
 
 ## Index in grid_array for slot_id + offset, or -1 if out of bounds or wrapping a row edge.
@@ -159,44 +166,64 @@ func set_grids(slot: GridInventorySlot, item: Node) -> void:
 			target.set_color(target.States.TAKEN)
 
 
-func place_item(item: Node, slot: GridInventorySlot): # TODO: Switch vars after refactor
+func place_item(item : GridInventoryItem, slot : GridInventorySlot): # TODO: Switch vars after refactor
 	if not check_slot_availability(slot, item):
-		return 
+		return	
+		
 	var grid_id = slot.slot_ID + icon_anchor.x * columns + icon_anchor.y #
 	if grid_id > grid_array.size()-1:
 		push_error("Out of bounds")
 		return
-	
+		
+	if item_owner != "None":
+		if item.item_owner != item_owner:
+			print("Not the right owner")
+			return	
 	
 	item._snap_to(grid_array[grid_id].global_position)
 	item.grid_anchor = slot
 
 	set_slots_state(item, GridInventorySlot.States.TAKEN)
-	clear_grid()
+	clear_grid()	
 	
+	inventory.add_item(item.item_stack)
+	
+	items_stored.append(item)
 	item_placed.emit()
+	item.reparent(self)
+	return true
+
+func place_item_check(item : GridInventoryItem, slot : GridInventorySlot):
+	if not check_slot_availability(slot, item):
+		return
+
+	var grid_id = slot.slot_ID + icon_anchor.x * columns + icon_anchor.y #
+	if grid_id > grid_array.size()-1:
+		push_error("Out of bounds")
+		return
 	
-
-
 	return true
 
 func pick_item():
 	if not current_slot or not current_slot.item_stored:
 		return
-	var item_held : Node = current_slot.item_stored
+	var item_held : GridInventoryItem = current_slot.item_stored
 	item_held.selected = true
 	item_held.reparent(item_handler.get_parent())
 
-	item_picked_up.emit(item_held)
 
+	item_currently_held.emit(item_held)
 	item_handler.item_held.global_position = get_global_mouse_position()
 
-	set_slots_state( item_held, GridInventorySlot.States.FREE)
-
-	
+	set_slots_state(item_held, GridInventorySlot.States.FREE)
 	check_slot_availability(current_slot, item_handler.item_held)
 	set_grids.call_deferred(current_slot, item_handler.item_held)
 	
+	inventory.remove_item(item_held.item_stack)
+	
+	items_stored.erase(item_held)
+	item_picked_up.emit()
+
 
 
 func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
@@ -222,34 +249,73 @@ func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 
 ## Creates and places items from inventory, random = true to randomize placement
 func place_all_items(_inventory: Array, random : bool = false):
+	
 	var inv_list : Array = _inventory
+	#P.p(inv_list)
 	if random:
 		inv_list.shuffle() 
-	for item in inv_list:
-		var new_item = create_item(item.get_id())
-		
+	for item in inv_list.size():
+		#P.p(inv_list)
+		#P.p(inv_list.size())
+		var new_item = create_item(inv_list[item].get_id())
+		new_item.item_owner = item_owner
 		for slot in grid_array:
 			
 			#print("Slot: ", slot.slot_ID)
 			var placed_item = place_item(new_item, slot)
 			if placed_item == null:
 				continue
-			print(placed_item)
+			#print(placed_item)
 			break
+		
 		
 		if new_item.grid_anchor == null:
 			new_item.queue_free()
+
+## Checks if there is a slot available to place the item
+func check_next_available_slot(item):
+	var placed_item
+	for slot in grid_array:
+		placed_item = place_item_check(item, slot)
+
+		if placed_item == null:			
+			print("Taken")
+			continue
+		
+		else:
+			return slot
+				
+		# return
+	
+	if placed_item == null:
+		print("No more slots available")
+		return 
+		
+
+func remove_item_from_inventory(item):
+	set_slots_state(item, GridInventorySlot.States.FREE)
+	inventory.remove_item(item.item_stack)
+	items_stored.erase(item)
 
 func clear():
 	taken_slots = 0
 	pass
 
-func add_item_to_inventory(item):
-	
-	
+
+
+
+
+## 
+func get_container_worth(_item_owner):
+	var container_worth : int = 0
+	for items in items_stored:
+		if items.item_owner == _item_owner:
+			container_worth += items.item_stack.get_base_value()
+			#P.p(container_worth)
+	return container_worth
+
+func add_item_to_inventory(item):	
 	pass
-
-
 
 func set_item_metadata(_idx: int, _value: Variant):
 	pass

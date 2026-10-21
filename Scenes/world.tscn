@@ -5,8 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://dxf4lqwmwuclk" path="res://GridInventory/Scenes/grid_inventory_container.tscn" id="2_0pcbe"]
 [ext_resource type="Script" uid="uid://bqlf3gips2vs1" path="res://Components/Movement/movement_component.gd" id="3_5a7ea"]
 [ext_resource type="PackedScene" uid="uid://bf8n3md5gjslh" path="res://Items/inventory.tscn" id="3_axeuq"]
+[ext_resource type="Script" uid="uid://dllg46fvyad4h" path="res://Scripts/vendor_component.gd" id="3_kn0ld"]
+[ext_resource type="Resource" uid="uid://dwqrj0uoba3eu" path="res://Items/Resources/ItemStack/armor_bronze.tres" id="4_0pcbe"]
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
-[ext_resource type="Resource" uid="uid://1fvi2rdvgpn4" path="res://Items/Resources/Inventory/grid_fill_inventory_example.tres" id="4_axeuq"]
+[ext_resource type="Script" uid="uid://cw6ylrhoj7uxx" path="res://Scripts/gold_label.gd" id="4_t2t4p"]
+[ext_resource type="Resource" uid="uid://c8ej7ytbsseus" path="res://Items/Resources/ItemStack/cutlass_stack.tres" id="5_0pcbe"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
 [ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="6_hgpy0"]
 [ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="6_t2t4p"]
@@ -15,6 +18,22 @@
 [ext_resource type="Script" uid="uid://c5n0j3tca4rry" path="res://npc.gd" id="17_axeuq"]
 [ext_resource type="Texture2D" uid="uid://pc0jluh26dhw" path="res://Art/House3.png" id="18_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://n37831kyuh64" path="res://Art/Tower.png" id="18_1cojt"]
+
+[sub_resource type="Resource" id="Resource_suk3m"]
+script = ExtResource("6_hgpy0")
+item_stack_list = Array[ExtResource("7_t2t4p")]([ExtResource("4_0pcbe"), ExtResource("5_0pcbe")])
+metadata/_custom_type_script = "uid://du1aioahuboc8"
+
+[sub_resource type="LabelSettings" id="LabelSettings_kn0ld"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_hgpy0"]
+font_size = 12
+
+[sub_resource type="Resource" id="Resource_sn5j3"]
+script = ExtResource("6_hgpy0")
+gold = 1000
+metadata/_custom_type_script = "uid://du1aioahuboc8"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_go701"]
 atlas = ExtResource("1_a02cp")
@@ -328,10 +347,10 @@ offset_bottom = 596.05255
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemHandler" parent="Main" unique_id=77486502 node_paths=PackedStringArray("test_button", "_inventory_example") instance=ExtResource("1_0pcbe")]
+[node name="ItemHandler" parent="Main" unique_id=77486502 node_paths=PackedStringArray("npc_button", "player_button") instance=ExtResource("1_0pcbe")]
 unique_name_in_owner = true
-test_button = NodePath("../VBoxContainer/Spawn")
-_inventory_example = NodePath("../VBoxContainer/CenterContainer/GridInventoryContainer/Inventory")
+npc_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnNPCItem")
+player_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnPlayerItem")
 character_items = Array[int]([4])
 
 [node name="ColorRect" type="ColorRect" parent="Main" unique_id=869893691]
@@ -352,20 +371,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Spawn" type="Button" parent="Main/VBoxContainer" unique_id=1213234113]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Main/VBoxContainer" unique_id=2037082457]
 layout_mode = 2
-text = "Spawn"
+alignment = 1
+
+[node name="SpawnNPCItem" type="Button" parent="Main/VBoxContainer/HBoxContainer2" unique_id=1213234113]
+layout_mode = 2
+text = "Spawn NPC Item"
+
+[node name="SpawnPlayerItem" type="Button" parent="Main/VBoxContainer/HBoxContainer2" unique_id=200394159]
+layout_mode = 2
+text = "Spawn Player Item"
 
 [node name="CenterContainer" type="CenterContainer" parent="Main/VBoxContainer" unique_id=264162469]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=951933996 instance=ExtResource("2_0pcbe")]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=1006006965]
+layout_mode = 2
+
+[node name="CustomerGridInventoryContainer" parent="Main/VBoxContainer/CenterContainer/VBoxContainer" unique_id=951933996 instance=ExtResource("2_0pcbe")]
+unique_name_in_owner = true
 layout_mode = 2
 slot_amount = 10
+item_owner = "Npc"
+inventory = SubResource("Resource_suk3m")
 
-[node name="Inventory" parent="Main/VBoxContainer/CenterContainer/GridInventoryContainer" unique_id=2132914840 instance=ExtResource("3_axeuq")]
-inventory_resource = ExtResource("4_axeuq")
+[node name="GoldLabel" type="Label" parent="Main/VBoxContainer/CenterContainer/VBoxContainer" unique_id=614337150 node_paths=PackedStringArray("inventory_container")]
+layout_mode = 2
+text = "GOLD:"
+script = ExtResource("4_t2t4p")
+inventory_container = NodePath("../CustomerGridInventoryContainer")
 
 [node name="HSeparator" type="HSeparator" parent="Main/VBoxContainer" unique_id=773490636]
 layout_mode = 2
@@ -377,6 +413,47 @@ layout_mode = 2
 [node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer2" unique_id=1252284509 instance=ExtResource("2_0pcbe")]
 layout_mode = 2
 slot_amount = 10
+item_owner = "None"
+
+[node name="VendorComponent" type="Control" parent="Main/VBoxContainer/CenterContainer2" unique_id=1768204937 node_paths=PackedStringArray("inventory_container", "buy_button", "sell_button", "buy_label", "sell_label")]
+layout_mode = 2
+script = ExtResource("3_kn0ld")
+inventory_container = NodePath("../GridInventoryContainer")
+buy_button = NodePath("../../HBoxContainer/Buy")
+sell_button = NodePath("../../HBoxContainer/Sell")
+buy_label = NodePath("../../HBoxContainer/BuyAmount")
+sell_label = NodePath("../../HBoxContainer/SellAmount")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main/VBoxContainer" unique_id=238784253]
+layout_mode = 2
+alignment = 1
+
+[node name="BuyLabel" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=1267148210]
+layout_mode = 2
+text = "Buy amount:"
+label_settings = SubResource("LabelSettings_kn0ld")
+
+[node name="BuyAmount" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=721168786]
+layout_mode = 2
+text = "10g"
+
+[node name="Buy" type="Button" parent="Main/VBoxContainer/HBoxContainer" unique_id=1694652404]
+layout_mode = 2
+text = "Buy"
+
+[node name="SellLabel" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=45746170]
+layout_mode = 2
+text = "Sell amount:"
+label_settings = SubResource("LabelSettings_hgpy0")
+
+[node name="SellAmount" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=1663829263]
+layout_mode = 2
+text = "10g"
+
+[node name="Sell" type="Button" parent="Main/VBoxContainer/HBoxContainer" unique_id=1360131957]
+layout_mode = 2
+text = "Sell
+"
 
 [node name="HSeparator2" type="HSeparator" parent="Main/VBoxContainer" unique_id=1012622831]
 layout_mode = 2
@@ -385,9 +462,21 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer3" unique_id=1628364810 instance=ExtResource("2_0pcbe")]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/VBoxContainer/CenterContainer3" unique_id=821917801]
+layout_mode = 2
+
+[node name="PlayerGridInventoryContainer" parent="Main/VBoxContainer/CenterContainer3/VBoxContainer" unique_id=1628364810 instance=ExtResource("2_0pcbe")]
+unique_name_in_owner = true
 layout_mode = 2
 slot_amount = 10
+item_owner = "Player"
+inventory = SubResource("Resource_sn5j3")
+
+[node name="GoldLabel2" type="Label" parent="Main/VBoxContainer/CenterContainer3/VBoxContainer" unique_id=1879749943 node_paths=PackedStringArray("inventory_container")]
+layout_mode = 2
+text = "GOLD:"
+script = ExtResource("4_t2t4p")
+inventory_container = NodePath("../PlayerGridInventoryContainer")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=625509512]
 position = Vector2(649, 522)

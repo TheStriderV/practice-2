@@ -1,0 +1,50 @@
+{
+	"categories": [
+		{
+			"uuid": "93678e96-cae1-4fda-b813-ceaeb217a7a6",
+			"title": "Task",
+			"color": "569eff"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "a1e5243e-71e0-4c15-abce-14fb395d200c",
+			"title": "Todo",
+			"tasks": [
+				"71e2fa3a-7d8d-4a01-8dfc-e791390648af"
+			]
+		},
+		{
+			"uuid": "44aa6542-aad6-41fa-86cc-86d1cabec615",
+			"title": "Doing",
+			"tasks": []
+		},
+		{
+			"uuid": "c084761c-96e8-439d-ac83-08d5de389df2",
+			"title": "Done",
+			"tasks": []
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "71e2fa3a-7d8d-4a01-8dfc-e791390648af",
+			"title": "Inventory Vendor Feature",
+			"description": "",
+			"category": "93678e96-cae1-4fda-b813-ceaeb217a7a6",
+			"steps": []
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"a1e5243e-71e0-4c15-abce-14fb395d200c"
+			],
+			[
+				"44aa6542-aad6-41fa-86cc-86d1cabec615"
+			],
+			[
+				"c084761c-96e8-439d-ac83-08d5de389df2"
+			]
+		]
+	}
+}

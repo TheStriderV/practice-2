@@ -2,7 +2,6 @@ class_name GridInventoryItem
 extends Node2D
 
 
-
 # @export var shape_library : ShapeLibrary # Change this to itemdata?
 @onready var item_texture:= $Icon
 
@@ -24,18 +23,19 @@ var selected := false
 var grid_anchor = null
 var drag_offset: Vector2 = Vector2.ZERO
 
-
+var item_owner : String = "None"
 
 func _process(delta: float) -> void:
 	if selected:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta) # Drag offset can go here
 
-
+## Pulls data from own resource if none is passed in
 func load_item_stack(_item_stack_id : String, _inventory_resource : InventoryResource = inventory_resource) -> void:
 	var new_item_stack := _inventory_resource.get_item(_item_stack_id)
 	item_texture.texture = new_item_stack.get_texture()
 	item_grids = new_item_stack.data.shape_data.offsets
 	item_stack = new_item_stack
+	P.p(new_item_stack)
 
 func rotate_item():
 	var rotated_offsets: Array[Vector2i] = []
@@ -78,3 +78,7 @@ func get_item_stack():
 
 func clear():
 	queue_free()
+
+func set_item_owner(new_item_owner : String):
+	item_owner = new_item_owner
+	

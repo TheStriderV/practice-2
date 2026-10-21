@@ -10,7 +10,7 @@ var slot_ID
 var is_hovering := false
 enum States{DEFAULT, TAKEN, FREE}
 var state := States.DEFAULT
-var item_stored = null
+var item_stored : GridInventoryItem = null
 
 const DEFAULT_SIZE := Vector2(50, 50)
 
