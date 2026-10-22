@@ -1,7 +1,7 @@
 extends Node
 ## Place as child node in NPC Grid Inventory Container
 
-@onready var shop_area_2d: Area2D = %ShopArea2D
+@export var shop_area_2d: Area2D 
 
 
 var npc_grid_inventory : GridInventoryContainer
@@ -13,9 +13,9 @@ var npc_grid_inventory : GridInventoryContainer
 func _ready() -> void:
 	# Assigns NPC Inventory Resource to Grid Inventory Container
 	npc_grid_inventory = get_parent()
-	
-	shop_area_2d.body_entered.connect(_on_area_2d_body_entered)
-	shop_area_2d.body_exited.connect(_on_area_2d_body_exited)
+	if shop_area_2d:
+		shop_area_2d.body_entered.connect(_on_area_2d_body_entered)
+		shop_area_2d.body_exited.connect(_on_area_2d_body_exited)
 	
 	
 func _on_area_2d_body_entered(body: Node2D) -> void:

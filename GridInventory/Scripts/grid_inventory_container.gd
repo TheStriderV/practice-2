@@ -8,13 +8,13 @@ extends GridContainer
 
 @export var item_handler : ItemHandler
 
-@export var slot_amount : int = 30
-@export var slot_size : int = 50
+@export var slot_amount : int = 30 # GritSlotBuilder
+@export var slot_size : int = 50 # GritSlotBuilder
 
 ## For tracking what item belongs to who
 @export_enum("Npc", "Player", "None") var item_owner: String
 
-@onready var slot_scene = preload("uid://dxvx2kwd2mv52")
+@onready var slot_scene = preload("uid://dxvx2kwd2mv52") # GritSlotBuilder
 
 @export var inventory : InventoryResource:
 	set(value):
@@ -28,23 +28,23 @@ extends GridContainer
 
 @onready var item_scene := preload("uid://bs6djdnvwyvox")
 
-signal grid_entered(grid)
-signal grid_exited(grid)
+signal grid_entered(grid) # GritSlotChecker
+signal grid_exited(grid)  # GritSlotChecker
 
 signal item_currently_held(item)
 signal item_picked_up()
 signal item_placed()
 
-signal hovered_slot(slot)
+signal hovered_slot(slot) # GritSlotBuilder
 
 signal inventory_resource_changed()
 
-var is_hovering := false
-var grid_array := []
+var is_hovering := false # GritSlotChecker
+var grid_array := [] # GritSlotBuilder
 
-var current_slot = null
+var current_slot = null # GritSlotBuilder
 
-var icon_anchor : Vector2 = Vector2.ZERO
+var icon_anchor : Vector2 = Vector2.ZERO # GritSlotBuilder
 
 ## For uncentering to cursor; unused currently
 var drag_offset: Vector2 = Vector2.ZERO 
@@ -59,7 +59,7 @@ func _ready() -> void:
 	# Find and attach handler
 	if item_handler == null: 
 		item_handler = %ItemHandler
-		assert(item_handler != null, "Connect or add a item handler!")
+		#assert(item_handler != null, "Connect or add a item handler!")
 	
 	# Deletes Debug slots to start new
 	if get_children().size() != 0:
@@ -88,8 +88,11 @@ func _ready() -> void:
 	# Test creating an item and placing at slot 0
 	#var new_item_potion = create_item("potion")
 	#place_item(new_item_potion, grid_array[0])
-	
-func _process(_delta: float) -> void:
+
+## This is purely for checking what grid is the mouse in
+## can this be combined with slot signal?
+func _process(_delta: float) -> void: # GritGridChecker
+	# Placement
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if not is_hovering:
 			is_hovering = true
@@ -100,7 +103,7 @@ func _process(_delta: float) -> void:
 			is_hovering = false
 			grid_exited.emit(self)
 
-func _on_slot_mouse_entered(selected_slot):
+func _on_slot_mouse_entered(selected_slot): # GritSlotBuilder
 	if Engine.is_editor_hint():
 		return
 	#emit_signal("grid_entered", self)
@@ -112,11 +115,12 @@ func _on_slot_mouse_entered(selected_slot):
 		set_grids.call_deferred(current_slot, item_handler.item_held)
 		pass
 
-func _on_slot_mouse_exited(selected_slot):
+func _on_slot_mouse_exited(selected_slot): # GritSlotBuilder
 	if Engine.is_editor_hint():
 		return
 	clear_grid()
-	
+
+## Slot Creation
 func create_slot(_size:int = 50):
 	var new_slot = slot_scene.instantiate()
 	new_slot.slot_ID = grid_array.size()

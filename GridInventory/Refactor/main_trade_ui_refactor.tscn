@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://dq1iwn20s3oyb"]
+
+[ext_resource type="PackedScene" uid="uid://bf8n3md5gjslh" path="res://Items/inventory.tscn" id="1_5f6ha"]
+[ext_resource type="PackedScene" uid="uid://bn7ymp2u3pm0c" path="res://GridInventory/Scenes/item_handler.tscn" id="1_40d7f"]
+[ext_resource type="Resource" uid="uid://1fvi2rdvgpn4" path="res://Items/Resources/Inventory/grid_fill_inventory_example.tres" id="2_pkp2c"]
+[ext_resource type="Script" uid="uid://blewq44w326ua" path="res://GridInventory/Refactor/grit_item_handler.gd" id="4_m11rw"]
+[ext_resource type="Script" uid="uid://epcr15xg6gas" path="res://GridInventory/Refactor/grit_slot_builder.gd" id="4_pkp2c"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kn0ld"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_hgpy0"]
+font_size = 12
+
+[node name="Main" type="Control" unique_id=1387269549]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -316.92303
+offset_top = 1.9486694
+offset_right = 83.076965
+offset_bottom = 601.94867
+grow_horizontal = 2
+scale = Vector2(1.5, 1.5)
+
+[node name="Inventory" parent="." unique_id=2132914840 instance=ExtResource("1_5f6ha")]
+inventory_resource = ExtResource("2_pkp2c")
+
+[node name="ItemHandler" parent="." unique_id=77486502 node_paths=PackedStringArray("npc_button", "player_button", "_inventory_example") instance=ExtResource("1_40d7f")]
+unique_name_in_owner = true
+script = ExtResource("4_m11rw")
+npc_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnNPCItem")
+player_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnPlayerItem")
+_inventory_example = NodePath("../Inventory")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=569734130]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.4392157, 0.59607846, 1, 0.3137255)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=697229172]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -146.0
+offset_right = 146.0
+offset_bottom = 147.0
+grow_horizontal = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=2085375990]
+layout_mode = 2
+alignment = 1
+
+[node name="SpawnNPCItem" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=71697369]
+layout_mode = 2
+text = "Spawn NPC Item"
+
+[node name="SpawnPlayerItem" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=642069576]
+layout_mode = 2
+text = "Spawn Player Item"
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=1632923293]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="Grit" type="Control" parent="VBoxContainer/CenterContainer" unique_id=1825386419]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer/Grit" unique_id=59367107 groups=["grit"]]
+propagate_maximum_size = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -125.0
+offset_right = 125.0
+offset_bottom = 300.0
+grow_horizontal = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+script = ExtResource("4_pkp2c")
+slot_amount = 20
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1309504259]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer" unique_id=654290201]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer2" unique_id=708598556 groups=["grit"]]
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+script = ExtResource("4_pkp2c")
+slot_amount = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=7868874]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="BuyLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1120186692]
+layout_mode = 2
+text = "Buy amount:"
+label_settings = SubResource("LabelSettings_kn0ld")
+
+[node name="BuyAmount" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1294412275]
+layout_mode = 2
+text = "10g"
+
+[node name="Buy" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1871182976]
+layout_mode = 2
+text = "Buy"
+
+[node name="SellLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=304811054]
+layout_mode = 2
+text = "Sell amount:"
+label_settings = SubResource("LabelSettings_hgpy0")
+
+[node name="SellAmount" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1123140217]
+layout_mode = 2
+text = "10g"
+
+[node name="Sell" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1946971384]
+layout_mode = 2
+text = "Sell
+"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer" unique_id=116996864]
+visible = false
+layout_mode = 2
+
+[node name="CenterContainer3" type="CenterContainer" parent="VBoxContainer" unique_id=1135754174]
+visible = false
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CenterContainer3" unique_id=1648129270]
+layout_mode = 2

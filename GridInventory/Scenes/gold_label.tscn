@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c67y18ru5vom1"]
+
+[ext_resource type="Script" uid="uid://cw6ylrhoj7uxx" path="res://Scripts/gold_label.gd" id="1_2klff"]
+
+[node name="GoldLabel" type="Label" unique_id=1478962483 node_paths=PackedStringArray("inventory_container")]
+text = "GOLD:"
+script = ExtResource("1_2klff")
+inventory_container = NodePath("")

@@ -9,7 +9,7 @@ custom_maximum_size = Vector2(100, 100)
 offset_right = 50.0
 offset_bottom = 50.0
 texture = ExtResource("1_wpiwr")
-expand_mode = 2
+expand_mode = 1
 script = ExtResource("2_sp1gl")
 
 [node name="StatusFilter" type="ColorRect" parent="." unique_id=672799571]

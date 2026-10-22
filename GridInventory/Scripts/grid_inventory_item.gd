@@ -1,6 +1,7 @@
 class_name GridInventoryItem
 extends Node2D
-
+## This only cares about its texture and where it is. 
+## Should also 
 
 # @export var shape_library : ShapeLibrary # Change this to itemdata?
 @onready var item_texture:= $Icon

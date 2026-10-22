@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://evqtbs4x5aca"]
+
+[ext_resource type="Script" uid="uid://dllg46fvyad4h" path="res://Scripts/vendor_component.gd" id="1_h73r1"]
+
+[node name="VendorComponent" type="Control" unique_id=1592218256 node_paths=PackedStringArray("inventory_container", "buy_button", "sell_button", "buy_label", "sell_label")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_h73r1")
+inventory_container = NodePath("")
+buy_button = NodePath("")
+sell_button = NodePath("")
+buy_label = NodePath("")
+sell_label = NodePath("")

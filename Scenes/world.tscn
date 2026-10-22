@@ -1,40 +1,18 @@
 [gd_scene format=3 uid="uid://0nyjfmbgysxv"]
 
-[ext_resource type="PackedScene" uid="uid://bn7ymp2u3pm0c" path="res://GridInventory/Scenes/item_handler.tscn" id="1_0pcbe"]
+[ext_resource type="PackedScene" uid="uid://cgiijcphm2oo7" path="res://Scenes/main_trade_ui.tscn" id="1_7yui6"]
 [ext_resource type="Texture2D" uid="uid://brciubdamg3rh" path="res://Art/character_base/char_a_p1/char_a_p1_0bas_humn_v00.png" id="1_a02cp"]
-[ext_resource type="PackedScene" uid="uid://dxf4lqwmwuclk" path="res://GridInventory/Scenes/grid_inventory_container.tscn" id="2_0pcbe"]
+[ext_resource type="PackedScene" uid="uid://dxvx2kwd2mv52" path="res://GridInventory/Scenes/slot.tscn" id="2_c5t2i"]
 [ext_resource type="Script" uid="uid://bqlf3gips2vs1" path="res://Components/Movement/movement_component.gd" id="3_5a7ea"]
 [ext_resource type="PackedScene" uid="uid://bf8n3md5gjslh" path="res://Items/inventory.tscn" id="3_axeuq"]
-[ext_resource type="Script" uid="uid://dllg46fvyad4h" path="res://Scripts/vendor_component.gd" id="3_kn0ld"]
-[ext_resource type="Resource" uid="uid://dwqrj0uoba3eu" path="res://Items/Resources/ItemStack/armor_bronze.tres" id="4_0pcbe"]
 [ext_resource type="Script" uid="uid://c4clqjvwfjui7" path="res://StateMachine/animator_fsm.gd" id="4_8j60k"]
-[ext_resource type="Script" uid="uid://cw6ylrhoj7uxx" path="res://Scripts/gold_label.gd" id="4_t2t4p"]
-[ext_resource type="Resource" uid="uid://c8ej7ytbsseus" path="res://Items/Resources/ItemStack/cutlass_stack.tres" id="5_0pcbe"]
 [ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="6_5ukr8"]
 [ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="6_hgpy0"]
 [ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="6_t2t4p"]
-[ext_resource type="Script" uid="uid://c5sfnvt3vlce0" path="res://Scripts/inventory_loader.gd" id="7_axeuq"]
 [ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="7_t2t4p"]
 [ext_resource type="Script" uid="uid://c5n0j3tca4rry" path="res://npc.gd" id="17_axeuq"]
 [ext_resource type="Texture2D" uid="uid://pc0jluh26dhw" path="res://Art/House3.png" id="18_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://n37831kyuh64" path="res://Art/Tower.png" id="18_1cojt"]
-
-[sub_resource type="Resource" id="Resource_suk3m"]
-script = ExtResource("6_hgpy0")
-gold = 10
-item_stack_list = Array[ExtResource("7_t2t4p")]([ExtResource("4_0pcbe"), ExtResource("5_0pcbe")])
-metadata/_custom_type_script = "uid://du1aioahuboc8"
-
-[sub_resource type="LabelSettings" id="LabelSettings_kn0ld"]
-font_size = 12
-
-[sub_resource type="LabelSettings" id="LabelSettings_hgpy0"]
-font_size = 12
-
-[sub_resource type="Resource" id="Resource_sn5j3"]
-script = ExtResource("6_hgpy0")
-gold = 100
-metadata/_custom_type_script = "uid://du1aioahuboc8"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_go701"]
 atlas = ExtResource("1_a02cp")
@@ -312,151 +290,16 @@ size = Vector2(60.999992, 88)
 
 [node name="World" type="Node2D" unique_id=2056261816]
 
-[node name="Main" type="Control" parent="." unique_id=1527763162]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 218.3922
-offset_top = 119.41847
-offset_right = 575.28546
-offset_bottom = 596.05255
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Main" parent="." unique_id=1387269549 instance=ExtResource("1_7yui6")]
 
-[node name="ItemHandler" parent="Main" unique_id=77486502 node_paths=PackedStringArray("npc_button", "player_button") instance=ExtResource("1_0pcbe")]
-unique_name_in_owner = true
-npc_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnNPCItem")
-player_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnPlayerItem")
-character_items = Array[int]([4])
+[node name="NPCGridInventoryContainer" parent="Main/VBoxContainer/CenterContainer/VBoxContainer" parent_id_path=PackedInt32Array(1387269549, 486043319) index="0" unique_id=951933996]
+inventory = null
 
-[node name="ColorRect" type="ColorRect" parent="Main" unique_id=869893691]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.4392157, 0.59607846, 1, 0.3137255)
+[node name="InventoryLoader" parent="Main/VBoxContainer/CenterContainer/VBoxContainer/NPCGridInventoryContainer" index="0" unique_id=1150155354 node_paths=PackedStringArray("shop_area_2d")]
+shop_area_2d = NodePath("../../../../../../ShopArea2D")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Main" unique_id=326311212]
-propagate_maximum_size = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Main/VBoxContainer" unique_id=2037082457]
+[node name="Slot" parent="Main/VBoxContainer/CenterContainer/VBoxContainer/NPCGridInventoryContainer" index="1" unique_id=2098375084 instance=ExtResource("2_c5t2i")]
 layout_mode = 2
-alignment = 1
-
-[node name="SpawnNPCItem" type="Button" parent="Main/VBoxContainer/HBoxContainer2" unique_id=1213234113]
-layout_mode = 2
-text = "Spawn NPC Item"
-
-[node name="SpawnPlayerItem" type="Button" parent="Main/VBoxContainer/HBoxContainer2" unique_id=200394159]
-layout_mode = 2
-text = "Spawn Player Item"
-
-[node name="CenterContainer" type="CenterContainer" parent="Main/VBoxContainer" unique_id=264162469]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Main/VBoxContainer/CenterContainer" unique_id=1006006965]
-layout_mode = 2
-
-[node name="NPCGridInventoryContainer" parent="Main/VBoxContainer/CenterContainer/VBoxContainer" unique_id=951933996 instance=ExtResource("2_0pcbe")]
-unique_name_in_owner = true
-layout_mode = 2
-slot_amount = 10
-item_owner = "Npc"
-inventory = SubResource("Resource_suk3m")
-
-[node name="InventoryLoader" type="Node" parent="Main/VBoxContainer/CenterContainer/VBoxContainer/NPCGridInventoryContainer" unique_id=1181794832]
-script = ExtResource("7_axeuq")
-
-[node name="GoldLabel" type="Label" parent="Main/VBoxContainer/CenterContainer/VBoxContainer" unique_id=614337150 node_paths=PackedStringArray("inventory_container")]
-layout_mode = 2
-text = "GOLD:"
-script = ExtResource("4_t2t4p")
-inventory_container = NodePath("../NPCGridInventoryContainer")
-
-[node name="HSeparator" type="HSeparator" parent="Main/VBoxContainer" unique_id=773490636]
-layout_mode = 2
-
-[node name="CenterContainer2" type="CenterContainer" parent="Main/VBoxContainer" unique_id=1646255678]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="GridInventoryContainer" parent="Main/VBoxContainer/CenterContainer2" unique_id=1252284509 instance=ExtResource("2_0pcbe")]
-layout_mode = 2
-slot_amount = 10
-item_owner = "None"
-
-[node name="VendorComponent" type="Control" parent="Main/VBoxContainer/CenterContainer2" unique_id=1768204937 node_paths=PackedStringArray("inventory_container", "buy_button", "sell_button", "buy_label", "sell_label")]
-layout_mode = 2
-script = ExtResource("3_kn0ld")
-inventory_container = NodePath("../GridInventoryContainer")
-buy_button = NodePath("../../HBoxContainer/Buy")
-sell_button = NodePath("../../HBoxContainer/Sell")
-buy_label = NodePath("../../HBoxContainer/BuyAmount")
-sell_label = NodePath("../../HBoxContainer/SellAmount")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Main/VBoxContainer" unique_id=238784253]
-layout_mode = 2
-alignment = 1
-
-[node name="BuyLabel" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=1267148210]
-layout_mode = 2
-text = "Buy amount:"
-label_settings = SubResource("LabelSettings_kn0ld")
-
-[node name="BuyAmount" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=721168786]
-layout_mode = 2
-text = "10g"
-
-[node name="Buy" type="Button" parent="Main/VBoxContainer/HBoxContainer" unique_id=1694652404]
-layout_mode = 2
-text = "Buy"
-
-[node name="SellLabel" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=45746170]
-layout_mode = 2
-text = "Sell amount:"
-label_settings = SubResource("LabelSettings_hgpy0")
-
-[node name="SellAmount" type="Label" parent="Main/VBoxContainer/HBoxContainer" unique_id=1663829263]
-layout_mode = 2
-text = "10g"
-
-[node name="Sell" type="Button" parent="Main/VBoxContainer/HBoxContainer" unique_id=1360131957]
-layout_mode = 2
-text = "Sell
-"
-
-[node name="HSeparator2" type="HSeparator" parent="Main/VBoxContainer" unique_id=1012622831]
-layout_mode = 2
-
-[node name="CenterContainer3" type="CenterContainer" parent="Main/VBoxContainer" unique_id=1091074224]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Main/VBoxContainer/CenterContainer3" unique_id=821917801]
-layout_mode = 2
-
-[node name="PlayerGridInventoryContainer" parent="Main/VBoxContainer/CenterContainer3/VBoxContainer" unique_id=1628364810 instance=ExtResource("2_0pcbe")]
-unique_name_in_owner = true
-layout_mode = 2
-slot_amount = 10
-item_owner = "Player"
-inventory = SubResource("Resource_sn5j3")
-
-[node name="GoldLabel2" type="Label" parent="Main/VBoxContainer/CenterContainer3/VBoxContainer" unique_id=1879749943 node_paths=PackedStringArray("inventory_container")]
-layout_mode = 2
-text = "GOLD:"
-script = ExtResource("4_t2t4p")
-inventory_container = NodePath("../PlayerGridInventoryContainer")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=625509512]
 position = Vector2(649, 522)
@@ -548,3 +391,5 @@ max_items = 5
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="NPC" unique_id=40035863]
 debug_enabled = true
+
+[editable path="Main"]
