@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://1fvi2rdvgpn4" path="res://Items/Resources/Inventory/grid_fill_inventory_example.tres" id="2_rsky1"]
 [ext_resource type="Texture2D" uid="uid://dlpvnexytyrsd" path="res://Art/grid_item_art/Cutlass.png" id="3_443me"]
 
-[node name="grid_inventory_item" type="Node2D" unique_id=605667969 groups=["grid_inventory_item"]]
+[node name="grit_inventory_item" type="Node2D" unique_id=605667969 groups=["grit_inventory_item"]]
 script = ExtResource("1_d53tk")
 inventory_resource = ExtResource("2_rsky1")
 

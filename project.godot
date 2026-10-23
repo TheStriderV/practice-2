@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Dungeon Shop Keeper Project"
-run/main_scene="uid://0nyjfmbgysxv"
+run/main_scene="uid://dq1iwn20s3oyb"
 config/features=PackedStringArray("4.8", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -34,6 +34,10 @@ version_control/autoload_on_startup=true
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg", "res://addons/rider-plugin/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+
+[global_group]
+
+grit_inventory_item="Node2D object with ItemStack "
 
 [input]
 

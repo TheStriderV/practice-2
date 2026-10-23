@@ -15,13 +15,29 @@ const GRID_FILL_INVENTORY_EXAMPLE = preload("uid://1fvi2rdvgpn4")
 
 var item_stack : ItemStack
 
+## Item Shape data: Ex: [(0,0),(0,1)]
 var item_grids := [] # Projected Item Grid 
 
-var selected := false
+var selected := false:
+	set(value):
+		# 1. Do nothing if the state didn't actually change
+		if value == selected: return
+		selected = value
+		if selected:
+			held.emit(self)
+			grid_anchor = null
+		else:
+			unheld.emit(self)
+
+			
+			
 var grid_anchor = null
 
 
 var item_owner : String = "None"
+
+signal held(item)
+signal unheld(item)
 
 func _ready() -> void:
 	if inventory_resource == null:
@@ -37,6 +53,7 @@ func load_item_stack(_item_stack_id : String, _inventory_resource : InventoryRes
 	item_texture.texture = new_item_stack.get_texture()
 	item_grids = new_item_stack.data.shape_data.offsets
 	item_stack = new_item_stack
+	
 
 func rotate_item():
 	var rotated_offsets: Array[Vector2i] = []

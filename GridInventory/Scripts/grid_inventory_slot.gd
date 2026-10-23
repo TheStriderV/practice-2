@@ -8,7 +8,7 @@ signal slot_exited(slot)
 
 var slot_ID
 var is_hovering := false
-var item_stored : GridInventoryItem = null
+var item_stored = null
 
 enum States{DEFAULT, TAKEN, FREE}
 var state := States.DEFAULT

@@ -61,9 +61,6 @@ func create_random_inventory_resource(_max_items):
 	print("Random Amount:", random_amount)
 	for i in random_amount:
 		random_inventory.create_item_stack(item_list[i])
+		
 	inventory_resource = random_inventory
 	inventory_resource.gold = 200
-		
-	
- 
-	

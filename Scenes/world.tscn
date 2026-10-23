@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="6_hgpy0"]
 [ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="6_t2t4p"]
 [ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="7_t2t4p"]
+[ext_resource type="Resource" uid="uid://1fvi2rdvgpn4" path="res://Items/Resources/Inventory/grid_fill_inventory_example.tres" id="14_e0ngr"]
 [ext_resource type="Script" uid="uid://c5n0j3tca4rry" path="res://npc.gd" id="17_axeuq"]
 [ext_resource type="Texture2D" uid="uid://pc0jluh26dhw" path="res://Art/House3.png" id="18_0pcbe"]
 [ext_resource type="Texture2D" uid="uid://n37831kyuh64" path="res://Art/Tower.png" id="18_1cojt"]
@@ -292,6 +293,9 @@ size = Vector2(60.999992, 88)
 
 [node name="Main" parent="." unique_id=1387269549 instance=ExtResource("1_7yui6")]
 
+[node name="ItemHandler" parent="Main" index="0" unique_id=77486502 node_paths=PackedStringArray("_inventory_example")]
+_inventory_example = NodePath("../../NPC/Inventory")
+
 [node name="NPCGridInventoryContainer" parent="Main/VBoxContainer/CenterContainer/VBoxContainer" parent_id_path=PackedInt32Array(1387269549, 486043319) index="0" unique_id=951933996]
 inventory = null
 
@@ -386,6 +390,7 @@ shape = SubResource("CapsuleShape2D_cy33a")
 editor_description = "Needs:
 Inventory Resource:Item Stacks:ItemData"
 script = ExtResource("6_5ukr8")
+inventory_resource = ExtResource("14_e0ngr")
 randomize_inventory = true
 max_items = 5
 

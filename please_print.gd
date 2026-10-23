@@ -76,3 +76,12 @@ static func _where() -> String:
 		return ""
 	var frame: Dictionary = stack[2]
 	return "[color=dodger_blue]%s:%d[/color]:  " % [frame.source.get_file(), frame.line]
+
+## Drop-in colored print with caller location: P.pr("Health: ", health, " Gold: ", gold)
+static func pr(...args: Array) -> void:
+	if not enabled:
+		return
+	var out := ""
+	for i in args.size():
+		out += "[color=%s]%s[/color]" % [_color(i), _safe(args[i])]
+	print_rich(_where() + out)

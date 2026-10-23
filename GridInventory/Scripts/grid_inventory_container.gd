@@ -107,7 +107,8 @@ func _on_slot_mouse_entered(selected_slot): # GritSlotBuilder
 	if Engine.is_editor_hint():
 		return
 	#emit_signal("grid_entered", self)
-	icon_anchor = Vector2(0,0)
+	icon_anchor = Vector2(10000,10000)
+	print("Icon anchor 1:", icon_anchor)
 	current_slot = selected_slot
 	hovered_slot.emit(current_slot)
 	if item_handler.item_held:
@@ -178,14 +179,15 @@ func set_grids(slot: GridInventorySlot, item: Node) -> void:
 			target.set_color(target.States.FREE)
 			icon_anchor.x = min(icon_anchor.x, offset[1])
 			icon_anchor.y = min(icon_anchor.y, offset[0])
+			print("Icon anchor 2:", icon_anchor)
 		else:
 			target.set_color(target.States.TAKEN)
 
 
 func place_item(item : GridInventoryItem, slot : GridInventorySlot): # TODO: Switch vars after refactor
 	if not check_slot_availability(slot, item):
-		return	
-		
+		return
+	print("Icon anchor 3:", icon_anchor)
 	var grid_id = slot.slot_ID + icon_anchor.x * columns + icon_anchor.y #
 	if grid_id > grid_array.size()-1:
 		push_error("Out of bounds")
@@ -252,7 +254,7 @@ func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 		
 		var target = grid_array[index]
 		target.state = state
-		print("Target Grid: ", target.slot_ID)
+
 		match state:
 			GridInventorySlot.States.TAKEN:
 				target.state = state

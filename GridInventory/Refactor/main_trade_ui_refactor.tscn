@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://dq1iwn20s3oyb"]
 
 [ext_resource type="PackedScene" uid="uid://bf8n3md5gjslh" path="res://Items/inventory.tscn" id="1_5f6ha"]
-[ext_resource type="PackedScene" uid="uid://bn7ymp2u3pm0c" path="res://GridInventory/Scenes/item_handler.tscn" id="1_40d7f"]
+[ext_resource type="Script" uid="uid://cybeuf1qiivvl" path="res://GridInventory/Refactor/ui_grit_parent.gd" id="1_m11rw"]
 [ext_resource type="Resource" uid="uid://1fvi2rdvgpn4" path="res://Items/Resources/Inventory/grid_fill_inventory_example.tres" id="2_pkp2c"]
 [ext_resource type="Script" uid="uid://blewq44w326ua" path="res://GridInventory/Refactor/grit_item_handler.gd" id="4_m11rw"]
-[ext_resource type="Script" uid="uid://epcr15xg6gas" path="res://GridInventory/Refactor/grit_slot_builder.gd" id="4_pkp2c"]
+[ext_resource type="Script" uid="uid://d4dx2ts5uaigh" path="res://GridInventory/Refactor/grit_item_button_spawner.gd" id="5_bbbay"]
+[ext_resource type="Script" uid="uid://epcr15xg6gas" path="res://GridInventory/Refactor/grit_container.gd" id="6_bbbay"]
+[ext_resource type="PackedScene" uid="uid://dxvx2kwd2mv52" path="res://GridInventory/Scenes/slot.tscn" id="7_6tt2k"]
+[ext_resource type="Script" uid="uid://c08cynhgcqjrr" path="res://GridInventory/Refactor/grit_inventory_loader.gd" id="7_bbbay"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kn0ld"]
 font_size = 12
@@ -13,23 +16,26 @@ font_size = 12
 font_size = 12
 
 [node name="Main" type="Control" unique_id=1387269549]
+custom_minimum_size = Vector2(350, 200)
 layout_mode = 3
-anchors_preset = 5
+anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -316.92303
-offset_top = 1.9486694
-offset_right = 83.076965
-offset_bottom = 601.94867
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_right = 175.0
 grow_horizontal = 2
-scale = Vector2(1.5, 1.5)
+grow_vertical = 2
+script = ExtResource("1_m11rw")
 
 [node name="Inventory" parent="." unique_id=2132914840 instance=ExtResource("1_5f6ha")]
 inventory_resource = ExtResource("2_pkp2c")
 
-[node name="ItemHandler" parent="." unique_id=77486502 node_paths=PackedStringArray("npc_button", "player_button", "_inventory_example") instance=ExtResource("1_40d7f")]
-unique_name_in_owner = true
+[node name="GritItemHandler" type="Node" parent="." unique_id=1556550948]
 script = ExtResource("4_m11rw")
+
+[node name="GritItemSpawner" type="Node" parent="." unique_id=424086833 node_paths=PackedStringArray("npc_button", "player_button", "_inventory_example")]
+script = ExtResource("5_bbbay")
 npc_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnNPCItem")
 player_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnPlayerItem")
 _inventory_example = NodePath("../Inventory")
@@ -44,14 +50,16 @@ grow_vertical = 2
 color = Color(0.4392157, 0.59607846, 1, 0.3137255)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=697229172]
+propagate_maximum_size = false
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
+anchor_bottom = 1.0
 offset_left = -146.0
 offset_right = 146.0
-offset_bottom = 147.0
 grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=2085375990]
 layout_mode = 2
@@ -66,45 +74,158 @@ layout_mode = 2
 text = "Spawn Player Item"
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=1632923293]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="Grit" type="Control" parent="VBoxContainer/CenterContainer" unique_id=1825386419]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer/Grit" unique_id=59367107 groups=["grit"]]
 propagate_maximum_size = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -125.0
-offset_right = 125.0
-offset_bottom = 300.0
-grow_horizontal = 2
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer" unique_id=59367107 groups=["grit"]]
+layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
-script = ExtResource("4_pkp2c")
-slot_amount = 20
+script = ExtResource("6_bbbay")
+
+[node name="GritInventoryLoader" type="Node" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=817954767 node_paths=PackedStringArray("inventory")]
+script = ExtResource("7_bbbay")
+inventory = NodePath("GritInventory")
+
+[node name="GritInventory" parent="VBoxContainer/CenterContainer/GridContainer/GritInventoryLoader" unique_id=886308271 instance=ExtResource("1_5f6ha")]
+inventory_resource = ExtResource("2_pkp2c")
+max_items = 4
+
+[node name="Slot" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=2098375084 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot2" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1197222175 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot3" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=827013747 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot4" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=187474142 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot5" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1077017073 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot6" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1370318437 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot7" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=564538238 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot8" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1979550033 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot9" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1340965539 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot10" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=903854570 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot11" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1306385591 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot12" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1805512204 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot13" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=967169523 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot14" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1162598761 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot15" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1133770747 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot16" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=940469971 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot17" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=43525027 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot18" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1142251329 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot19" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=449028330 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot20" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1598732211 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1309504259]
 layout_mode = 2
 size_flags_vertical = 0
 
 [node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer" unique_id=654290201]
-custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer2" unique_id=708598556 groups=["grit"]]
-propagate_maximum_size = false
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer2" unique_id=1649374126 groups=["grit"]]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
-script = ExtResource("4_pkp2c")
-slot_amount = 20
+script = ExtResource("6_bbbay")
+slot_amount = 25
+
+[node name="Slot" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1382126131 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot2" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1422859542 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot3" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1459874336 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot4" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=432707399 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot5" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=159837527 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot6" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=820908805 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot7" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1428634777 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot8" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1809840147 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot9" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=32482704 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot10" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=2089545843 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot11" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1753275418 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot12" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=207901560 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot13" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1652361981 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot14" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=784898775 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot15" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=837194451 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot16" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=352408318 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot17" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1782992007 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot18" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1151163573 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot19" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1196360650 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot20" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1229696734 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=7868874]
 visible = false
