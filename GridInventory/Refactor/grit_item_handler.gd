@@ -10,6 +10,8 @@ var grit_inventories: Array
 
 var current_grid = null
 
+var slot_item_stored: GritInventoryItem = null
+
 signal held(item)
 
 func _ready():
@@ -32,6 +34,9 @@ func _input(event: InputEvent) -> void:
 		State.HELD:
 			if event.is_action_pressed("mouse_left"):
 				if current_grid.place_item(item_held):	
+					
+					
+					
 					change_state(State.DEFAULT)
 					
 			if event.is_action_pressed("mouse_right"):
@@ -43,27 +48,45 @@ func _input(event: InputEvent) -> void:
 				current_grid.pick_item()
 				
 				change_state(State.HELD)
+				
+			if event.is_action_pressed("mouse_right"):
+				current_grid.delete_item(slot_item_stored)
+
+				
+				
 
 
 func _on_item_held(item):
-	item_held = item
 	
+	item_held = item	
 	change_state(State.HELD)
 
 func _connect_signals(_grit_inventory_node) -> void:
 	_grit_inventory_node.grid_entered.connect(_on_grid_mouse_entered)
 	_grit_inventory_node.grid_exited.connect(_on_grid_mouse_exited)
+	_grit_inventory_node.hovered_slot.connect(_on_slot_mouse_entered)
 
 func _on_grid_mouse_entered(grid):
 	current_grid = grid
 	
 func _on_grid_mouse_exited():
 	current_grid = null
-	
+
+func _on_slot_mouse_entered(slot):
+	slot_item_stored = slot.item_stored
+
+
+
+
 func change_state(new_state: State) -> void:
+	if current_state == new_state:
+		return
 	current_state = new_state
 	match current_state:
+		
 		State.DEFAULT:
+			P.pr("Changing State to DEFAULT")
 			item_held = null
 		State.HELD:			
+			P.pr("Changing State to HELD")
 			pass

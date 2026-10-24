@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func _on_button_spawn_pressed_item_stacks(item_owner : String = "None") -> void:
 	var rand = random_item()
-	spawn_item(rand)
+	spawn_item(rand,true, _inventory_example.inventory_resource, item_owner)
 	
 
 func random_item():

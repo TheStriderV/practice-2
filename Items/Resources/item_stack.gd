@@ -24,6 +24,8 @@ var shape_data: ShapeData:
 		
 @export var instance_data: Dictionary = {}  # durability, sockets, etc.
 
+@export var selling : bool = false
+
 func _init(p_data: ItemData = null, p_quantity: int = 1):
 	data = p_data
 	quantity = p_quantity
@@ -50,3 +52,11 @@ func get_base_value():
 
 func get_item_offsets():
 	return shape_data.offsets
+
+## Return item stats as a string to be used in GUI displays
+func get_item_stats() -> String:
+	var item_id = get_id()
+	var item_value = get_base_value()
+	return str("%s: %sg" % [str(item_id).capitalize(), item_value])
+
+

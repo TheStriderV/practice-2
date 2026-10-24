@@ -6,8 +6,12 @@ extends GridContainer
 ## Sends signals when mouse is entered. 
 ## Each slot keeps track of what's in it and what color it should be
 
+
 @export var slot_amount : int = 30
 @export var slot_size : int = 50
+
+## For tracking what item belongs to who
+@export_enum("Npc", "Player", "None") var item_owner: String = "None"
 
 @onready var slot_scene = preload("uid://dxvx2kwd2mv52")
 
@@ -17,11 +21,19 @@ var is_hovering := false
 var item_held = null
 var current_slot = null
 
+var item_stored : Array[GritInventoryItem] = []
+
+## TODO: Can use this as a way to save and load locations or quickly move items
+var item_stored_location : Dictionary 
 
 signal hovered_slot(slot)
 signal grid_entered(grid)
 signal grid_exited()
+
+signal item_added(item)
 signal item_removed(item)
+
+signal debug_text(text)
 
 func _ready() -> void:
 	# Deletes Debug slots to start new
@@ -33,7 +45,7 @@ func _ready() -> void:
 	# Creates slots
 	for i in range(slot_amount):
 		create_slot(slot_size)
-	P.log("GridContainer Ready")
+	#P.log("GridContainer Ready")
 func _process(_delta: float) -> void:
 	# Placement
 	# Watch for UI errors!! if the control is overlapping then this messes with the placements.
@@ -52,7 +64,7 @@ func _on_slot_mouse_entered(selected_slot):
 		return
 	current_slot = selected_slot
 	hovered_slot.emit(current_slot)
-	icon_anchor = Vector2(1,1)
+	icon_anchor = Vector2(0,0)
 	if item_held:
 		check_slot_availability(current_slot, item_held)
 		set_grids.call_deferred(current_slot, item_held)
@@ -126,8 +138,16 @@ func set_grids(slot: GridInventorySlot, item: Node) -> void:
 
 ### Item Placement
 func place_item(item : GritInventoryItem, slot : GridInventorySlot = current_slot):
+	
+	if item_owner != "None":
+		if item.item_owner != item_owner:
+			print("Not the right owner")
+			return
+		
 	if not check_slot_availability(slot, item):
 		return
+	
+	
 	var grid_id = slot.slot_ID + icon_anchor.x * columns + icon_anchor.y
 	
 	item._snap_to(grid_array[grid_id].global_position)	
@@ -138,21 +158,57 @@ func place_item(item : GritInventoryItem, slot : GridInventorySlot = current_slo
 	
 	set_slots_state(item, GridInventorySlot.States.TAKEN)
 	clear_grid()
+	
+	item_stored.append(item)
+	item_added.emit(item)
+	
+	
+	store_item_location(item, slot.slot_ID)
 	return true
 
 func pick_item():
 	if not current_slot or not current_slot.item_stored:
 		return
-	var item_stored : GritInventoryItem = current_slot.item_stored	
-	set_slots_state(item_stored, GridInventorySlot.States.FREE)
-	item_stored.selected = true	
-	item_removed.emit(item_stored)
+	var slot_item_stored : GritInventoryItem = current_slot.item_stored	
+	set_slots_state(slot_item_stored, GridInventorySlot.States.FREE)
+	slot_item_stored.selected = true	
+	item_removed.emit(slot_item_stored)
 	_on_slot_mouse_entered(current_slot)
+	
+	item_removed.emit(slot_item_stored)
+	item_stored.erase(slot_item_stored)
+	item_stored_location.erase(current_slot.slot_ID)
 	return true
+
+func remove_item(item: GritInventoryItem):
+	
+	if not item:
+		return
+
+	set_slots_state(item, GridInventorySlot.States.FREE)
+	item_stored.erase(item)
+func delete_item(item: GritInventoryItem):
+	if not item: return
+	remove_item(item)
+	item.queue_free()
+
+
+func move_item_to_free_slot(item: GritInventoryItem):
+	var moved : bool
+	for slot in grid_array:		
+		if place_item(item, slot):
+			moved = true
+			break
+		else:
+			moved = false
+			continue
+	if not moved:
+		return null
 
 func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 	for offset in item.item_grids:
 		var index = item.grid_anchor.slot_ID + offset[0] + offset[1] * columns
+		
 		var target = grid_array[index]
 		target.state = state
 		match state:
@@ -168,3 +224,17 @@ func set_slots_state(item: Node, state: GridInventorySlot.States) -> void:
 ## Utilities
 func if_in_grid():
 	return get_global_rect().has_point(get_global_mouse_position())
+
+
+## update_slots_state
+## TODO: Auto update slot states by scanning items stored
+## TODO: 
+
+
+func store_item_location(item: GritInventoryItem, slot_anchor_id: int):
+	item_stored_location[slot_anchor_id] = item
+	debug_text.emit(item_stored_location)
+	
+
+
+		

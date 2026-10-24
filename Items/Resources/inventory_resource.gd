@@ -51,7 +51,10 @@ func add_item(item_stack:ItemStack) -> void:
 	item_added.emit(item_stack_list.size())
 	
 func remove_item(item_stack:ItemStack) -> void:	
+	P.pr("Removing item:", item_stack)
+	P.pr("Item Stack List Before:", item_stack_list)
 	item_stack_list.erase(item_stack)
+	P.pr("Item Stack List After:", item_stack_list)
 	item_removed.emit(item_stack_list.size())
 
 ## Adds gold to inventory

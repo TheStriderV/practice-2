@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://r4l47r5g6184"]
+
+[ext_resource type="Script" uid="uid://b31xyg840ympn" path="res://GridInventory/Refactor/grit_vendor_component.gd" id="1_2g6hb"]
+
+[node name="GritVendorComponent" type="Node" unique_id=1446336144]
+script = ExtResource("1_2g6hb")

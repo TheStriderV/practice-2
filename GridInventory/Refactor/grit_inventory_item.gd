@@ -24,6 +24,7 @@ var selected := false:
 		if value == selected: return
 		selected = value
 		if selected:
+			
 			held.emit(self)
 			grid_anchor = null
 		else:
@@ -99,3 +100,12 @@ func set_item_owner(new_item_owner : String):
 
 func clear():
 	queue_free()
+
+func get_id():
+	return item_stack.get_id()
+
+func get_value():
+	return item_stack.get_base_value()
+
+func get_item_owner():
+	return item_owner

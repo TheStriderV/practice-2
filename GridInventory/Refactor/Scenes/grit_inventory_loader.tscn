@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://6r67digjcfh7"]
+
+[ext_resource type="Script" uid="uid://c08cynhgcqjrr" path="res://GridInventory/Refactor/grit_inventory_loader.gd" id="1_78o1f"]
+
+[node name="GritInventoryLoader" type="Node" unique_id=1058756240 node_paths=PackedStringArray("inventory")]
+script = ExtResource("1_78o1f")
+inventory = NodePath("")

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bpjr2j7aopo3j"]
+
+[ext_resource type="Script" uid="uid://d3pca40boxbt3" path="res://GridInventory/Refactor/grit_gold_label.gd" id="1_ine6o"]
+
+[node name="GoldLabel" type="Label" unique_id=1478962483]
+text = "GOLD:"
+script = ExtResource("1_ine6o")

@@ -8,9 +8,8 @@ extends Node
 @export var randomize_inventory : bool = false
 @export var max_items : int = 3
 
-
+## For creating inventory resources
 const InventoryResource = preload("uid://du1aioahuboc8")
-
 
 signal inventory_empty
 
@@ -27,7 +26,8 @@ func _ready() -> void:
 		get_inventory_list()
 	
 	inventory_resource.item_removed.connect(get_inventory_list)
-
+	#inventory_resource.gold_changed.connect(get_inventory_list)
+	
 ## Returns list of inventory items by ID
 func get_inventory():
 	#print("Inventory items:", inventory_resource.get_item_id_in_inventory())
@@ -64,3 +64,13 @@ func create_random_inventory_resource(_max_items):
 		
 	inventory_resource = random_inventory
 	inventory_resource.gold = 200
+
+func add_item(item_stack:ItemStack) -> void: inventory_resource.add_item(item_stack)
+
+func remove_item(item_stack:ItemStack) -> void: inventory_resource.remove_item(item_stack)
+
+func add_gold(amount: int) -> void: inventory_resource.add_gold(amount)
+
+func remove_gold(amount: int) -> void: inventory_resource.remove_gold(amount)
+
+func get_gold_amount() -> int: return inventory_resource.get_gold()

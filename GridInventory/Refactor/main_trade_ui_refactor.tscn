@@ -6,14 +6,37 @@
 [ext_resource type="Script" uid="uid://blewq44w326ua" path="res://GridInventory/Refactor/grit_item_handler.gd" id="4_m11rw"]
 [ext_resource type="Script" uid="uid://d4dx2ts5uaigh" path="res://GridInventory/Refactor/grit_item_button_spawner.gd" id="5_bbbay"]
 [ext_resource type="Script" uid="uid://epcr15xg6gas" path="res://GridInventory/Refactor/grit_container.gd" id="6_bbbay"]
+[ext_resource type="Script" uid="uid://bck7dp062u5xy" path="res://GridInventory/Refactor/grit_item_mover.gd" id="6_vnl78"]
 [ext_resource type="PackedScene" uid="uid://dxvx2kwd2mv52" path="res://GridInventory/Scenes/slot.tscn" id="7_6tt2k"]
-[ext_resource type="Script" uid="uid://c08cynhgcqjrr" path="res://GridInventory/Refactor/grit_inventory_loader.gd" id="7_bbbay"]
+[ext_resource type="Script" uid="uid://dnoi0vg2nmdfi" path="res://Items/Resources/item_stack.gd" id="7_rtyqx"]
+[ext_resource type="Resource" uid="uid://b3o1hfw3hdyl2" path="res://Items/Resources/ItemStack/axe_stack.tres" id="8_3unt6"]
+[ext_resource type="Script" uid="uid://dyj34ndet8f3k" path="res://GridInventory/Refactor/grit_inventory_updater.gd" id="8_afrwq"]
+[ext_resource type="Resource" uid="uid://dmexskii0hoe1" path="res://Items/Resources/ItemStack/bow_stack.tres" id="9_vnl78"]
+[ext_resource type="Resource" uid="uid://c8ej7ytbsseus" path="res://Items/Resources/ItemStack/cutlass_stack.tres" id="10_afrwq"]
+[ext_resource type="Resource" uid="uid://7s2m3jvf11ws" path="res://Items/Resources/ItemStack/potion_stack.tres" id="11_paxma"]
+[ext_resource type="Script" uid="uid://du1aioahuboc8" path="res://Items/Resources/inventory_resource.gd" id="12_owvd0"]
+[ext_resource type="PackedScene" uid="uid://6r67digjcfh7" path="res://GridInventory/Refactor/Scenes/grit_inventory_loader.tscn" id="13_v8kl7"]
+[ext_resource type="PackedScene" uid="uid://r4l47r5g6184" path="res://GridInventory/Refactor/Scenes/grit_vendor_component.tscn" id="15_3unt6"]
+[ext_resource type="Script" uid="uid://d3pca40boxbt3" path="res://GridInventory/Refactor/grit_gold_label.gd" id="17_paxma"]
+[ext_resource type="Script" uid="uid://c5la5gtpanp6d" path="res://GridInventory/Refactor/debug_panel.gd" id="18_paxma"]
+[ext_resource type="Script" uid="uid://bde6hqxh3emfv" path="res://Scripts/inventory.gd" id="19_owvd0"]
+
+[sub_resource type="Resource" id="Resource_5bpbo"]
+script = ExtResource("12_owvd0")
+gold = 5
+item_stack_list = Array[ExtResource("7_rtyqx")]([ExtResource("8_3unt6"), ExtResource("9_vnl78"), ExtResource("10_afrwq"), ExtResource("11_paxma"), ExtResource("11_paxma")])
+metadata/_custom_type_script = "uid://du1aioahuboc8"
 
 [sub_resource type="LabelSettings" id="LabelSettings_kn0ld"]
 font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_hgpy0"]
 font_size = 12
+
+[sub_resource type="Resource" id="Resource_paxma"]
+script = ExtResource("12_owvd0")
+gold = 1000
+metadata/_custom_type_script = "uid://du1aioahuboc8"
 
 [node name="Main" type="Control" unique_id=1387269549]
 custom_minimum_size = Vector2(350, 200)
@@ -39,6 +62,20 @@ script = ExtResource("5_bbbay")
 npc_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnNPCItem")
 player_button = NodePath("../VBoxContainer/HBoxContainer2/SpawnPlayerItem")
 _inventory_example = NodePath("../Inventory")
+
+[node name="GritItemMover" type="Node" parent="." unique_id=514493760]
+script = ExtResource("6_vnl78")
+
+[node name="GritVendorComponent" parent="." unique_id=1592218256 node_paths=PackedStringArray("npc_vendor_agent", "player_vendor_agent", "npc_grit", "vendor_grit", "player_grit", "buy_button", "sell_button", "buy_label", "sell_label") instance=ExtResource("15_3unt6")]
+npc_vendor_agent = NodePath("../VBoxContainer/NPCCenterContainer/NPCGridContainer/GritVendorAgent")
+player_vendor_agent = NodePath("../VBoxContainer/PlayeerCenterContainer/PlayerGridContainer/GritVendorAgent")
+npc_grit = NodePath("../VBoxContainer/NPCCenterContainer/NPCGridContainer")
+vendor_grit = NodePath("../VBoxContainer/VendorCenterContainer/VendorGridContainer")
+player_grit = NodePath("../VBoxContainer/PlayeerCenterContainer/PlayerGridContainer")
+buy_button = NodePath("../VBoxContainer/HBoxContainer/Buy")
+sell_button = NodePath("../VBoxContainer/HBoxContainer/Sell")
+buy_label = NodePath("../VBoxContainer/HBoxContainer/BuyLabel")
+sell_label = NodePath("../VBoxContainer/HBoxContainer/SellLabel")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=569734130]
 layout_mode = 1
@@ -73,171 +110,151 @@ text = "Spawn NPC Item"
 layout_mode = 2
 text = "Spawn Player Item"
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=1632923293]
+[node name="NPCCenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=1632923293]
 propagate_maximum_size = false
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer" unique_id=59367107 groups=["grit"]]
+[node name="NPCGridContainer" type="GridContainer" parent="VBoxContainer/NPCCenterContainer" unique_id=59367107 groups=["grit"]]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
 script = ExtResource("6_bbbay")
+slot_amount = 15
+item_owner = "Npc"
 
-[node name="GritInventoryLoader" type="Node" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=817954767 node_paths=PackedStringArray("inventory")]
-script = ExtResource("7_bbbay")
-inventory = NodePath("GritInventory")
+[node name="GritVendorAgent" type="Node" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=907371938 node_paths=PackedStringArray("inventory", "grit_container") groups=["grit_vendor_agent"]]
+script = ExtResource("8_afrwq")
+inventory = NodePath("../GritInventory")
+grit_container = NodePath("..")
 
-[node name="GritInventory" parent="VBoxContainer/CenterContainer/GridContainer/GritInventoryLoader" unique_id=886308271 instance=ExtResource("1_5f6ha")]
-inventory_resource = ExtResource("2_pkp2c")
+[node name="GritInventoryLoader" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=1058756240 node_paths=PackedStringArray("inventory") instance=ExtResource("13_v8kl7")]
+inventory = NodePath("../GritInventory")
+
+[node name="GritInventory" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=886308271 instance=ExtResource("1_5f6ha")]
+inventory_resource = SubResource("Resource_5bpbo")
 max_items = 4
 
-[node name="Slot" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=2098375084 instance=ExtResource("7_6tt2k")]
+[node name="Slot" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=2098375084 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot2" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1197222175 instance=ExtResource("7_6tt2k")]
+[node name="Slot2" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=1197222175 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot3" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=827013747 instance=ExtResource("7_6tt2k")]
+[node name="Slot3" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=827013747 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot4" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=187474142 instance=ExtResource("7_6tt2k")]
+[node name="Slot4" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=187474142 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot5" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1077017073 instance=ExtResource("7_6tt2k")]
+[node name="Slot5" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=1077017073 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot6" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1370318437 instance=ExtResource("7_6tt2k")]
+[node name="Slot6" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=1370318437 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot7" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=564538238 instance=ExtResource("7_6tt2k")]
+[node name="Slot7" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=564538238 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot8" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1979550033 instance=ExtResource("7_6tt2k")]
+[node name="Slot8" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=1979550033 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot9" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1340965539 instance=ExtResource("7_6tt2k")]
+[node name="Slot9" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=1340965539 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot10" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=903854570 instance=ExtResource("7_6tt2k")]
+[node name="Slot10" parent="VBoxContainer/NPCCenterContainer/NPCGridContainer" unique_id=903854570 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot11" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1306385591 instance=ExtResource("7_6tt2k")]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=2036885040 node_paths=PackedStringArray("inventory")]
 layout_mode = 2
-
-[node name="Slot12" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1805512204 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot13" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=967169523 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot14" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1162598761 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot15" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1133770747 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot16" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=940469971 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot17" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=43525027 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot18" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1142251329 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot19" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=449028330 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
-
-[node name="Slot20" parent="VBoxContainer/CenterContainer/GridContainer" unique_id=1598732211 instance=ExtResource("7_6tt2k")]
-layout_mode = 2
+script = ExtResource("17_paxma")
+inventory = NodePath("../NPCCenterContainer/NPCGridContainer/GritInventory")
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1309504259]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer" unique_id=654290201]
+[node name="VendorCenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=654290201]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer2" unique_id=1649374126 groups=["grit"]]
+[node name="VendorGridContainer" type="GridContainer" parent="VBoxContainer/VendorCenterContainer" unique_id=1649374126 groups=["grit"]]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
 script = ExtResource("6_bbbay")
-slot_amount = 25
+slot_amount = 15
 
-[node name="Slot" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1382126131 instance=ExtResource("7_6tt2k")]
+[node name="Slot" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1382126131 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot2" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1422859542 instance=ExtResource("7_6tt2k")]
+[node name="Slot2" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1422859542 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot3" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1459874336 instance=ExtResource("7_6tt2k")]
+[node name="Slot3" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1459874336 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot4" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=432707399 instance=ExtResource("7_6tt2k")]
+[node name="Slot4" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=432707399 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot5" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=159837527 instance=ExtResource("7_6tt2k")]
+[node name="Slot5" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=159837527 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot6" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=820908805 instance=ExtResource("7_6tt2k")]
+[node name="Slot6" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=820908805 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot7" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1428634777 instance=ExtResource("7_6tt2k")]
+[node name="Slot7" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1428634777 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot8" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1809840147 instance=ExtResource("7_6tt2k")]
+[node name="Slot8" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1809840147 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot9" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=32482704 instance=ExtResource("7_6tt2k")]
+[node name="Slot9" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=32482704 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot10" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=2089545843 instance=ExtResource("7_6tt2k")]
+[node name="Slot10" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=2089545843 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot11" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1753275418 instance=ExtResource("7_6tt2k")]
+[node name="Slot11" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1753275418 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot12" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=207901560 instance=ExtResource("7_6tt2k")]
+[node name="Slot12" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=207901560 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot13" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1652361981 instance=ExtResource("7_6tt2k")]
+[node name="Slot13" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1652361981 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot14" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=784898775 instance=ExtResource("7_6tt2k")]
+[node name="Slot14" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=784898775 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot15" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=837194451 instance=ExtResource("7_6tt2k")]
+[node name="Slot15" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=837194451 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot16" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=352408318 instance=ExtResource("7_6tt2k")]
+[node name="Slot16" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=352408318 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot17" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1782992007 instance=ExtResource("7_6tt2k")]
+[node name="Slot17" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1782992007 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot18" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1151163573 instance=ExtResource("7_6tt2k")]
+[node name="Slot18" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1151163573 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot19" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1196360650 instance=ExtResource("7_6tt2k")]
+[node name="Slot19" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1196360650 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
-[node name="Slot20" parent="VBoxContainer/CenterContainer2/GridContainer" unique_id=1229696734 instance=ExtResource("7_6tt2k")]
+[node name="Slot20" parent="VBoxContainer/VendorCenterContainer/VendorGridContainer" unique_id=1229696734 instance=ExtResource("7_6tt2k")]
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=7868874]
-visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="BuyLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1120186692]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1120186692]
 layout_mode = 2
 text = "Buy amount:"
 label_settings = SubResource("LabelSettings_kn0ld")
 
-[node name="BuyAmount" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1294412275]
+[node name="BuyLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1294412275]
 layout_mode = 2
 text = "10g"
 
@@ -245,12 +262,12 @@ text = "10g"
 layout_mode = 2
 text = "Buy"
 
-[node name="SellLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=304811054]
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=304811054]
 layout_mode = 2
 text = "Sell amount:"
 label_settings = SubResource("LabelSettings_hgpy0")
 
-[node name="SellAmount" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1123140217]
+[node name="SellLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1123140217]
 layout_mode = 2
 text = "10g"
 
@@ -260,13 +277,79 @@ text = "Sell
 "
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer" unique_id=116996864]
-visible = false
 layout_mode = 2
 
-[node name="CenterContainer3" type="CenterContainer" parent="VBoxContainer" unique_id=1135754174]
-visible = false
+[node name="PlayeerCenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=1135754174]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CenterContainer3" unique_id=1648129270]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PlayeerCenterContainer" unique_id=1648129270]
 layout_mode = 2
+
+[node name="PlayerGridContainer" type="GridContainer" parent="VBoxContainer/PlayeerCenterContainer" unique_id=2044002394 groups=["grit"]]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+script = ExtResource("6_bbbay")
+slot_amount = 15
+item_owner = "Player"
+
+[node name="GritVendorAgent" type="Node" parent="VBoxContainer/PlayeerCenterContainer/PlayerGridContainer" unique_id=1058845090 node_paths=PackedStringArray("inventory", "grit_container") groups=["grit_vendor_agent"]]
+script = ExtResource("8_afrwq")
+inventory = NodePath("../Inventory")
+grit_container = NodePath("..")
+metadata/_custom_type_script = "uid://dyj34ndet8f3k"
+
+[node name="Inventory" type="Node" parent="VBoxContainer/PlayeerCenterContainer/PlayerGridContainer" unique_id=378576138]
+script = ExtResource("19_owvd0")
+inventory_resource = SubResource("Resource_paxma")
+metadata/_custom_type_script = "uid://bde6hqxh3emfv"
+
+[node name="Slot" parent="VBoxContainer/PlayeerCenterContainer/PlayerGridContainer" unique_id=12778831 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot2" parent="VBoxContainer/PlayeerCenterContainer/PlayerGridContainer" unique_id=2117864748 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot3" parent="VBoxContainer/PlayeerCenterContainer/PlayerGridContainer" unique_id=646610010 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot4" parent="VBoxContainer/PlayeerCenterContainer/PlayerGridContainer" unique_id=1700200786 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Slot5" parent="VBoxContainer/PlayeerCenterContainer/PlayerGridContainer" unique_id=1850150998 instance=ExtResource("7_6tt2k")]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=18772868 node_paths=PackedStringArray("inventory")]
+layout_mode = 2
+script = ExtResource("17_paxma")
+inventory = NodePath("../PlayeerCenterContainer/PlayerGridContainer/Inventory")
+
+[node name="Control" type="Control" parent="." unique_id=837143427 node_paths=PackedStringArray("label", "debug_label_1", "npc_inv")]
+anchors_preset = 0
+offset_left = -322.93878
+offset_top = 26.191559
+offset_right = -282.93878
+offset_bottom = 66.19156
+script = ExtResource("18_paxma")
+label = NodePath("DISPLAY LABEL")
+debug_label_1 = NodePath("Debug Label")
+npc_inv = NodePath("../VBoxContainer/NPCCenterContainer/NPCGridContainer/GritInventory")
+
+[node name="DISPLAY LABEL" type="Label" parent="Control" unique_id=994017799]
+layout_mode = 0
+offset_top = 17.0
+offset_right = 36.0
+offset_bottom = 40.0
+text = "TEST"
+
+[node name="Debug Label" type="Label" parent="Control" unique_id=557958279]
+custom_minimum_size = Vector2(300, 400)
+custom_maximum_size = Vector2(300, 400)
+layout_mode = 0
+offset_top = 65.0
+offset_right = 40.0
+offset_bottom = 88.0
+text = "TEST2"
+autowrap_mode = 1
